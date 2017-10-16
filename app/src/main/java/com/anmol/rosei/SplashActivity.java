@@ -29,9 +29,9 @@ public class SplashActivity extends AppCompatActivity {
     ProgressBar progressBar;
 
     int key;
-    FirebaseAuth auth;
+    FirebaseAuth auth = FirebaseAuth.getInstance();
     String uid,pwd,urlid,uidu;
-    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("students").child(auth.getCurrentUser().getUid());
+    DatabaseReference databaseReference;
     CircleImageView sanmol,sankit;
 
     @Override
@@ -51,6 +51,7 @@ public class SplashActivity extends AppCompatActivity {
 //            startService(intent);
 //            mdatabase = FirebaseDatabase.getInstance().getReference().child("Notice");
 //            final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Students").child(auth.getCurrentUser().getUid()).child("hibiscus");
+            databaseReference = FirebaseDatabase.getInstance().getReference().child("students").child(auth.getCurrentUser().getUid());
             progressBar = (ProgressBar)findViewById(R.id.load);
             progressBar.setVisibility(View.VISIBLE);
 
