@@ -60,7 +60,7 @@ public class SplashActivity extends AppCompatActivity {
                     R.anim.fade_in);
             zoomin = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.zoom_in);
             img.startAnimation(zoomin);
-            progressBar.setVisibility(View.INVISIBLE);
+
             databaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -71,12 +71,19 @@ public class SplashActivity extends AppCompatActivity {
 //                        urlid = "https://hib.iiit-bh.ac.in/Hibiscus/docs/iiit/Photos/" + uidu + ".jpg";
 
                     }
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar.setVisibility(View.INVISIBLE);
+                            Intent intent = new Intent(SplashActivity.this, RoseiActivity.class);
+                            intent.putExtra("url", urlid);
+                            intent.putExtra("uidu", uidu);
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.still,R.anim.slide_in_up);
+                        }
+                    },3000);
 
-                    Intent intent = new Intent(SplashActivity.this, RoseiActivity.class);
-                    intent.putExtra("url", urlid);
-                    intent.putExtra("uidu", uidu);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.still,R.anim.slide_in_up);
                 }
 
                 @Override
