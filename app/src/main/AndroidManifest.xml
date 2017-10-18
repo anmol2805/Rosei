@@ -24,6 +24,7 @@
             android:name=".RoseiActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".Book_Activity"></activity>
+        <service android:name=".Services.RequestService"/>
     </application>
 
 </manifest>

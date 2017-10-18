@@ -7,25 +7,25 @@ import java.util.Date;
  */
 
 public class mess2 {
-    Date date;
-    String brkfast,lnch,dinnr;
+
+    String day,brkfast,lnch,dinnr;
 
     public mess2() {
     }
 
-    public mess2(Date date, String brkfast, String lnch, String dinnr) {
-        this.date = date;
+    public mess2(String day, String brkfast, String lnch, String dinnr) {
+        this.day = day;
         this.brkfast = brkfast;
         this.lnch = lnch;
         this.dinnr = dinnr;
     }
 
-    public Date getDate() {
-        return date;
+    public String getDay() {
+        return day;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDay(String day) {
+        this.day = day;
     }
 
     public String getBrkfast() {
