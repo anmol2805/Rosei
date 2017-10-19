@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.anmol.rosei.Model.mess1;
@@ -46,6 +48,15 @@ public class Mess1Adapter extends ArrayAdapter<mess1> {
         foodl.setText(mess1s.get(position).getLnch());
         foodd.setText(mess1s.get(position).getDinnr());
         day.setText(mess1s.get(position).getDay());
+        CheckBox b = (CheckBox)v.findViewById(R.id.b);
+        CheckBox l = (CheckBox)v.findViewById(R.id.l);
+        CheckBox d = (CheckBox)v.findViewById(R.id.d);
+        RadioButton bnv = (RadioButton)v.findViewById(R.id.bnv);
+        RadioButton bv = (RadioButton)v.findViewById(R.id.bv);
+        RadioButton lnv = (RadioButton)v.findViewById(R.id.lnv);
+        RadioButton lv = (RadioButton)v.findViewById(R.id.lv);
+        RadioButton dnv = (RadioButton)v.findViewById(R.id.dnv);
+        RadioButton dv = (RadioButton)v.findViewById(R.id.dv);
         return v;
     }
 }
