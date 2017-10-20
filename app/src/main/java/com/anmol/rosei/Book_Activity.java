@@ -1,5 +1,6 @@
 package com.anmol.rosei;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.graphics.Color;
 import android.provider.ContactsContract;
@@ -14,6 +15,8 @@ import android.widget.ListView;
 
 import com.anmol.rosei.Adapter.Mess1Adapter;
 import com.anmol.rosei.Adapter.Mess2Adapter;
+import com.anmol.rosei.Fragments.first;
+import com.anmol.rosei.Fragments.ground;
 import com.anmol.rosei.Model.mess1;
 import com.anmol.rosei.Model.mess2;
 import com.anmol.rosei.Services.RequestService;
@@ -41,8 +44,6 @@ public class Book_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book);
-
-
         m1 = (Button)findViewById(R.id.m1);
         m2 = (Button)findViewById(R.id.m2);
         load = (Button)findViewById(R.id.load);
@@ -57,44 +58,10 @@ public class Book_Activity extends AppCompatActivity {
         m1.setBackground(getResources().getDrawable(R.drawable.round_button));
         Intent intent = new Intent(Book_Activity.this, RequestService.class);
         startService(intent);
-        db.child("mess1").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                mess1s.clear();
-                mess2s.clear();
-                for(DataSnapshot data:dataSnapshot.getChildren()){
-                    String day = data.child("day").getValue().toString();
-                    String brkfast = data.child("brkfast").getValue().toString();
-                    String lnch = data.child("lnch").getValue().toString();
-                    String dinnr = data.child("dinnr").getValue().toString();
-                    mess1 mess1 = new mess1(day,brkfast,lnch,dinnr);
-                    mess1s.add(mess1);
-                }
-                mess1Adapter = new Mess1Adapter(Book_Activity.this,R.layout.menu,mess1s);
-                mess1Adapter.notifyDataSetChanged();
-                if(!mess1Adapter.isEmpty()){
-                    load.setVisibility(View.GONE);
-                    list.setAdapter(mess1Adapter);
-                }
-                else{
-                    load.setVisibility(View.VISIBLE);
-                }
+        FragmentManager fm = getFragmentManager();
+        fm.beginTransaction().replace(R.id.content,new ground()).commit();
 
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-        load.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                load.setVisibility(View.GONE);
-                Intent intent = new Intent(Book_Activity.this, RequestService.class);
-                startService(intent);
-            }
-        });
         m1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,41 +73,10 @@ public class Book_Activity extends AppCompatActivity {
                 m2.setTextColor(getResources().getColor(R.color.colorPrimary));
                 m1.setTextColor(getResources().getColor(R.color.white));
                 m1.setBackground(getResources().getDrawable(R.drawable.round_button));
-                mess1s.clear();
-                mess2s.clear();
-                db.child("mess1").addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        mess1s.clear();
-                        mess2s.clear();
-                        for(DataSnapshot data:dataSnapshot.getChildren()){
-                            String day = data.child("day").getValue().toString();
-                            String brkfast = data.child("brkfast").getValue().toString();
-                            String lnch = data.child("lnch").getValue().toString();
-                            String dinnr = data.child("dinnr").getValue().toString();
-                            mess1 mess1 = new mess1(day,brkfast,lnch,dinnr);
-                            mess1s.add(mess1);
-                        }
-                        mess1Adapter = new Mess1Adapter(Book_Activity.this,R.layout.menu,mess1s);
-                        mess1Adapter.notifyDataSetChanged();
-                        if(!mess1Adapter.isEmpty()){
-                            load.setVisibility(View.GONE);
-                            list.setAdapter(mess1Adapter);
-                        }
-                        else {
-                            load.setVisibility(View.VISIBLE);
-                        }
+                FragmentManager fm = getFragmentManager();
+                fm.beginTransaction().replace(R.id.content,new ground()).commit();
 
 
-
-
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
             }
         });
         m2.setOnClickListener(new View.OnClickListener() {
@@ -154,39 +90,9 @@ public class Book_Activity extends AppCompatActivity {
                 m1.setTextColor(getResources().getColor(R.color.colorPrimary));
                 m2.setTextColor(getResources().getColor(R.color.white));
                 m2.setBackground(getResources().getDrawable(R.drawable.round_button));
-                mess1s.clear();
-                mess2s.clear();
-                db.child("mess2").addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        mess1s.clear();
-                        mess2s.clear();
-                        for(DataSnapshot data:dataSnapshot.getChildren()){
-                            String day = data.child("day").getValue().toString();
-                            String brkfast = data.child("brkfast").getValue().toString();
-                            String lnch = data.child("lnch").getValue().toString();
-                            String dinnr = data.child("dinnr").getValue().toString();
-                            mess2 mess2 = new mess2(day,brkfast,lnch,dinnr);
-                            mess2s.add(mess2);
-                        }
-                        mess2Adapter = new Mess2Adapter(Book_Activity.this,R.layout.menu,mess2s);
-                        mess2Adapter.notifyDataSetChanged();
+                FragmentManager fm = getFragmentManager();
+                fm.beginTransaction().replace(R.id.content,new first()).commit();
 
-                        if(!mess2Adapter.isEmpty()){
-                            load.setVisibility(View.GONE);
-                            list.setAdapter(mess2Adapter);
-                        }
-                        else{
-                            load.setVisibility(View.VISIBLE);
-
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
             }
         });
 

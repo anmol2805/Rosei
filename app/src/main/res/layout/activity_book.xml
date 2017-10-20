@@ -46,24 +46,12 @@
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
-
-    <Button
-        android:id="@+id/load"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Load Menu"
-        android:layout_margin="50dp"
-        android:layout_gravity="center"
-        android:textStyle="italic"
-        android:textColor="#fff"
-        android:visibility="gone"
-        android:background="@drawable/round_button"
-        />
-
-    <ListView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/menu"
-        />
+        android:id="@+id/content"
+        >
+
+    </FrameLayout>
 
 </LinearLayout>
