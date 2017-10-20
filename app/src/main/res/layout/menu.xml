@@ -43,12 +43,12 @@
                     android:id="@+id/bv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/bnv"
                     android:layout_alignParentBottom="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
+                    android:layout_toLeftOf="@+id/bnv"
+                    android:layout_toStartOf="@+id/bnv"
+                    android:buttonTint="#008200"
 
-                    android:text="Veg"
+
                     android:visibility="invisible" />
 
                 <RadioButton
@@ -56,9 +56,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_above="@+id/bv"
+                    android:layout_alignParentBottom="true"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    android:text="Non-Veg"
+                    android:layout_marginRight="10dp"
+                    android:buttonTint="#964122"
                     android:visibility="invisible" />
 
                 <TextView
@@ -109,12 +111,11 @@
                     android:id="@+id/lv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/lnv"
                     android:layout_alignParentBottom="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
+                    android:layout_toLeftOf="@+id/lnv"
+                    android:layout_toStartOf="@+id/lnv"
+                    android:buttonTint="#008200"
 
-                    android:text="Veg"
                     android:visibility="invisible" />
 
                 <RadioButton
@@ -122,9 +123,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_above="@+id/lv"
+                    android:layout_alignParentBottom="true"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    android:text="Non-Veg"
+                    android:layout_marginRight="10dp"
+                    android:buttonTint="#964122"
                     android:visibility="invisible" />
 
             </RelativeLayout>
@@ -164,12 +167,11 @@
                     android:id="@+id/dv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/dnv"
                     android:layout_alignParentBottom="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
+                    android:layout_toLeftOf="@+id/dnv"
+                    android:layout_toStartOf="@+id/dnv"
+                    android:buttonTint="#008200"
 
-                    android:text="Veg"
                     android:visibility="invisible" />
 
                 <RadioButton
@@ -177,9 +179,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_above="@+id/dv"
+                    android:layout_alignParentBottom="true"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    android:text="Non-Veg"
+                    android:layout_marginRight="10dp"
+                    android:buttonTint="#964122"
                     android:visibility="invisible" />
 
             </RelativeLayout>
