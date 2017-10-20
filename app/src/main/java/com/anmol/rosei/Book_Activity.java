@@ -1,11 +1,14 @@
 package com.anmol.rosei;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.anmol.rosei.Adapter.Mess1Adapter;
@@ -43,6 +46,14 @@ public class Book_Activity extends AppCompatActivity {
         m2 = (Button)findViewById(R.id.m2);
         load = (Button)findViewById(R.id.load);
         list = (ListView)findViewById(R.id.menu);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) m1.getLayoutParams();
+        params.width = dpToPx(215);
+        m1.setLayoutParams(params);
+        LinearLayout.LayoutParams params2 = (LinearLayout.LayoutParams) m2.getLayoutParams();
+        params2.width = dpToPx(135);
+        m2.setLayoutParams(params2);
+        m2.setBackgroundColor(getResources().getColor(R.color.trans));
+        m2.setTextColor(getResources().getColor(R.color.colorPrimary));
         Intent intent = new Intent(Book_Activity.this, RequestService.class);
         startService(intent);
         db.child("mess1").addValueEventListener(new ValueEventListener() {
@@ -86,6 +97,16 @@ public class Book_Activity extends AppCompatActivity {
         m1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) m1.getLayoutParams();
+                params.width = dpToPx(215);
+                m1.setLayoutParams(params);
+                LinearLayout.LayoutParams params2 = (LinearLayout.LayoutParams) m2.getLayoutParams();
+                params2.width = dpToPx(135);
+                m2.setLayoutParams(params2);
+                m2.setBackgroundColor(getResources().getColor(R.color.trans));
+                m2.setTextColor(getResources().getColor(R.color.colorPrimary));
+                m1.setTextColor(getResources().getColor(R.color.white));
+                m1.setBackground(getResources().getDrawable(R.drawable.round_button));
                 mess1s.clear();
                 mess2s.clear();
                 db.child("mess1").addValueEventListener(new ValueEventListener() {
@@ -126,6 +147,16 @@ public class Book_Activity extends AppCompatActivity {
         m2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) m1.getLayoutParams();
+                params.width = dpToPx(135);
+                m1.setLayoutParams(params);
+                LinearLayout.LayoutParams params2 = (LinearLayout.LayoutParams) m2.getLayoutParams();
+                params2.width = dpToPx(215);
+                m2.setLayoutParams(params2);
+                m1.setBackgroundColor(getResources().getColor(R.color.trans));
+                m1.setTextColor(getResources().getColor(R.color.colorPrimary));
+                m2.setTextColor(getResources().getColor(R.color.white));
+                m2.setBackground(getResources().getDrawable(R.drawable.round_button));
                 mess1s.clear();
                 mess2s.clear();
                 db.child("mess2").addValueEventListener(new ValueEventListener() {
@@ -162,5 +193,11 @@ public class Book_Activity extends AppCompatActivity {
             }
         });
 
+
     }
+    public int dpToPx(int dp) {
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+    }
+
 }
