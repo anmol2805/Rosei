@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -63,12 +64,52 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
             CheckBox b = (CheckBox)v.findViewById(R.id.b);
             CheckBox l = (CheckBox)v.findViewById(R.id.l);
             CheckBox d = (CheckBox)v.findViewById(R.id.d);
-            RadioButton bnv = (RadioButton)v.findViewById(R.id.bnv);
-            RadioButton bv = (RadioButton)v.findViewById(R.id.bv);
-            RadioButton lnv = (RadioButton)v.findViewById(R.id.lnv);
-            RadioButton lv = (RadioButton)v.findViewById(R.id.lv);
-            RadioButton dnv = (RadioButton)v.findViewById(R.id.dnv);
-            RadioButton dv = (RadioButton)v.findViewById(R.id.dv);
+            final RadioButton bnv = (RadioButton)v.findViewById(R.id.bnv);
+            final RadioButton bv = (RadioButton)v.findViewById(R.id.bv);
+            final RadioButton lnv = (RadioButton)v.findViewById(R.id.lnv);
+            final RadioButton lv = (RadioButton)v.findViewById(R.id.lv);
+            final RadioButton dnv = (RadioButton)v.findViewById(R.id.dnv);
+            final RadioButton dv = (RadioButton)v.findViewById(R.id.dv);
+            b.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    if(compoundButton.isChecked()){
+                        bnv.setVisibility(View.VISIBLE);
+                        bv.setVisibility(View.VISIBLE);
+                    }
+                    else if(!compoundButton.isChecked()){
+                        bnv.setVisibility(View.INVISIBLE);
+                        bv.setVisibility(View.INVISIBLE);
+                    }
+                }
+            });
+            l.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    if(compoundButton.isChecked()){
+                        lnv.setVisibility(View.VISIBLE);
+                        lv.setVisibility(View.VISIBLE);
+                    }
+                    else if(!compoundButton.isChecked()){
+                        lnv.setVisibility(View.INVISIBLE);
+                        lv.setVisibility(View.INVISIBLE);
+                    }
+                }
+            });
+            d.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    if(compoundButton.isChecked()){
+                        dnv.setVisibility(View.VISIBLE);
+                        dv.setVisibility(View.VISIBLE);
+                    }
+                    else if(!compoundButton.isChecked()){
+                        dnv.setVisibility(View.INVISIBLE);
+                        dv.setVisibility(View.INVISIBLE);
+                    }
+                }
+            });
+
             return v;
         }
 
