@@ -65,7 +65,7 @@ public class SplashActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     Intent i = new Intent(SplashActivity.this, RequestService.class);
-                    startService(i);
+                    //startService(i);
                     progressBar.setVisibility(View.INVISIBLE);
                     Intent intent = new Intent(SplashActivity.this, RoseiActivity.class);
                     startActivity(intent);
