@@ -22,8 +22,14 @@
         <activity android:name=".LoginActivity" />
         <activity
             android:name=".RoseiActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".Book_Activity"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+        <activity android:name=".Book_Activity"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
+
+        </activity>
         <service android:name=".Services.RequestService"/>
     </application>
 

@@ -48,8 +48,7 @@ public class SplashActivity extends AppCompatActivity {
             startActivity(new Intent(SplashActivity.this,LoginActivity.class));
         }
         else{
-            Intent intent = new Intent(this, RequestService.class);
-            startService(intent);
+
             databaseReference = FirebaseDatabase.getInstance().getReference().child("students").child(auth.getCurrentUser().getUid());
             progressBar = (ProgressBar)findViewById(R.id.load);
             progressBar.setVisibility(View.VISIBLE);
@@ -60,36 +59,19 @@ public class SplashActivity extends AppCompatActivity {
             zoomin = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.zoom_in);
             img.startAnimation(zoomin);
 
-            databaseReference.addValueEventListener(new ValueEventListener() {
+
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if(dataSnapshot!=null && dataSnapshot.child("sid").getValue()!=null && dataSnapshot.child("pwd").getValue()!=null){
-                        uid = dataSnapshot.child("sid").getValue().toString();
-                        pwd = dataSnapshot.child("pwd").getValue().toString();
-//                        uidu = uid.toUpperCase();
-//                        urlid = "https://hib.iiit-bh.ac.in/Hibiscus/docs/iiit/Photos/" + uidu + ".jpg";
-
-                    }
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            progressBar.setVisibility(View.INVISIBLE);
-                            Intent intent = new Intent(SplashActivity.this, RoseiActivity.class);
-                            intent.putExtra("url", urlid);
-                            intent.putExtra("uidu", uidu);
-                            startActivity(intent);
-                            overridePendingTransition(R.anim.still,R.anim.slide_in_up);
-                        }
-                    },3000);
-
+                public void run() {
+                    Intent i = new Intent(SplashActivity.this, RequestService.class);
+                    startService(i);
+                    progressBar.setVisibility(View.INVISIBLE);
+                    Intent intent = new Intent(SplashActivity.this, RoseiActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.still,R.anim.slide_in_up);
                 }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
+            },3000);
 
 
         }

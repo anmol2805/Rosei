@@ -34,29 +34,43 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
         this.resource = resource;
         mess2s = objects;
     }
+    public int getViewTypeCount() {
+        return getCount();
+    }
+
+    public int getItemViewType(int position) {
+        return position;
+    }
+
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        LayoutInflater layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = layoutInflater.inflate(resource,null);
-        TextView foodb = (TextView)v.findViewById(R.id.foodb);
-        TextView foodl = (TextView)v.findViewById(R.id.foodl);
-        TextView foodd = (TextView)v.findViewById(R.id.foodd);
-        TextView day = (TextView)v.findViewById(R.id.day);
-        foodb.setText(mess2s.get(position).getBrkfast());
-        foodl.setText(mess2s.get(position).getLnch());
-        foodd.setText(mess2s.get(position).getDinnr());
-        day.setText(mess2s.get(position).getDay());
-        CheckBox b = (CheckBox)v.findViewById(R.id.b);
-        CheckBox l = (CheckBox)v.findViewById(R.id.l);
-        CheckBox d = (CheckBox)v.findViewById(R.id.d);
-        RadioButton bnv = (RadioButton)v.findViewById(R.id.bnv);
-        RadioButton bv = (RadioButton)v.findViewById(R.id.bv);
-        RadioButton lnv = (RadioButton)v.findViewById(R.id.lnv);
-        RadioButton lv = (RadioButton)v.findViewById(R.id.lv);
-        RadioButton dnv = (RadioButton)v.findViewById(R.id.dnv);
-        RadioButton dv = (RadioButton)v.findViewById(R.id.dv);
-        return v;
+        if(convertView!=null){
+            return convertView;
+        }
+        else {
+            LayoutInflater layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View v = layoutInflater.inflate(resource,null);
+            TextView foodb = (TextView)v.findViewById(R.id.foodb);
+            TextView foodl = (TextView)v.findViewById(R.id.foodl);
+            TextView foodd = (TextView)v.findViewById(R.id.foodd);
+            TextView day = (TextView)v.findViewById(R.id.day);
+            foodb.setText(mess2s.get(position).getBrkfast());
+            foodl.setText(mess2s.get(position).getLnch());
+            foodd.setText(mess2s.get(position).getDinnr());
+            day.setText(mess2s.get(position).getDay());
+            CheckBox b = (CheckBox)v.findViewById(R.id.b);
+            CheckBox l = (CheckBox)v.findViewById(R.id.l);
+            CheckBox d = (CheckBox)v.findViewById(R.id.d);
+            RadioButton bnv = (RadioButton)v.findViewById(R.id.bnv);
+            RadioButton bv = (RadioButton)v.findViewById(R.id.bv);
+            RadioButton lnv = (RadioButton)v.findViewById(R.id.lnv);
+            RadioButton lv = (RadioButton)v.findViewById(R.id.lv);
+            RadioButton dnv = (RadioButton)v.findViewById(R.id.dnv);
+            RadioButton dv = (RadioButton)v.findViewById(R.id.dv);
+            return v;
+        }
+
     }
 }

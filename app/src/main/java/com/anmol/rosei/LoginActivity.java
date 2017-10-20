@@ -222,9 +222,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                                                                 e.printStackTrace();
                                                                             }
                                                                                                                                                         String yr = String.valueOf(email.charAt(2)) + String.valueOf(email.charAt(3));
-                                                                            FirebaseMessaging.getInstance().subscribeToTopic(yr);
+                                                                            //FirebaseMessaging.getInstance().subscribeToTopic(yr);
                                                                             Intent intent = new Intent(LoginActivity.this, SplashActivity.class);
-
+                                                                            intent.putExtra("sid",sid);
+                                                                            intent.putExtra("pwd",password);
                                                                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                                                             startActivity(intent);
@@ -260,7 +261,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                                     }
 
                                                     String yr = String.valueOf(email.charAt(2)) + String.valueOf(email.charAt(3));
-                                                    FirebaseMessaging.getInstance().subscribeToTopic(yr);
+                                                    //FirebaseMessaging.getInstance().subscribeToTopic(yr);
 
                                                         Intent intent = new Intent(LoginActivity.this, SplashActivity.class);
 
