@@ -48,9 +48,9 @@ public class RequestService extends IntentService {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot!=null && dataSnapshot.child("sid")!=null && dataSnapshot.child("pwd")!=null){
-                    String sid = dataSnapshot.child("sid").getValue().toString();
-                    String pwd = dataSnapshot.child("pwd").getValue().toString();
+                if(dataSnapshot!=null && dataSnapshot.child("sid").getValue(String.class)!=null && dataSnapshot.child("pwd").getValue(String.class)!=null){
+                    String sid = dataSnapshot.child("sid").getValue(String.class);
+                    String pwd = dataSnapshot.child("pwd").getValue(String.class);
 
                     try {
                         jsonObject.put("un",sid);

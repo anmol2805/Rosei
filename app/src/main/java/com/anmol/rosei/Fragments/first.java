@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.anmol.rosei.Adapter.Mess2Adapter;
 import com.anmol.rosei.Book_Activity;
@@ -36,12 +37,33 @@ public class first extends Fragment {
     DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("students").child(auth.getCurrentUser().getUid());
     List<mess2>mess2s = new ArrayList<>();
     Mess2Adapter mess2Adapter;
+    TextView amt2,total;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.first,container,false);
         load = (Button)v.findViewById(R.id.load);
         list = (ListView)v.findViewById(R.id.menu);
+        amt2 = (TextView)v.findViewById(R.id.amt2);
+        total = (TextView)v.findViewById(R.id.total);
+        Intent intent = new Intent(getActivity(), RequestService.class);
+        getActivity().startService(intent);
+        db.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.child("amount2").getValue(String.class)!=null){
+                    amt2.setText(dataSnapshot.child("amount2").getValue(String.class));
+                }
+                if(dataSnapshot.child("total").getValue(String.class)!=null){
+                    total.setText(dataSnapshot.child("total").getValue(String.class));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         load.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.anmol.rosei.Adapter.Mess1Adapter;
 import com.anmol.rosei.Adapter.Mess2Adapter;
@@ -36,6 +37,7 @@ public class ground extends Fragment {
     Mess1Adapter mess1Adapter;
     List<mess1>mess1s = new ArrayList<>();
     FirebaseAuth auth = FirebaseAuth.getInstance();
+    TextView amt1,total;
     DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("students").child(auth.getCurrentUser().getUid());
     @Nullable
     @Override
@@ -43,6 +45,26 @@ public class ground extends Fragment {
         View v = inflater.inflate(R.layout.ground,container,false);
         load = (Button)v.findViewById(R.id.load);
         list = (ListView)v.findViewById(R.id.menu);
+        amt1 = (TextView)v.findViewById(R.id.amt1);
+        total = (TextView)v.findViewById(R.id.total);
+        Intent intent = new Intent(getActivity(), RequestService.class);
+        getActivity().startService(intent);
+        db.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.child("amount1").getValue(String.class)!=null){
+                    amt1.setText(dataSnapshot.child("amount1").getValue(String.class));
+                }
+                if(dataSnapshot.child("total").getValue(String.class)!=null){
+                    total.setText(dataSnapshot.child("total").getValue(String.class));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         load.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
