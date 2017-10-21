@@ -1,8 +1,10 @@
 package com.anmol.rosei;
 
 import android.app.FragmentManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.provider.ContactsContract;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -32,6 +34,7 @@ public class RoseiActivity extends AppCompatActivity {
     ImageButton set;
     TextView stuid;
     CircleImageView user;
+    Button logout;
     private static long back_pressed;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,7 @@ public class RoseiActivity extends AppCompatActivity {
         book = (Button)findViewById(R.id.book);
         user = (CircleImageView)findViewById(R.id.user);
         stuid = (TextView)findViewById(R.id.stuid);
+        logout = (Button)findViewById(R.id.logout);
         book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,6 +56,41 @@ public class RoseiActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 set.startAnimation(rotate);
+            }
+        });
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(RoseiActivity.this);
+                builder1.setTitle("Logout");
+                builder1.setMessage("Are you sure you want to logout?");
+                builder1.setCancelable(true);
+
+                builder1.setPositiveButton(
+                        "Logout",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                FirebaseAuth.getInstance().signOut();
+                                Intent intent = new Intent(RoseiActivity.this,LoginActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
+                                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_down);
+
+                            }
+                        });
+
+                builder1.setNegativeButton(
+                        "Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+                AlertDialog alert11 = builder1.create();
+                alert11.show();
             }
         });
         databaseReference.addValueEventListener(new ValueEventListener() {
