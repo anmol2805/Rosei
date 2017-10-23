@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">IIITmess</string>
+    <string name="app_name">IIIT rasoi</string>
     <string name="email">Email</string>
     <string name="minimum_password">Password too short, enter minimum 6 characters!</string>
     <string name="auth_failed">Authentication failed, check your student ID and password</string>

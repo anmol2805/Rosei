@@ -95,7 +95,12 @@ public class Book_Activity extends AppCompatActivity {
 
             }
         });
+        m2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+            }
+        });
 
     }
     public int dpToPx(int dp) {

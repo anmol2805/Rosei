@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "345864396498",
+    "firebase_url": "https://rosei-cbd3a.firebaseio.com",
+    "project_id": "rosei-cbd3a",
+    "storage_bucket": "rosei-cbd3a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345864396498:android:4b6df588f9b55841",
+        "android_client_info": {
+          "package_name": "com.anmol.rosei"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "345864396498-138fkgvrc2cc3vpr2k2d0damc3n1kb92.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.anmol.rosei",
+            "certificate_hash": "34b96318831da91a55cfc5aec7fc8ca64a04c83c"
+          }
+        },
+        {
+          "client_id": "345864396498-50m4l38r3v7lt95qefe1ohtbfqeco9h1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6gBgf86EdKH_3SgBTelKr6a4qqRAm18Q"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "345864396498-50m4l38r3v7lt95qefe1ohtbfqeco9h1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
