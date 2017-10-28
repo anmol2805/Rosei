@@ -20,6 +20,7 @@ import com.anmol.rosei.Fragments.ground;
 import com.anmol.rosei.Model.mess1;
 import com.anmol.rosei.Model.mess2;
 import com.anmol.rosei.Services.RequestService;
+import com.anmol.rosei.Services.RequestServiceStatus;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -95,12 +96,8 @@ public class Book_Activity extends AppCompatActivity {
 
             }
         });
-        m2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
+        Intent intent1 = new Intent(this, RequestServiceStatus.class);
+        startService(intent1);
 
     }
     public int dpToPx(int dp) {

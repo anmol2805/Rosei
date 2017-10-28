@@ -31,6 +31,7 @@
 
         </activity>
         <service android:name=".Services.RequestService"/>
+        <service android:name=".Services.RequestServiceStatus"/>
     </application>
 
 </manifest>
