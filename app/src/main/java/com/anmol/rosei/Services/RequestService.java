@@ -70,8 +70,13 @@ public class RequestService extends IntentService {
                                     String brkfast = object.getString("brkfast");
                                     String lnch = object.getString("lnch");
                                     String dinnr = object.getString("dinnr");
-                                    mess1 mess1 = new mess1(date,brkfast,lnch,dinnr);
-                                    db.child("mess1").child(String.valueOf(c)).setValue(mess1);
+                                    Map<String,Object> map = new HashMap<>();
+                                    map.put("day",date);
+                                    map.put("brkfast",brkfast);
+                                    map.put("lnch",lnch);
+                                    map.put("dinnr",dinnr);
+
+                                    db.child("mess1").child(String.valueOf(c)).updateChildren(map);
                                     c++;
                                 }
                                 int d = 0;
@@ -81,8 +86,13 @@ public class RequestService extends IntentService {
                                     String brkfast = object.getString("brkfast");
                                     String lnch = object.getString("lnch");
                                     String dinnr = object.getString("dinnr");
-                                    mess2 mess2 = new mess2(date,brkfast,lnch,dinnr);
-                                    db.child("mess2").child(String.valueOf(d)).setValue(mess2);
+                                    Map<String,Object> map = new HashMap<>();
+                                    map.put("day",date);
+                                    map.put("brkfast",brkfast);
+                                    map.put("lnch",lnch);
+                                    map.put("dinnr",dinnr);
+
+                                    db.child("mess2").child(String.valueOf(d)).updateChildren(map);
                                     d++;
                                 }
                                 Map<String,Object>map = new HashMap<>();

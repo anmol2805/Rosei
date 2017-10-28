@@ -70,21 +70,27 @@ public class RequestServiceStatus extends IntentService {
                                     String brk = object.getString("breakfast");
                                     String lnch = object.getString("lunch");
                                     String dnnr = object.getString("dinner");
-                                    MessStatus messStatus = new MessStatus(brk,lnch,dnnr);
-                                    db.child("messstatus").child(String.valueOf(c)).setValue(messStatus);
+                                    Map<String,Object> map = new HashMap<>();
+                                    map.put("bs",brk);
+                                    map.put("ls",lnch);
+                                    map.put("ds",dnnr);
+                                    db.child("mess1").child(String.valueOf(c)).updateChildren(map);
                                     c++;
                                 }
-//                                int d = 0;
-//                                while (d<response.getJSONArray("mess2").length()){
-//                                    JSONObject object = response.getJSONArray("mess2").getJSONObject(d);
-//                                    String date = object.getString("day");
-//                                    String brkfast = object.getString("brkfast");
-//                                    String lnch = object.getString("lnch");
-//                                    String dinnr = object.getString("dinnr");
-//                                    mess2 mess2 = new mess2(date,brkfast,lnch,dinnr);
-//                                    db.child("mess2").child(String.valueOf(d)).setValue(mess2);
-//                                    d++;
-//                                }
+                                int d = 0;
+                                while (d<response.getJSONArray("messStatus").length()){
+                                    JSONObject object = response.getJSONArray("messStatus").getJSONObject(d);
+                                    String brkfast = object.getString("breakfast");
+                                    String lnch = object.getString("lunch");
+                                    String dinnr = object.getString("dinner");
+                                    Map<String,Object> map = new HashMap<>();
+                                    map.put("bs",brkfast);
+                                    map.put("ls",lnch);
+                                    map.put("ds",dinnr);
+
+                                    db.child("mess2").child(String.valueOf(d)).updateChildren(map);
+                                    d++;
+                                }
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
