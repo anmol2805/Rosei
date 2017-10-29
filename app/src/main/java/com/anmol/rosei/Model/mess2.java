@@ -8,16 +8,43 @@ import java.util.Date;
 
 public class mess2 {
 
-    String date,brkfast,lnch,dinnr;
+    String date,brkfast,lnch,dinnr,bs,ls,ds;
 
     public mess2() {
     }
 
-    public mess2(String date, String brkfast, String lnch, String dinnr) {
+    public mess2(String date, String brkfast, String lnch, String dinnr, String bs, String ls, String ds) {
         this.date = date;
         this.brkfast = brkfast;
         this.lnch = lnch;
         this.dinnr = dinnr;
+        this.bs = bs;
+        this.ls = ls;
+        this.ds = ds;
+    }
+
+    public String getBs() {
+        return bs;
+    }
+
+    public void setBs(String bs) {
+        this.bs = bs;
+    }
+
+    public String getLs() {
+        return ls;
+    }
+
+    public void setLs(String ls) {
+        this.ls = ls;
+    }
+
+    public String getDs() {
+        return ds;
+    }
+
+    public void setDs(String ds) {
+        this.ds = ds;
     }
 
     public String getDay() {

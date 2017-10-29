@@ -81,7 +81,10 @@ public class first extends Fragment {
                     String brkfast = data.child("brkfast").getValue().toString();
                     String lnch = data.child("lnch").getValue().toString();
                     String dinnr = data.child("dinnr").getValue().toString();
-                    mess2 mess2 = new mess2(day,brkfast,lnch,dinnr);
+                    String bs = data.child("bs").getValue().toString();
+                    String ls = data.child("ls").getValue().toString();
+                    String ds = data.child("ds").getValue().toString();
+                    mess2 mess2 = new mess2(day,brkfast,lnch,dinnr,bs,ls,ds);
                     mess2s.add(mess2);
                 }
                 if(getActivity()!=null){

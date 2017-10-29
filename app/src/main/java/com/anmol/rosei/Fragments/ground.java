@@ -82,7 +82,10 @@ public class ground extends Fragment {
                     String brkfast = data.child("brkfast").getValue().toString();
                     String lnch = data.child("lnch").getValue().toString();
                     String dinnr = data.child("dinnr").getValue().toString();
-                    mess1 mess1 = new mess1(day,brkfast,lnch,dinnr);
+                    String bs = data.child("bs").getValue().toString();
+                    String ls = data.child("ls").getValue().toString();
+                    String ds = data.child("ds").getValue().toString();
+                    mess1 mess1 = new mess1(day,brkfast,lnch,dinnr,bs,ls,ds);
                     mess1s.add(mess1);
                 }
                 if(getActivity()!=null){
