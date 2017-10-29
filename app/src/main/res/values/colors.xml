@@ -7,4 +7,5 @@
     <color name="white">#fff</color>
     <color name="veg">#008200</color>
     <color name="nonveg">#964122</color>
+    <color name="dull">#eaeaea</color>
 </resources>
