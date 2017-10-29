@@ -66,12 +66,12 @@ public class RequestService extends IntentService {
                                 int c = 0;
                                 while (c<response.getJSONArray("mess1").length()){
                                     JSONObject object = response.getJSONArray("mess1").getJSONObject(c);
-                                    String date = object.getString("day");
+
                                     String brkfast = object.getString("brkfast");
                                     String lnch = object.getString("lnch");
                                     String dinnr = object.getString("dinnr");
                                     Map<String,Object> map = new HashMap<>();
-                                    map.put("day",date);
+
                                     map.put("brkfast",brkfast);
                                     map.put("lnch",lnch);
                                     map.put("dinnr",dinnr);
@@ -82,12 +82,10 @@ public class RequestService extends IntentService {
                                 int d = 0;
                                 while (d<response.getJSONArray("mess2").length()){
                                     JSONObject object = response.getJSONArray("mess2").getJSONObject(d);
-                                    String date = object.getString("day");
                                     String brkfast = object.getString("brkfast");
                                     String lnch = object.getString("lnch");
                                     String dinnr = object.getString("dinnr");
                                     Map<String,Object> map = new HashMap<>();
-                                    map.put("day",date);
                                     map.put("brkfast",brkfast);
                                     map.put("lnch",lnch);
                                     map.put("dinnr",dinnr);

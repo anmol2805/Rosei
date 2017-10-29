@@ -8,24 +8,24 @@ import java.util.Date;
 
 public class mess1 {
 
-    String day,brkfast,lnch,dinnr;
+    String date,brkfast,lnch,dinnr;
 
     public mess1() {
     }
 
-    public mess1(String day, String brkfast, String lnch, String dinnr) {
-        this.day = day;
+    public mess1(String date, String brkfast, String lnch, String dinnr) {
+        this.date = date;
         this.brkfast = brkfast;
         this.lnch = lnch;
         this.dinnr = dinnr;
     }
 
     public String getDay() {
-        return day;
+        return date;
     }
 
-    public void setDay(String day) {
-        this.day = day;
+    public void setDay(String date) {
+        this.date = date;
     }
 
     public String getBrkfast() {

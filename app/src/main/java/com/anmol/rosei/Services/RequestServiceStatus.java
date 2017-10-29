@@ -91,6 +91,24 @@ public class RequestServiceStatus extends IntentService {
                                     db.child("mess2").child(String.valueOf(d)).updateChildren(map);
                                     d++;
                                 }
+                                int m = 0;
+                                while (m<response.getJSONArray("extraData").length()){
+                                    JSONObject object = response.getJSONArray("extraData").getJSONObject(m);
+                                    String date = object.getString("date");
+                                    Map<String,Object> map = new HashMap<>();
+                                    map.put("date",date);
+                                    db.child("mess1").child(String.valueOf(m)).updateChildren(map);
+                                    m++;
+                                }
+                                int n = 0;
+                                while (n<response.getJSONArray("extraData").length()){
+                                    JSONObject object = response.getJSONArray("extraData").getJSONObject(n);
+                                    String date = object.getString("date");
+                                    Map<String,Object> map = new HashMap<>();
+                                    map.put("date",date);
+                                    db.child("mess2").child(String.valueOf(n)).updateChildren(map);
+                                    n++;
+                                }
 
                             } catch (JSONException e) {
                                 e.printStackTrace();

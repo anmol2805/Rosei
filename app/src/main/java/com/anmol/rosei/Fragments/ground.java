@@ -78,7 +78,7 @@ public class ground extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mess1s.clear();
                 for(DataSnapshot data:dataSnapshot.getChildren()){
-                    String day = data.child("day").getValue().toString();
+                    String day = data.child("date").getValue().toString();
                     String brkfast = data.child("brkfast").getValue().toString();
                     String lnch = data.child("lnch").getValue().toString();
                     String dinnr = data.child("dinnr").getValue().toString();
