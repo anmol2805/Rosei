@@ -57,10 +57,14 @@ public class Mess1Adapter extends ArrayAdapter<mess1> {
             TextView foodl = (TextView)v.findViewById(R.id.foodl);
             TextView foodd = (TextView)v.findViewById(R.id.foodd);
             TextView day = (TextView)v.findViewById(R.id.day);
+            TextView bstatus = (TextView)v.findViewById(R.id.bstatus);
+            TextView lstatus = (TextView)v.findViewById(R.id.lstatus);
+            TextView dstatus = (TextView)v.findViewById(R.id.dstatus);
             foodb.setText(mess1s.get(position).getBrkfast());
             foodl.setText(mess1s.get(position).getLnch());
             foodd.setText(mess1s.get(position).getDinnr());
             day.setText(mess1s.get(position).getDay());
+
             final CheckBox b = (CheckBox)v.findViewById(R.id.b);
             final CheckBox l = (CheckBox)v.findViewById(R.id.l);
             final CheckBox d = (CheckBox)v.findViewById(R.id.d);
@@ -164,39 +168,127 @@ public class Mess1Adapter extends ArrayAdapter<mess1> {
             CardView brk = (CardView)v.findViewById(R.id.brk);
             CardView lnch = (CardView)v.findViewById(R.id.lnch);
             CardView dnnr = (CardView)v.findViewById(R.id.dnnr);
-            brk.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(b.isChecked()){
-                        b.setChecked(false);
+
+
+
+            if(!mess1s.get(position).getBs().contains("NotIssued")){
+                b.setVisibility(View.INVISIBLE);
+                b.setChecked(false);
+
+                if(mess1s.get(position).getBs().contains("1")){
+                    bstatus.setText("Ground Floor");
+                    if(mess1s.get(position).getBs().contains("N")){
+                        bstatus.setTextColor(getContext().getResources().getColor(R.color.nonveg));
                     }
-                    else if(!b.isChecked()){
-                        b.setChecked(true);
-                    }
-                }
-            });
-            lnch.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(l.isChecked()){
-                        l.setChecked(false);
-                    }
-                    else if(!l.isChecked()){
-                        l.setChecked(true);
+                    else if(mess1s.get(position).getBs().contains("V")){
+                        bstatus.setTextColor(getContext().getResources().getColor(R.color.veg));
                     }
                 }
-            });
-            dnnr.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(d.isChecked()){
-                        d.setChecked(false);
+                else if(mess1s.get(position).getBs().contains("2")){
+                    bstatus.setText("First Floor");
+                    if(mess1s.get(position).getBs().contains("N")){
+                        bstatus.setTextColor(getContext().getResources().getColor(R.color.nonveg));
                     }
-                    else if(!d.isChecked()){
-                        d.setChecked(true);
+                    else if(mess1s.get(position).getBs().contains("V")){
+                        bstatus.setTextColor(getContext().getResources().getColor(R.color.veg));
                     }
                 }
-            });
+                bstatus.setVisibility(View.VISIBLE);
+            }
+            else {
+                bstatus.setVisibility(View.INVISIBLE);
+                b.setVisibility(View.VISIBLE);
+                brk.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(b.isChecked()){
+                            b.setChecked(false);
+                        }
+                        else if(!b.isChecked()){
+                            b.setChecked(true);
+                        }
+                    }
+                });
+            }
+            if(!mess1s.get(position).getLs().contains("NotIssued")){
+                l.setVisibility(View.INVISIBLE);
+                l.setChecked(false);
+
+                if(mess1s.get(position).getLs().contains("1")){
+                    lstatus.setText("Ground Floor");
+                    if(mess1s.get(position).getLs().contains("N")){
+                        lstatus.setTextColor(getContext().getResources().getColor(R.color.nonveg));
+                    }
+                    else if(mess1s.get(position).getLs().contains("V")){
+                        lstatus.setTextColor(getContext().getResources().getColor(R.color.veg));
+                    }
+                }
+                else if(mess1s.get(position).getLs().contains("2")){
+                    lstatus.setText("First Floor");
+                    if(mess1s.get(position).getLs().contains("N")){
+                        lstatus.setTextColor(getContext().getResources().getColor(R.color.nonveg));
+                    }
+                    else if(mess1s.get(position).getLs().contains("V")){
+                        lstatus.setTextColor(getContext().getResources().getColor(R.color.veg));
+                    }
+                }
+                lstatus.setVisibility(View.VISIBLE);
+            }
+            else {
+                lstatus.setVisibility(View.INVISIBLE);
+                l.setVisibility(View.VISIBLE);
+                lnch.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(l.isChecked()){
+                            l.setChecked(false);
+                        }
+                        else if(!l.isChecked()){
+                            l.setChecked(true);
+                        }
+                    }
+                });
+
+            }
+            if(!mess1s.get(position).getDs().contains("NotIssued")){
+                d.setVisibility(View.INVISIBLE);
+                d.setChecked(false);
+
+                if(mess1s.get(position).getDs().contains("1")){
+                    dstatus.setText("Ground Floor");
+                    if(mess1s.get(position).getDs().contains("N")){
+                        dstatus.setTextColor(getContext().getResources().getColor(R.color.nonveg));
+                    }
+                    else if(mess1s.get(position).getDs().contains("V")){
+                        dstatus.setTextColor(getContext().getResources().getColor(R.color.veg));
+                    }
+                }
+                else if(mess1s.get(position).getDs().contains("2")){
+                    dstatus.setText("First Floor");
+                    if(mess1s.get(position).getDs().contains("N")){
+                        dstatus.setTextColor(getContext().getResources().getColor(R.color.nonveg));
+                    }
+                    else if(mess1s.get(position).getDs().contains("V")){
+                        dstatus.setTextColor(getContext().getResources().getColor(R.color.veg));
+                    }
+                }
+                dstatus.setVisibility(View.VISIBLE);
+            }
+            else {
+                dstatus.setVisibility(View.INVISIBLE);
+                d.setVisibility(View.VISIBLE);
+                dnnr.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(d.isChecked()){
+                            d.setChecked(false);
+                        }
+                        else if(!d.isChecked()){
+                            d.setChecked(true);
+                        }
+                    }
+                });
+            }
 
             return v;
         }
