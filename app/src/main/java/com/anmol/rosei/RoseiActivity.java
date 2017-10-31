@@ -119,18 +119,18 @@ public class RoseiActivity extends AppCompatActivity {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal = Calendar.getInstance();
         final String cdate = dateFormat.format(cal.getTime());
-        databaseReference.addValueEventListener(new ValueEventListener() {
+
+        db.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot data:dataSnapshot.getChildren()){
                     if(data.child("date").getValue(String.class)!=null){
                         String date = data.child("date").getValue(String.class);
+
                         if(date.contains(cdate)){
-                            Toast.makeText(RoseiActivity.this,cdate,Toast.LENGTH_SHORT).show();
+
                         }
-                        else {
-                            Toast.makeText(RoseiActivity.this,"No",Toast.LENGTH_SHORT).show();
-                        }
+
                     }
                 }
             }
