@@ -24,11 +24,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RoseiActivity extends AppCompatActivity {
     FirebaseAuth auth = FirebaseAuth.getInstance();
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("students").child(auth.getCurrentUser().getUid()).child("rosei");
+    DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("students").child(auth.getCurrentUser().getUid()).child("mess1");
     Animation rotate;
     Button book;
     ImageButton set;
@@ -111,6 +116,31 @@ public class RoseiActivity extends AppCompatActivity {
 
             }
         });
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        final String cdate = dateFormat.format(cal.getTime());
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot data:dataSnapshot.getChildren()){
+                    if(data.child("date").getValue(String.class)!=null){
+                        String date = data.child("date").getValue(String.class);
+                        if(date.contains(cdate)){
+                            Toast.makeText(RoseiActivity.this,cdate,Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(RoseiActivity.this,"No",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
 
 
     }
