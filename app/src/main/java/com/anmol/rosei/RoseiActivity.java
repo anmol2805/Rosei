@@ -119,16 +119,44 @@ public class RoseiActivity extends AppCompatActivity {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal = Calendar.getInstance();
         final String cdate = dateFormat.format(cal.getTime());
-
+        DateFormat tmeFormat = new SimpleDateFormat("HH:mm");
+        final String ctime = tmeFormat.format(cal.getTime());
+        final String hr = String.valueOf(ctime.charAt(0))+String.valueOf(ctime.charAt(1));
+        final int hour = Integer.parseInt(hr);
+        String min = String.valueOf(ctime.charAt(3))+String.valueOf(ctime.charAt(4));
+        int mn = Integer.parseInt(min);
+        Toast.makeText(RoseiActivity.this,ctime,Toast.LENGTH_SHORT).show();
         db.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot data:dataSnapshot.getChildren()){
                     if(data.child("date").getValue(String.class)!=null){
                         String date = data.child("date").getValue(String.class);
-
                         if(date.contains(cdate)){
+                            if(hour<9){
+                                String mess = data.child("bs").getValue(String.class);
+                                if(!mess.contains("NotIssued")){
+                                    String menu = data.child("brkfast").getValue(String.class);
+                                }else{
 
+                                }
+                            }
+                            else if(hour>9 && hour<14){
+                                String mess = data.child("ls").getValue(String.class);
+                                if(!mess.contains("NotIssued")){
+                                    String menu = data.child("lnch").getValue(String.class);
+                                }else{
+
+                                }
+                            }
+                            else if(hour>14 && hour<22){
+                                String mess = data.child("ds").getValue(String.class);
+                                if(!mess.contains("NotIssued")){
+                                    String menu = data.child("dinnr").getValue(String.class);
+                                }else{
+
+                                }
+                            }
                         }
 
                     }
