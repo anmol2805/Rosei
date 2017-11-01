@@ -96,8 +96,8 @@ public class Book_Activity extends AppCompatActivity {
 
             }
         });
-        Intent intent1 = new Intent(this, RequestServiceStatus.class);
-        startService(intent1);
+
+
 
     }
     public int dpToPx(int dp) {

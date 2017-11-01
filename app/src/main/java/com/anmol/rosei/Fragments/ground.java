@@ -3,6 +3,7 @@ package com.anmol.rosei.Fragments;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.anmol.rosei.Book_Activity;
 import com.anmol.rosei.Model.mess1;
 import com.anmol.rosei.R;
 import com.anmol.rosei.Services.RequestService;
+import com.anmol.rosei.Services.RequestServiceStatus;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -49,6 +51,14 @@ public class ground extends Fragment {
         total = (TextView)v.findViewById(R.id.total);
         Intent intent = new Intent(getActivity(), RequestService.class);
         getActivity().startService(intent);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent1 = new Intent(getActivity(), RequestServiceStatus.class);
+                getActivity().startService(intent1);
+            }
+        },1000);
         db.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

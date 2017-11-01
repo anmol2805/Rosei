@@ -32,6 +32,8 @@
         </activity>
         <service android:name=".Services.RequestService"/>
         <service android:name=".Services.RequestServiceStatus"/>
+        <service android:name=".Services.MessStatusService"/>
+        <service android:name=".Services.MessStatusService2"/>
     </application>
 
 </manifest>
