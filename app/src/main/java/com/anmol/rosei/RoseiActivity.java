@@ -30,6 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -128,7 +129,7 @@ public class RoseiActivity extends AppCompatActivity {
         final int hour = Integer.parseInt(hr);
         String min = String.valueOf(ctime.charAt(3))+String.valueOf(ctime.charAt(4));
         int mn = Integer.parseInt(min);
-        Toast.makeText(RoseiActivity.this,ctime,Toast.LENGTH_SHORT).show();
+
         db.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -171,6 +172,12 @@ public class RoseiActivity extends AppCompatActivity {
 
             }
         });
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
+        Date d = new Date();
+        String dayOfTheWeek = sdf.format(d);
+        if(dayOfTheWeek.contains("Sunday")){
+
+        }
         Intent i = new Intent(this, MessStatusService.class);
         startService(i);
         Handler handler = new Handler();
