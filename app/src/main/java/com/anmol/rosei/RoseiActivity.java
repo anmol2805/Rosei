@@ -3,6 +3,7 @@ package com.anmol.rosei;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
 import android.provider.ContactsContract;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.anmol.rosei.Services.MessStatusService;
+import com.anmol.rosei.Services.MessStatusService2;
 import com.anmol.rosei.Services.RequestService;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
@@ -168,7 +171,16 @@ public class RoseiActivity extends AppCompatActivity {
 
             }
         });
-
+        Intent i = new Intent(this, MessStatusService.class);
+        startService(i);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent i2 = new Intent(RoseiActivity.this, MessStatusService2.class);
+                startService(i2);
+            }
+        },1000);
 
 
     }
