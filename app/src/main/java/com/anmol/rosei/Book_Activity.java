@@ -19,6 +19,7 @@ import com.anmol.rosei.Fragments.first;
 import com.anmol.rosei.Fragments.ground;
 import com.anmol.rosei.Model.mess1;
 import com.anmol.rosei.Model.mess2;
+import com.anmol.rosei.Services.PostObjectService;
 import com.anmol.rosei.Services.RequestService;
 import com.anmol.rosei.Services.RequestServiceStatus;
 import com.google.firebase.auth.FirebaseAuth;
@@ -96,6 +97,8 @@ public class Book_Activity extends AppCompatActivity {
 
             }
         });
+        Intent intent1 = new Intent(Book_Activity.this,PostObjectService.class);
+        startService(intent1);
 
 
 
