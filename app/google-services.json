@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "345864396498-2loj5tfr1dtm556tqshlceakkma16fs3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.anmol.rosei",
+            "certificate_hash": "c79d1b144190dc24dc52304619e1b4776b126167"
+          }
+        },
+        {
           "client_id": "345864396498-138fkgvrc2cc3vpr2k2d0damc3n1kb92.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

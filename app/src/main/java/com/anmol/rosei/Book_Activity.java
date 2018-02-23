@@ -97,8 +97,8 @@ public class Book_Activity extends AppCompatActivity {
 
             }
         });
-        Intent intent1 = new Intent(Book_Activity.this,PostObjectService.class);
-        startService(intent1);
+//        Intent intent1 = new Intent(Book_Activity.this,PostObjectService.class);
+//        startService(intent1);
 
 
 

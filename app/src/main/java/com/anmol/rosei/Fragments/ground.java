@@ -83,7 +83,7 @@ public class ground extends Fragment {
                 getActivity().startService(intent);
             }
         });
-        db.child("mess1").addValueEventListener(new ValueEventListener() {
+        db.child("messStatus").child("mess1").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mess1s.clear();

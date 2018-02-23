@@ -46,7 +46,7 @@ public class PostObjectService extends IntentService {
         map.put("sunbfmt","veg");
         map.put("sunlunmt","veg");
         map.put("sundinmt","veg");
-
+        db.updateChildren(map);
 
     }
 }

@@ -82,7 +82,7 @@ public class first extends Fragment {
                 getActivity().startService(intent);
             }
         });
-        db.child("mess2").addValueEventListener(new ValueEventListener() {
+        db.child("messStatus").child("mess2").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mess2s.clear();
