@@ -55,6 +55,7 @@ public class RoseiActivity extends AppCompatActivity {
         user = (CircleImageView)findViewById(R.id.user);
         stuid = (TextView)findViewById(R.id.stuid);
         logout = (Button)findViewById(R.id.logout);
+        // booking activity
         book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
