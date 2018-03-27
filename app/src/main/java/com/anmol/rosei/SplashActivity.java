@@ -44,9 +44,11 @@ public class SplashActivity extends AppCompatActivity {
         Glide.with(this).load(R.drawable.anmol).into(sanmol);
         Glide.with(this).load(R.drawable.ankit).into(sankit);
         auth = FirebaseAuth.getInstance();
+        //condition to go to loginactivity
         if(auth.getCurrentUser()==null){
             startActivity(new Intent(SplashActivity.this,LoginActivity.class));
         }
+        //go to roseiactivity or dashboard
         else{
 
             databaseReference = FirebaseDatabase.getInstance().getReference().child("students").child(auth.getCurrentUser().getUid());
@@ -54,6 +56,7 @@ public class SplashActivity extends AppCompatActivity {
             progressBar.setVisibility(View.VISIBLE);
 
             img = (ImageView)findViewById(R.id.imageView2);
+            // animation on splashscreen
             animFadein = AnimationUtils.loadAnimation(getApplicationContext(),
                     R.anim.fade_in);
             zoomin = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.zoom_in);
@@ -64,6 +67,7 @@ public class SplashActivity extends AppCompatActivity {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    // service to receive weekly menu
                     Intent i = new Intent(SplashActivity.this, RequestService.class);
                     startService(i);
                     progressBar.setVisibility(View.INVISIBLE);

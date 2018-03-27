@@ -48,6 +48,7 @@ public class RequestService extends IntentService {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                // putting the credentials and requesting api
                 if(dataSnapshot!=null && dataSnapshot.child("sid").getValue(String.class)!=null && dataSnapshot.child("pwd").getValue(String.class)!=null){
                     String sid = dataSnapshot.child("sid").getValue(String.class);
                     String pwd = dataSnapshot.child("pwd").getValue(String.class);
@@ -63,6 +64,7 @@ public class RequestService extends IntentService {
                         @Override
                         public void onResponse(JSONObject response) {
                             try {
+                                //response of mess1
                                 int c = 0;
                                 while (c<response.getJSONArray("mess1").length()){
                                     JSONObject object = response.getJSONArray("mess1").getJSONObject(c);
@@ -79,6 +81,7 @@ public class RequestService extends IntentService {
                                     db.child("mess1").child(String.valueOf(c)).updateChildren(map);
                                     c++;
                                 }
+                                //response of mess2
                                 int d = 0;
                                 while (d<response.getJSONArray("mess2").length()){
                                     JSONObject object = response.getJSONArray("mess2").getJSONObject(d);
