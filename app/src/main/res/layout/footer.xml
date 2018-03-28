@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="wrap_content">
     <Button
-        android:id="@+id/bookm2"
+        android:id="@+id/bookm1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="12sp"
@@ -10,6 +10,6 @@
         android:layout_margin="5dp"
         android:textColor="#fff"
         android:textStyle="bold"
-        android:text="Book coupon for First Floor Mess" />
+        android:text="Book coupon for Ground Floor Mess" />
 
 </RelativeLayout>

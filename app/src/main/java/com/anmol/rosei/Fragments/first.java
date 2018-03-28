@@ -40,6 +40,7 @@ public class first extends Fragment {
     List<mess2>mess2s = new ArrayList<>();
     Mess2Adapter mess2Adapter;
     TextView amt2,total;
+    Button bookm2;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -51,6 +52,7 @@ public class first extends Fragment {
         LayoutInflater layoutInflater = getActivity().getLayoutInflater();
         ViewGroup footer = (ViewGroup)layoutInflater.inflate(R.layout.footer2,list,false);
         list.addFooterView(footer,null,false);
+        bookm2 = (Button)footer.findViewById(R.id.bookm2);
         Intent intent = new Intent(getActivity(), RequestService.class);
         getActivity().startService(intent);
         Handler handler = new Handler();
