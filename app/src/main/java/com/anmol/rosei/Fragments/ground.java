@@ -146,9 +146,10 @@ public class ground extends Fragment {
                             String pwd = dataSnapshot.child("pwd").getValue(String.class);
                             try {
                                 jsonObject.put("un",sid);
-                                jsonObject.put("pw",pwd);
-                                jsonObject.put("pass","encrypt");
+                                jsonObject.put("pw","ankit16@d");
+                                //jsonObject.put("pass","encrypt");
                                 jsonObject.put("check",1);
+                                System.out.println("jsonobj:" + jsonObject);
                                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, "http://14.139.198.171/api/rosei/booking", jsonObject, new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
