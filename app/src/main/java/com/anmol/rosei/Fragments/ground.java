@@ -149,7 +149,7 @@ public class ground extends Fragment {
                             String pwd = dataSnapshot.child("pwd").getValue(String.class);
                             try {
                                 jsonObject.put("un",sid);
-                                jsonObject.put("pw","ankit16@d");
+                                jsonObject.put("pw","anmol@2805");
                                 //jsonObject.put("pass","encrypt");
                                 jsonObject.put("check",1);
                                 System.out.println("jsonobj:" + jsonObject);
