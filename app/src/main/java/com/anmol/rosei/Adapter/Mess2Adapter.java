@@ -18,6 +18,9 @@ import android.widget.TextView;
 import com.anmol.rosei.Model.mess2;
 import com.anmol.rosei.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 /**
@@ -28,7 +31,7 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
     private Activity context;
     private int resource;
     private List<mess2> mess2s;
-
+    JSONObject jsonObject2 = new JSONObject();
 
     public Mess2Adapter(@NonNull Activity context, @LayoutRes int resource, @NonNull List<mess2> objects) {
         super(context, resource, objects);
@@ -64,7 +67,9 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
             foodb.setText(mess2s.get(position).getBrkfast());
             foodl.setText(mess2s.get(position).getLnch());
             foodd.setText(mess2s.get(position).getDinnr());
-            day.setText(mess2s.get(position).getDay());
+            final String weekday = mess2s.get(position).getDay();
+            day.setText(weekday);
+            final String couponcode = "m002" + weekday;
             final CheckBox b = (CheckBox)v.findViewById(R.id.b);
             final CheckBox l = (CheckBox)v.findViewById(R.id.l);
             final CheckBox d = (CheckBox)v.findViewById(R.id.d);
@@ -77,11 +82,30 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
             bv.setChecked(true);
             lv.setChecked(true);
             dv.setChecked(true);
+            final String couponday = weekday.substring(weekday.length() - 3).toLowerCase();
+            System.out.println("couponday:" + couponday);
+            try {
+                jsonObject2.put(couponday + "bfmt","veg");
+                jsonObject2.put(couponday + "lunmt","veg");
+                jsonObject2.put(couponday + "dinmt","veg");
+                jsonObject2.put(couponday + "bf",1);
+                jsonObject2.put(couponday + "lun",1);
+                jsonObject2.put(couponday + "din",1);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
             bnv.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     if(compoundButton.isChecked()){
                         bv.setChecked(false);
+                        try {
+                            jsonObject2.remove(couponday + "bfmt");
+                            jsonObject2.put(couponday + "bfmt","nonveg");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             });
@@ -90,6 +114,12 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     if(compoundButton.isChecked()){
                         bnv.setChecked(false);
+                        try {
+                            jsonObject2.remove(couponday + "bfmt");
+                            jsonObject2.put(couponday + "bfmt","veg");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             });
@@ -98,6 +128,12 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     if(compoundButton.isChecked()){
                         lv.setChecked(false);
+                        try {
+                            jsonObject2.remove(couponday + "lunmt");
+                            jsonObject2.put(couponday + "lunmt","nonveg");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             });
@@ -106,6 +142,12 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     if(compoundButton.isChecked()){
                         lnv.setChecked(false);
+                        try {
+                            jsonObject2.remove(couponday + "lunmt");
+                            jsonObject2.put(couponday + "lunmt","veg");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             });
@@ -114,6 +156,12 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     if(compoundButton.isChecked()){
                         dv.setChecked(false);
+                        try {
+                            jsonObject2.remove(couponday + "dinmt");
+                            jsonObject2.put(couponday + "dinmt","nonveg");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             });
@@ -122,6 +170,12 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     if(compoundButton.isChecked()){
                         dnv.setChecked(false);
+                        try {
+                            jsonObject2.remove(couponday + "dinmt");
+                            jsonObject2.put(couponday + "dinmt","veg");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             });
@@ -132,10 +186,28 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
                     if(compoundButton.isChecked()){
                         bnv.setVisibility(View.VISIBLE);
                         bv.setVisibility(View.VISIBLE);
+                        try {
+                            jsonObject2.remove(couponday + "bfmt");
+                            jsonObject2.remove(couponday + "bf");
+                            jsonObject2.put(couponday + "bfmt","veg");
+                            jsonObject2.put(couponday + "bf",couponcode);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                     else if(!compoundButton.isChecked()){
                         bnv.setVisibility(View.INVISIBLE);
                         bv.setVisibility(View.INVISIBLE);
+                        try {
+                            jsonObject2.remove(couponday + "bfmt");
+                            jsonObject2.remove(couponday + "bf");
+                            jsonObject2.put(couponday + "bfmt","veg");
+                            jsonObject2.put(couponday + "bf",1);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             });
@@ -145,10 +217,28 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
                     if(compoundButton.isChecked()){
                         lnv.setVisibility(View.VISIBLE);
                         lv.setVisibility(View.VISIBLE);
+                        try {
+                            jsonObject2.remove(couponday + "lunmt");
+                            jsonObject2.remove(couponday + "lun");
+                            jsonObject2.put(couponday + "lunmt","veg");
+                            jsonObject2.put(couponday + "lun",couponcode);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                     else if(!compoundButton.isChecked()){
                         lnv.setVisibility(View.INVISIBLE);
                         lv.setVisibility(View.INVISIBLE);
+                        try {
+                            jsonObject2.remove(couponday + "lunmt");
+                            jsonObject2.remove(couponday + "lun");
+                            jsonObject2.put(couponday + "lunmt","veg");
+                            jsonObject2.put(couponday + "lun",1);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             });
@@ -158,13 +248,32 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
                     if(compoundButton.isChecked()){
                         dnv.setVisibility(View.VISIBLE);
                         dv.setVisibility(View.VISIBLE);
+                        try {
+                            jsonObject2.remove(couponday + "dinmt");
+                            jsonObject2.remove(couponday + "din");
+                            jsonObject2.put(couponday + "dinmt","veg");
+                            jsonObject2.put(couponday + "din",couponcode);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                     else if(!compoundButton.isChecked()){
                         dnv.setVisibility(View.INVISIBLE);
                         dv.setVisibility(View.INVISIBLE);
+                        try {
+                            jsonObject2.remove(couponday + "dinmt");
+                            jsonObject2.remove(couponday + "din");
+                            jsonObject2.put(couponday + "dinmt","veg");
+                            jsonObject2.put(couponday + "din",1);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             });
+
             CardView brk = (CardView)v.findViewById(R.id.brk);
             CardView lnch = (CardView)v.findViewById(R.id.lnch);
             CardView dnnr = (CardView)v.findViewById(R.id.dnnr);
@@ -291,5 +400,8 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
             return v;
         }
 
+    }
+    public JSONObject getJsonObject() {
+        return jsonObject2;
     }
 }
