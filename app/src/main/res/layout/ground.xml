@@ -64,19 +64,8 @@
         android:id="@+id/menu"
         android:divider="@null"
         android:dividerHeight="0dp"
-        android:layout_weight="1"
         />
 
-    <Button
-        android:id="@+id/bookm1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:background="@drawable/round_button"
-        android:layout_margin="5dp"
-        android:textColor="#fff"
-        android:textStyle="bold"
-        android:text="Book coupon for Ground Floor Mess" />
 
 
 </LinearLayout>
