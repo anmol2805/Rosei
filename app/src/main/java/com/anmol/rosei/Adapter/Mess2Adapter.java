@@ -74,9 +74,9 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
             final RadioButton lv = (RadioButton)v.findViewById(R.id.lv);
             final RadioButton dnv = (RadioButton)v.findViewById(R.id.dnv);
             final RadioButton dv = (RadioButton)v.findViewById(R.id.dv);
-            bnv.setChecked(true);
-            lnv.setChecked(true);
-            dnv.setChecked(true);
+            bv.setChecked(true);
+            lv.setChecked(true);
+            dv.setChecked(true);
             bnv.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {

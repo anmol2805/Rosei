@@ -11,20 +11,30 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.anmol.rosei.Adapter.Mess1Adapter;
 import com.anmol.rosei.Adapter.Mess2Adapter;
 import com.anmol.rosei.Book_Activity;
 import com.anmol.rosei.Model.mess1;
+import com.anmol.rosei.Mysingleton;
 import com.anmol.rosei.R;
 import com.anmol.rosei.Services.RequestService;
 import com.anmol.rosei.Services.RequestServiceStatus;
+import com.anmol.rosei.TestActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +50,7 @@ public class ground extends Fragment {
     List<mess1>mess1s = new ArrayList<>();
     FirebaseAuth auth = FirebaseAuth.getInstance();
     TextView amt1,total;
+    Button bookm1;
     DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("students").child(auth.getCurrentUser().getUid());
     @Nullable
     @Override
@@ -49,6 +60,7 @@ public class ground extends Fragment {
         list = (ListView)v.findViewById(R.id.menu);
         amt1 = (TextView)v.findViewById(R.id.amt1);
         total = (TextView)v.findViewById(R.id.total);
+        bookm1 = (Button)v.findViewById(R.id.bookm1);
         Intent intent = new Intent(getActivity(), RequestService.class);
         getActivity().startService(intent);
         Handler handler = new Handler();
@@ -119,6 +131,48 @@ public class ground extends Fragment {
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
+            }
+        });
+        bookm1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final JSONObject jsonObject = mess1Adapter.getJsonObject();
+                System.out.println("jsonobj:" + jsonObject);
+                db.child("rosei").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot!=null && dataSnapshot.child("sid").getValue(String.class)!=null && dataSnapshot.child("pwd").getValue(String.class)!=null) {
+                            String sid = dataSnapshot.child("sid").getValue(String.class);
+                            String pwd = dataSnapshot.child("pwd").getValue(String.class);
+                            try {
+                                jsonObject.put("un",sid);
+                                jsonObject.put("pw",pwd);
+                                jsonObject.put("pass","encrypt");
+                                jsonObject.put("check",1);
+                                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, "http://14.139.198.171/api/rosei/booking", jsonObject, new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+
+                                    }
+                                }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        Toast.makeText(getActivity(),"Error occured",Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                                Mysingleton.getInstance(getActivity()).addToRequestqueue(jsonObjectRequest);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
         return v;

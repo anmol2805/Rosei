@@ -22,19 +22,19 @@
         <activity android:name=".LoginActivity" />
         <activity
             android:name=".RoseiActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".Book_Activity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <service android:name=".Services.RequestService" />
+        <service android:name=".Services.RequestServiceStatus" />
+        <service android:name=".Services.MessStatusService" />
+        <service android:name=".Services.MessStatusService2" />
+
+        <activity android:name=".TestActivity">
 
         </activity>
-        <activity android:name=".Book_Activity"
-            android:theme="@style/AppTheme.NoActionBar"
-            >
-
-        </activity>
-
-        <service android:name=".Services.RequestService"/>
-        <service android:name=".Services.RequestServiceStatus"/>
-        <service android:name=".Services.MessStatusService"/>
-        <service android:name=".Services.MessStatusService2"/>
     </application>
 
 </manifest>
