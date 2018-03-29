@@ -44,7 +44,7 @@ public class first extends Fragment {
     Button load;
     ListView list;
     FirebaseAuth auth = FirebaseAuth.getInstance();
-    DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("students").child(auth.getCurrentUser().getUid()).child("messStatus");
+    DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("students").child(auth.getCurrentUser().getUid());
     List<mess2>mess2s = new ArrayList<>();
     Mess2Adapter mess2Adapter;
     TextView amt2,total;
@@ -71,7 +71,7 @@ public class first extends Fragment {
                 getActivity().startService(intent1);
             }
         },1000);
-        db.addValueEventListener(new ValueEventListener() {
+        db.child("messStatus").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.child("amount2").getValue(String.class)!=null){
@@ -95,7 +95,7 @@ public class first extends Fragment {
                 getActivity().startService(intent);
             }
         });
-        db.child("mess2").addValueEventListener(new ValueEventListener() {
+        db.child("messStatus").child("mess2").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mess2s.clear();
@@ -144,15 +144,15 @@ public class first extends Fragment {
                             String pwd = dataSnapshot.child("pwd").getValue(String.class);
                             try {
                                 jsonObject.put("un",sid);
-                                jsonObject.put("pw","anmol@2805");
-                                //jsonObject.put("pass","encrypt");
+                                jsonObject.put("pw",pwd);
+                                jsonObject.put("pass","encrypt");
                                 jsonObject.put("check",2);
                                 System.out.println("jsonobj:" + jsonObject);
                                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, "http://14.139.198.171/api/rosei/booking", jsonObject, new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
-                                        Intent intent1 = new Intent(getActivity(), MessStatusService2.class);
-                                        getActivity().startService(intent1);
+//                                        Intent intent1 = new Intent(getActivity(), MessStatusService2.class);
+//                                        getActivity().startService(intent1);
                                     }
                                 }, new Response.ErrorListener() {
                                     @Override
