@@ -1,10 +1,8 @@
 package com.anmol.rosei;
 
-import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
-import android.provider.ContactsContract;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,7 +16,6 @@ import android.widget.Toast;
 
 import com.anmol.rosei.Services.MessStatusService;
 import com.anmol.rosei.Services.MessStatusService2;
-import com.anmol.rosei.Services.RequestService;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;

@@ -10,16 +10,11 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import com.anmol.rosei.Services.RequestService;
+import com.anmol.rosei.Services.MessStatusService;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -68,7 +63,7 @@ public class SplashActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     // service to receive weekly menu
-                    Intent i = new Intent(SplashActivity.this, RequestService.class);
+                    Intent i = new Intent(SplashActivity.this, MessStatusService.class);
                     startService(i);
                     progressBar.setVisibility(View.INVISIBLE);
                     Intent intent = new Intent(SplashActivity.this, RoseiActivity.class);

@@ -2,15 +2,12 @@ package com.anmol.rosei;
 
 import android.app.FragmentManager;
 import android.content.Intent;
-import android.graphics.Color;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.anmol.rosei.Adapter.Mess1Adapter;
@@ -19,15 +16,10 @@ import com.anmol.rosei.Fragments.first;
 import com.anmol.rosei.Fragments.ground;
 import com.anmol.rosei.Model.mess1;
 import com.anmol.rosei.Model.mess2;
-import com.anmol.rosei.Services.PostObjectService;
-import com.anmol.rosei.Services.RequestService;
-import com.anmol.rosei.Services.RequestServiceStatus;
+import com.anmol.rosei.Services.MessStatusService;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +50,7 @@ public class Book_Activity extends AppCompatActivity {
         m2.setTextColor(getResources().getColor(R.color.colorPrimary));
         m1.setTextColor(getResources().getColor(R.color.white));
         m1.setBackground(getResources().getDrawable(R.drawable.round_button));
-        Intent intent = new Intent(Book_Activity.this, RequestService.class);
+        Intent intent = new Intent(Book_Activity.this, MessStatusService.class);
         startService(intent);
         FragmentManager fm = getFragmentManager();
         fm.beginTransaction().replace(R.id.content,new ground()).commit();
@@ -97,8 +89,6 @@ public class Book_Activity extends AppCompatActivity {
 
             }
         });
-//        Intent intent1 = new Intent(Book_Activity.this,PostObjectService.class);
-//        startService(intent1);
 
 
 

@@ -18,14 +18,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.anmol.rosei.Adapter.Mess1Adapter;
-import com.anmol.rosei.Adapter.Mess2Adapter;
-import com.anmol.rosei.Book_Activity;
 import com.anmol.rosei.Model.mess1;
 import com.anmol.rosei.Mysingleton;
 import com.anmol.rosei.R;
-import com.anmol.rosei.Services.RequestService;
-import com.anmol.rosei.Services.RequestServiceStatus;
-import com.anmol.rosei.TestActivity;
+import com.anmol.rosei.Services.MessStatusService;
+import com.anmol.rosei.Services.MessStatusService2;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -64,13 +61,13 @@ public class ground extends Fragment {
         ViewGroup footer = (ViewGroup)layoutInflater.inflate(R.layout.footer,list,false);
         list.addFooterView(footer,null,false);
         bookm1 = (Button)footer.findViewById(R.id.bookm1);
-        Intent intent = new Intent(getActivity(), RequestService.class);
+        Intent intent = new Intent(getActivity(), MessStatusService.class);
         getActivity().startService(intent);
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent1 = new Intent(getActivity(), RequestServiceStatus.class);
+                Intent intent1 = new Intent(getActivity(), MessStatusService2.class);
                 getActivity().startService(intent1);
             }
         },1000);
@@ -94,7 +91,7 @@ public class ground extends Fragment {
             @Override
             public void onClick(View view) {
                 load.setVisibility(View.GONE);
-                Intent intent = new Intent(getActivity(), RequestService.class);
+                Intent intent = new Intent(getActivity(), MessStatusService.class);
                 getActivity().startService(intent);
             }
         });
