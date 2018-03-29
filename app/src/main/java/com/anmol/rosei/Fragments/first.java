@@ -44,7 +44,7 @@ public class first extends Fragment {
     Button load;
     ListView list;
     FirebaseAuth auth = FirebaseAuth.getInstance();
-    DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("students").child(auth.getCurrentUser().getUid());
+    DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("students").child(auth.getCurrentUser().getUid()).child("messStatus");
     List<mess2>mess2s = new ArrayList<>();
     Mess2Adapter mess2Adapter;
     TextView amt2,total;
@@ -95,7 +95,7 @@ public class first extends Fragment {
                 getActivity().startService(intent);
             }
         });
-        db.child("messStatus").child("mess2").addValueEventListener(new ValueEventListener() {
+        db.child("mess2").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mess2s.clear();
@@ -151,7 +151,8 @@ public class first extends Fragment {
                                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, "http://14.139.198.171/api/rosei/booking", jsonObject, new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
-
+                                        Intent intent1 = new Intent(getActivity(), MessStatusService2.class);
+                                        getActivity().startService(intent1);
                                     }
                                 }, new Response.ErrorListener() {
                                     @Override

@@ -48,7 +48,7 @@ public class ground extends Fragment {
     FirebaseAuth auth = FirebaseAuth.getInstance();
     TextView amt1,total;
     Button bookm1;
-    DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("students").child(auth.getCurrentUser().getUid());
+    DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("students").child(auth.getCurrentUser().getUid()).child("messStatus");
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -95,7 +95,7 @@ public class ground extends Fragment {
                 getActivity().startService(intent);
             }
         });
-        db.child("messStatus").child("mess1").addValueEventListener(new ValueEventListener() {
+        db.child("mess1").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mess1s.clear();
@@ -153,7 +153,8 @@ public class ground extends Fragment {
                                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, "http://14.139.198.171/api/rosei/booking", jsonObject, new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
-
+                                        Intent intent1 = new Intent(getActivity(), MessStatusService2.class);
+                                        getActivity().startService(intent1);
                                     }
                                 }, new Response.ErrorListener() {
                                     @Override
