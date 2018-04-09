@@ -6,6 +6,8 @@ import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -14,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.anmol.rosei.Adapter.GridAdapter;
 import com.anmol.rosei.Model.MessStatus;
 import com.anmol.rosei.Services.MessStatusService;
 import com.anmol.rosei.Services.MessStatusService2;
@@ -52,6 +55,8 @@ public class RoseiActivity extends AppCompatActivity {
     Button logout;
     private static long back_pressed;
     List<MessStatus> messStatuses = new ArrayList<>();
+    RecyclerView gridview;
+    GridAdapter gridAdapter;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +67,9 @@ public class RoseiActivity extends AppCompatActivity {
         user = (CircleImageView)findViewById(R.id.user);
         stuid = (TextView)findViewById(R.id.stuid);
         logout = (Button)findViewById(R.id.logout);
+        gridview = (RecyclerView)findViewById(R.id.gridrecycler);
+        gridview.setHasFixedSize(true);
+        gridview.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
         // booking activity
         book.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -250,6 +258,10 @@ public class RoseiActivity extends AppCompatActivity {
                             MessStatus messStatus = new MessStatus(bs,ls,ds,date);
                             messStatuses.add(messStatus);
                         }
+                     }
+                     if (!messStatuses.isEmpty()){
+                         gridAdapter = new GridAdapter(RoseiActivity.this,messStatuses);
+                         gridview.setAdapter(gridAdapter);
                      }
 
                 }
