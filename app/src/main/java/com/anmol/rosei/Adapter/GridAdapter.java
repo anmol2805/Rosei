@@ -43,7 +43,9 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.MyViewHolder> 
         Button bs,ls,ds;
         public MyViewHolder(View itemView) {
             super(itemView);
-
+            bs = itemView.findViewById(R.id.bs);
+            ls = itemView.findViewById(R.id.ls);
+            ds = itemView.findViewById(R.id.ds);
         }
 
 
