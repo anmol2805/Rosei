@@ -25,9 +25,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -35,6 +39,8 @@ public class RoseiActivity extends AppCompatActivity {
     FirebaseAuth auth = FirebaseAuth.getInstance();
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("students").child(auth.getCurrentUser().getUid()).child("rosei");
     DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("students").child(auth.getCurrentUser().getUid()).child("mess1");
+    DatabaseReference updb = FirebaseDatabase.getInstance().getReference().child("students").child(auth.getCurrentUser().getUid()).child("UpcomingWeek");
+    DatabaseReference predb = FirebaseDatabase.getInstance().getReference().child("students").child(auth.getCurrentUser().getUid()).child("PresentWeek");
     Animation rotate;
     Button book;
     ImageButton set;
@@ -43,7 +49,7 @@ public class RoseiActivity extends AppCompatActivity {
     Button logout;
     private static long back_pressed;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rosei);
         rotate = AnimationUtils.loadAnimation(RoseiActivity.this,R.anim.rotate);
@@ -128,50 +134,50 @@ public class RoseiActivity extends AppCompatActivity {
         String min = String.valueOf(ctime.charAt(3))+String.valueOf(ctime.charAt(4));
         int mn = Integer.parseInt(min);
 
-        db.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot data:dataSnapshot.getChildren()){
-                    if(data.child("date").getValue(String.class)!=null){
-                        String date = data.child("date").getValue(String.class);
-                        if(date.contains(cdate)){
-                            if(hour<9){
-                                String mess = data.child("bs").getValue(String.class);
-                                if(!mess.contains("NotIssued")){
-                                    String menu = data.child("brkfast").getValue(String.class);
-                                }else{
-
-                                }
-                            }
-                            else if(hour>9 && hour<14){
-                                String mess = data.child("ls").getValue(String.class);
-                                if(!mess.contains("NotIssued")){
-                                    String menu = data.child("lnch").getValue(String.class);
-                                }else{
-
-                                }
-                            }
-                            else if(hour>14 && hour<22){
-                                String mess = data.child("ds").getValue(String.class);
-                                if(!mess.contains("NotIssued")){
-                                    String menu = data.child("dinnr").getValue(String.class);
-                                }else{
-
-                                }
-                            }
-                        }
-
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+//        db.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                for (DataSnapshot data:dataSnapshot.getChildren()){
+//                    if(data.child("date").getValue(String.class)!=null){
+//                        String date = data.child("date").getValue(String.class);
+//                        if(date.contains(cdate)){
+//                            if(hour<9){
+//                                String mess = data.child("bs").getValue(String.class);
+//                                if(!mess.contains("NotIssued")){
+//                                    String menu = data.child("brkfast").getValue(String.class);
+//                                }else{
+//
+//                                }
+//                            }
+//                            else if(hour>9 && hour<14){
+//                                String mess = data.child("ls").getValue(String.class);
+//                                if(!mess.contains("NotIssued")){
+//                                    String menu = data.child("lnch").getValue(String.class);
+//                                }else{
+//
+//                                }
+//                            }
+//                            else if(hour>14 && hour<22){
+//                                String mess = data.child("ds").getValue(String.class);
+//                                if(!mess.contains("NotIssued")){
+//                                    String menu = data.child("dinnr").getValue(String.class);
+//                                }else{
+//
+//                                }
+//                            }
+//                        }
+//
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
-        Date d = new Date();
+        final Date d = new Date();
         String dayOfTheWeek = sdf.format(d);
         if(dayOfTheWeek.contains("Sunday")){
 
@@ -186,7 +192,64 @@ public class RoseiActivity extends AppCompatActivity {
                 startService(i2);
             }
         },1000);
+        updb.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot!=null && dataSnapshot.child(String.valueOf("0"))!=null && dataSnapshot.child(String.valueOf("0")).child("date").getValue(String.class)!=null){
+                    String date = dataSnapshot.child(String.valueOf("0")).child("date").getValue(String.class);
+                    date = date.substring(0,10);
+                    System.out.println("coupondate:" + date);
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    try {
+                        Date changedate = simpleDateFormat.parse(date);
+                        System.out.println("coupondate:" + changedate);
+                        Date onedaybefore = new Date(changedate.getTime() - 2);
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        String stringodf = sdf.format(onedaybefore);
+                        stringodf = stringodf.substring(0,10);
+                        stringodf = stringodf + " 21:45:00";
+                        onedaybefore = sdf.parse(stringodf);
+                        System.out.println("onedaybefore:" + onedaybefore);
+                        Date currenttime = Calendar.getInstance().getTime();
+                        if (currenttime.after(onedaybefore)){
+                            System.out.println("swap database");
+                            for(int i = 0;i<7;i++){
+                                movePres(updb.child(String.valueOf(i)),predb.child(String.valueOf(i)));
+                                updb.child(String.valueOf(i)).removeValue();
+                            }
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    System.out.println("document is null");
+                }
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        predb.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot!=null){
+                     for(int i = 0;i<7;i++){
+                        if(dataSnapshot.child(String.valueOf(i))!=null)  {
+
+                        }
+                     }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
     }
 
@@ -202,4 +265,29 @@ public class RoseiActivity extends AppCompatActivity {
             back_pressed = System.currentTimeMillis();
         }
     }
+    private void movePres(final DatabaseReference fromPath, final DatabaseReference toPath) {
+        fromPath.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                toPath.setValue(dataSnapshot.getValue(), new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError firebaseError, DatabaseReference firebase) {
+                        if (firebaseError != null) {
+                            System.out.println("Copy failed");
+                        } else {
+                            System.out.println("Success");
+
+                        }
+                    }
+                });
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 }
