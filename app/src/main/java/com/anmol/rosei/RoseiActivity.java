@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.anmol.rosei.Model.MessStatus;
 import com.anmol.rosei.Services.MessStatusService;
 import com.anmol.rosei.Services.MessStatusService2;
 import com.bumptech.glide.Glide;
@@ -29,8 +30,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -48,6 +51,7 @@ public class RoseiActivity extends AppCompatActivity {
     CircleImageView user;
     Button logout;
     private static long back_pressed;
+    List<MessStatus> messStatuses = new ArrayList<>();
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -178,7 +182,7 @@ public class RoseiActivity extends AppCompatActivity {
 //        });
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
         final Date d = new Date();
-        String dayOfTheWeek = sdf.format(d);
+        final String dayOfTheWeek = sdf.format(d);
         if(dayOfTheWeek.contains("Sunday")){
 
         }
@@ -239,9 +243,15 @@ public class RoseiActivity extends AppCompatActivity {
                 if(dataSnapshot!=null){
                      for(int i = 0;i<7;i++){
                         if(dataSnapshot.child(String.valueOf(i))!=null)  {
-
+                            String bs = dataSnapshot.child(String.valueOf(i)).child("bs").getValue(String.class);
+                            String ls = dataSnapshot.child(String.valueOf(i)).child("ls").getValue(String.class);
+                            String ds = dataSnapshot.child(String.valueOf(i)).child("ds").getValue(String.class);
+                            String date = dataSnapshot.child(String.valueOf(i)).child("date").getValue(String.class);
+                            MessStatus messStatus = new MessStatus(bs,ls,ds,date);
+                            messStatuses.add(messStatus);
                         }
                      }
+
                 }
             }
 
