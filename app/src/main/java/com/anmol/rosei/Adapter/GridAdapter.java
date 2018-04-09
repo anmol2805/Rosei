@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.anmol.rosei.Model.MessStatus;
@@ -39,8 +40,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.MyViewHolder> 
     }
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
-        ImageView mimg;
-        ImageView picon;
+        Button bs,ls,ds;
         public MyViewHolder(View itemView) {
             super(itemView);
 
