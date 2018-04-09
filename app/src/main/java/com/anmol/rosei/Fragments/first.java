@@ -23,6 +23,7 @@ import com.anmol.rosei.Mysingleton;
 import com.anmol.rosei.R;
 import com.anmol.rosei.Services.MessStatusService;
 import com.anmol.rosei.Services.MessStatusService2;
+import com.anmol.rosei.Services.UpcomingWeekService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -117,6 +118,52 @@ public class first extends Fragment {
                     if(!mess2Adapter.isEmpty()){
                         load.setVisibility(View.GONE);
                         list.setAdapter(mess2Adapter);
+                        bookm2.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                final JSONObject jsonObject = mess2Adapter.getJsonObject();
+                                System.out.println("jsonobj:" + jsonObject);
+                                db.child("rosei").addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if(dataSnapshot!=null && dataSnapshot.child("sid").getValue(String.class)!=null && dataSnapshot.child("pwd").getValue(String.class)!=null) {
+                                            String sid = dataSnapshot.child("sid").getValue(String.class);
+                                            String pwd = dataSnapshot.child("pwd").getValue(String.class);
+                                            try {
+                                                jsonObject.put("un",sid);
+                                                jsonObject.put("pw",pwd);
+                                                jsonObject.put("pass","encrypt");
+                                                jsonObject.put("check",2);
+                                                System.out.println("jsonobj:" + jsonObject);
+                                                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, "http://14.139.198.171/api/rosei/booking", jsonObject, new Response.Listener<JSONObject>() {
+                                                    @Override
+                                                    public void onResponse(JSONObject response) {
+                                                        Intent intent = new Intent(getActivity(),UpcomingWeekService.class);
+                                                        getActivity().startService(intent);
+                                                        Intent intent1 = new Intent(getActivity(), MessStatusService2.class);
+                                                        getActivity().startService(intent1);
+                                                    }
+                                                }, new Response.ErrorListener() {
+                                                    @Override
+                                                    public void onErrorResponse(VolleyError error) {
+                                                        Toast.makeText(getActivity(),"Error occured",Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                                Mysingleton.getInstance(getActivity()).addToRequestqueue(jsonObjectRequest);
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+                            }
+                        });
                     }
                     else{
                         load.setVisibility(View.VISIBLE);
@@ -131,50 +178,7 @@ public class first extends Fragment {
 
             }
         });
-        bookm2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final JSONObject jsonObject = mess2Adapter.getJsonObject();
-                System.out.println("jsonobj:" + jsonObject);
-                db.child("rosei").addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if(dataSnapshot!=null && dataSnapshot.child("sid").getValue(String.class)!=null && dataSnapshot.child("pwd").getValue(String.class)!=null) {
-                            String sid = dataSnapshot.child("sid").getValue(String.class);
-                            String pwd = dataSnapshot.child("pwd").getValue(String.class);
-                            try {
-                                jsonObject.put("un",sid);
-                                jsonObject.put("pw",pwd);
-                                jsonObject.put("pass","encrypt");
-                                jsonObject.put("check",2);
-                                System.out.println("jsonobj:" + jsonObject);
-                                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, "http://14.139.198.171/api/rosei/booking", jsonObject, new Response.Listener<JSONObject>() {
-                                    @Override
-                                    public void onResponse(JSONObject response) {
-//                                        Intent intent1 = new Intent(getActivity(), MessStatusService2.class);
-//                                        getActivity().startService(intent1);
-                                    }
-                                }, new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-                                        Toast.makeText(getActivity(),"Error occured",Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                                Mysingleton.getInstance(getActivity()).addToRequestqueue(jsonObjectRequest);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
 
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-            }
-        });
         return v;
     }
 }
