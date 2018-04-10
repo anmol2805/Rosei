@@ -85,10 +85,10 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.MyViewHolder> 
             if(messStatuses.get(position).getDinner().contains("1")){
                 holder.dst.setText("1");
                 if(messStatuses.get(position).getDinner().contains("N")){
-                    holder.ds.setBackgroundColor(c.getResources().getColor(R.color.nonveg));
+                    holder.ds.setCardBackgroundColor(c.getResources().getColor(R.color.nonveg));
                 }
                 else if(messStatuses.get(position).getDinner().contains("V")){
-                    holder.ds.setBackgroundColor(c.getResources().getColor(R.color.veg));
+                    holder.ds.setCardBackgroundColor(c.getResources().getColor(R.color.veg));
                 }
             }
             else if(messStatuses.get(position).getDinner().contains("2")){
@@ -117,12 +117,12 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.MyViewHolder> 
         TextView bst,lst,dst;
         public MyViewHolder(View itemView) {
             super(itemView);
-            bs = itemView.findViewById(R.id.bs);
-            ls = itemView.findViewById(R.id.ls);
-            ds = itemView.findViewById(R.id.ds);
-            bst = itemView.findViewById(R.id.bst);
-            lst = itemView.findViewById(R.id.lst);
-            dst = itemView.findViewById(R.id.dst);
+            bs = (CardView) itemView.findViewById(R.id.bs);
+            ls = (CardView) itemView.findViewById(R.id.ls);
+            ds = (CardView)itemView.findViewById(R.id.ds);
+            bst = (TextView) itemView.findViewById(R.id.bst);
+            lst = (TextView) itemView.findViewById(R.id.lst);
+            dst = (TextView) itemView.findViewById(R.id.dst);
         }
 
 
