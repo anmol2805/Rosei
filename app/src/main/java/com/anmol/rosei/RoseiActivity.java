@@ -267,7 +267,7 @@ public class RoseiActivity extends AppCompatActivity {
                             MessStatus messStatus = new MessStatus(bs,ls,ds,date);
                             messStatuses.add(messStatus);
                             String daydate = date.substring(0,10);
-                            String day = date.substring(12,15);
+                            String day = date.substring(11,14);
                             String breakfastdate = daydate + " 09:45:00";
                             String lunchdate = daydate + " 14:45:00";
                             String dinnerdate = daydate + " 21:45:00";
@@ -298,9 +298,9 @@ public class RoseiActivity extends AppCompatActivity {
                                 else if(ds.contains("2")){
                                     dmess = "First floor Mess";
                                 }
-                                Coupon bfcoupon = new Coupon("Breakfast",bmess,daydate,day);
-                                Coupon lnccoupon = new Coupon("Lunch",lmess,daydate,day);
-                                Coupon dincoupon = new Coupon("Dinner",dmess,daydate,day);
+                                Coupon bfcoupon = new Coupon("Breakfast",bmess,day,daydate);
+                                Coupon lnccoupon = new Coupon("Lunch",lmess,day,daydate);
+                                Coupon dincoupon = new Coupon("Dinner",dmess,day,daydate);
                                 if(todaydate.before(bfdate)){
                                     if(!bmess.contains("notissued")){
                                         coupons.add(bfcoupon);
