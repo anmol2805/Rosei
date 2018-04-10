@@ -33,6 +33,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(final GridAdapter.MyViewHolder holder, int position) {
+        holder.day.setText(messStatuses.get(position).getDay());
         if(!messStatuses.get(position).getBreakfast().contains("NotIssued")){
             if(messStatuses.get(position).getBreakfast().contains("1")){
                 holder.bst.setText("1");
@@ -114,9 +115,10 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.MyViewHolder> 
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
         CardView bs,ls,ds;
-        TextView bst,lst,dst;
+        TextView bst,lst,dst,day;
         public MyViewHolder(View itemView) {
             super(itemView);
+            day = (TextView)itemView.findViewById(R.id.day);
             bs = (CardView) itemView.findViewById(R.id.bs);
             ls = (CardView) itemView.findViewById(R.id.ls);
             ds = (CardView)itemView.findViewById(R.id.ds);

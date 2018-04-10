@@ -264,10 +264,11 @@ public class RoseiActivity extends AppCompatActivity {
                             String ls = dataSnapshot.child(String.valueOf(i)).child("ls").getValue(String.class);
                             String ds = dataSnapshot.child(String.valueOf(i)).child("ds").getValue(String.class);
                             String date = dataSnapshot.child(String.valueOf(i)).child("date").getValue(String.class);
-                            MessStatus messStatus = new MessStatus(bs,ls,ds,date);
+                            String day = date.substring(11,14);
+                            MessStatus messStatus = new MessStatus(bs,ls,ds,date,day);
                             messStatuses.add(messStatus);
                             String daydate = date.substring(0,10);
-                            String day = date.substring(11,14);
+
                             String breakfastdate = daydate + " 09:45:00";
                             String lunchdate = daydate + " 14:45:00";
                             String dinnerdate = daydate + " 21:45:00";

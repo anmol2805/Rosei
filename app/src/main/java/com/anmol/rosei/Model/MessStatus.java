@@ -5,16 +5,17 @@ package com.anmol.rosei.Model;
  */
 
 public class MessStatus {
-    String breakfast,lunch,dinner,coupondate;
+    String breakfast,lunch,dinner,coupondate,day;
 
     public MessStatus() {
     }
 
-    public MessStatus(String breakfast, String lunch, String dinner,String coupondate) {
+    public MessStatus(String breakfast, String lunch, String dinner,String coupondate,String day) {
         this.breakfast = breakfast;
         this.lunch = lunch;
         this.dinner = dinner;
         this.coupondate = coupondate;
+        this.day = day;
     }
 
     public String getBreakfast() {
@@ -47,5 +48,13 @@ public class MessStatus {
 
     public void setcoupondate(String coupondate) {
         this.coupondate = coupondate;
+    }
+
+    public String getDay() {
+        return day;
+    }
+
+    public void setDay(String day) {
+        this.day = day;
     }
 }
