@@ -37,49 +37,49 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.MyViewHolder> 
             if(messStatuses.get(position).getBreakfast().contains("1")){
                 holder.bst.setText("1");
                 if(messStatuses.get(position).getBreakfast().contains("N")){
-                    holder.bs.setBackgroundColor(c.getResources().getColor(R.color.nonveg));
+                    holder.bs.setCardBackgroundColor(c.getResources().getColor(R.color.nonveg));
                 }
                 else if(messStatuses.get(position).getBreakfast().contains("V")){
-                    holder.bs.setBackgroundColor(c.getResources().getColor(R.color.veg));
+                    holder.bs.setCardBackgroundColor(c.getResources().getColor(R.color.veg));
                 }
             }
             else if(messStatuses.get(position).getBreakfast().contains("2")){
                 holder.bst.setText("2");
                 if(messStatuses.get(position).getBreakfast().contains("N")){
-                    holder.bs.setBackgroundColor(c.getResources().getColor(R.color.nonveg));
+                    holder.bs.setCardBackgroundColor(c.getResources().getColor(R.color.nonveg));
                 }
                 else if(messStatuses.get(position).getBreakfast().contains("V")){
-                    holder.bs.setBackgroundColor(c.getResources().getColor(R.color.veg));
+                    holder.bs.setCardBackgroundColor(c.getResources().getColor(R.color.veg));
                 }
             }
         }
         else{
             holder.bst.setText("");
-            holder.bs.setBackgroundColor(c.getResources().getColor(R.color.dull));
+            holder.bs.setCardBackgroundColor(c.getResources().getColor(R.color.dull));
         }
         if(!messStatuses.get(position).getLunch().contains("NotIssued")){
             if(messStatuses.get(position).getLunch().contains("1")){
                 holder.lst.setText("1");
                 if(messStatuses.get(position).getLunch().contains("N")){
-                    holder.ls.setBackgroundColor(c.getResources().getColor(R.color.nonveg));
+                    holder.ls.setCardBackgroundColor(c.getResources().getColor(R.color.nonveg));
                 }
                 else if(messStatuses.get(position).getLunch().contains("V")){
-                    holder.ls.setBackgroundColor(c.getResources().getColor(R.color.veg));
+                    holder.ls.setCardBackgroundColor(c.getResources().getColor(R.color.veg));
                 }
             }
             else if(messStatuses.get(position).getLunch().contains("2")){
                 holder.lst.setText("2");
                 if(messStatuses.get(position).getLunch().contains("N")){
-                    holder.ls.setBackgroundColor(c.getResources().getColor(R.color.nonveg));
+                    holder.ls.setCardBackgroundColor(c.getResources().getColor(R.color.nonveg));
                 }
                 else if(messStatuses.get(position).getLunch().contains("V")){
-                    holder.ls.setBackgroundColor(c.getResources().getColor(R.color.veg));
+                    holder.ls.setCardBackgroundColor(c.getResources().getColor(R.color.veg));
                 }
             }
         }
         else{
             holder.lst.setText("");
-            holder.ls.setBackgroundColor(c.getResources().getColor(R.color.dull));
+            holder.ls.setCardBackgroundColor(c.getResources().getColor(R.color.dull));
         }
         if(!messStatuses.get(position).getDinner().contains("NotIssued")){
             if(messStatuses.get(position).getDinner().contains("1")){
@@ -94,16 +94,16 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.MyViewHolder> 
             else if(messStatuses.get(position).getDinner().contains("2")){
                 holder.dst.setText("2");
                 if(messStatuses.get(position).getDinner().contains("N")){
-                    holder.ds.setBackgroundColor(c.getResources().getColor(R.color.nonveg));
+                    holder.ds.setCardBackgroundColor(c.getResources().getColor(R.color.nonveg));
                 }
                 else if(messStatuses.get(position).getDinner().contains("V")){
-                    holder.ds.setBackgroundColor(c.getResources().getColor(R.color.veg));
+                    holder.ds.setCardBackgroundColor(c.getResources().getColor(R.color.veg));
                 }
             }
         }
         else{
             holder.dst.setText("");
-            holder.ds.setBackgroundColor(c.getResources().getColor(R.color.dull));
+            holder.ds.setCardBackgroundColor(c.getResources().getColor(R.color.dull));
         }
     }
 
