@@ -1,12 +1,14 @@
 package com.anmol.rosei.Adapter;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.anmol.rosei.Model.MessStatus;
 import com.anmol.rosei.R;
@@ -33,7 +35,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.MyViewHolder> 
     public void onBindViewHolder(final GridAdapter.MyViewHolder holder, int position) {
         if(!messStatuses.get(position).getBreakfast().contains("NotIssued")){
             if(messStatuses.get(position).getBreakfast().contains("1")){
-                holder.bs.setText("G");
+                holder.bst.setText("1");
                 if(messStatuses.get(position).getBreakfast().contains("N")){
                     holder.bs.setBackgroundColor(c.getResources().getColor(R.color.nonveg));
                 }
@@ -42,7 +44,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.MyViewHolder> 
                 }
             }
             else if(messStatuses.get(position).getBreakfast().contains("2")){
-                holder.bs.setText("1");
+                holder.bst.setText("2");
                 if(messStatuses.get(position).getBreakfast().contains("N")){
                     holder.bs.setBackgroundColor(c.getResources().getColor(R.color.nonveg));
                 }
@@ -52,12 +54,12 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.MyViewHolder> 
             }
         }
         else{
-            holder.bs.setText("");
-            holder.bs.setBackgroundColor(c.getResources().getColor(R.color.white));
+            holder.bst.setText("");
+            holder.bs.setBackgroundColor(c.getResources().getColor(R.color.dull));
         }
         if(!messStatuses.get(position).getLunch().contains("NotIssued")){
             if(messStatuses.get(position).getLunch().contains("1")){
-                holder.ls.setText("G");
+                holder.lst.setText("1");
                 if(messStatuses.get(position).getLunch().contains("N")){
                     holder.ls.setBackgroundColor(c.getResources().getColor(R.color.nonveg));
                 }
@@ -66,7 +68,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.MyViewHolder> 
                 }
             }
             else if(messStatuses.get(position).getLunch().contains("2")){
-                holder.ls.setText("1");
+                holder.lst.setText("2");
                 if(messStatuses.get(position).getLunch().contains("N")){
                     holder.ls.setBackgroundColor(c.getResources().getColor(R.color.nonveg));
                 }
@@ -76,12 +78,12 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.MyViewHolder> 
             }
         }
         else{
-            holder.ls.setText("");
-            holder.ls.setBackgroundColor(c.getResources().getColor(R.color.white));
+            holder.lst.setText("");
+            holder.ls.setBackgroundColor(c.getResources().getColor(R.color.dull));
         }
         if(!messStatuses.get(position).getDinner().contains("NotIssued")){
             if(messStatuses.get(position).getDinner().contains("1")){
-                holder.ds.setText("G");
+                holder.dst.setText("1");
                 if(messStatuses.get(position).getDinner().contains("N")){
                     holder.ds.setBackgroundColor(c.getResources().getColor(R.color.nonveg));
                 }
@@ -90,7 +92,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.MyViewHolder> 
                 }
             }
             else if(messStatuses.get(position).getDinner().contains("2")){
-                holder.ds.setText("1");
+                holder.dst.setText("2");
                 if(messStatuses.get(position).getDinner().contains("N")){
                     holder.ds.setBackgroundColor(c.getResources().getColor(R.color.nonveg));
                 }
@@ -100,8 +102,8 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.MyViewHolder> 
             }
         }
         else{
-            holder.ds.setText("");
-            holder.ds.setBackgroundColor(c.getResources().getColor(R.color.white));
+            holder.dst.setText("");
+            holder.ds.setBackgroundColor(c.getResources().getColor(R.color.dull));
         }
     }
 
@@ -111,12 +113,16 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.MyViewHolder> 
     }
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
-        Button bs,ls,ds;
+        CardView bs,ls,ds;
+        TextView bst,lst,dst;
         public MyViewHolder(View itemView) {
             super(itemView);
             bs = itemView.findViewById(R.id.bs);
             ls = itemView.findViewById(R.id.ls);
             ds = itemView.findViewById(R.id.ds);
+            bst = itemView.findViewById(R.id.bst);
+            lst = itemView.findViewById(R.id.lst);
+            dst = itemView.findViewById(R.id.dst);
         }
 
 
