@@ -3,6 +3,7 @@ package com.anmol.rosei;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -57,6 +58,7 @@ public class RoseiActivity extends AppCompatActivity {
     List<MessStatus> messStatuses = new ArrayList<>();
     RecyclerView gridview;
     GridAdapter gridAdapter;
+    ViewPager viewPager;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +69,7 @@ public class RoseiActivity extends AppCompatActivity {
         user = (CircleImageView)findViewById(R.id.user);
         stuid = (TextView)findViewById(R.id.stuid);
         logout = (Button)findViewById(R.id.logout);
+        viewPager = (ViewPager)findViewById(R.id.viewpager);
         gridview = (RecyclerView)findViewById(R.id.gridrecycler);
         gridview.setHasFixedSize(true);
         gridview.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
@@ -255,8 +258,17 @@ public class RoseiActivity extends AppCompatActivity {
                             String ls = dataSnapshot.child(String.valueOf(i)).child("ls").getValue(String.class);
                             String ds = dataSnapshot.child(String.valueOf(i)).child("ds").getValue(String.class);
                             String date = dataSnapshot.child(String.valueOf(i)).child("date").getValue(String.class);
+                            date = date.substring(0,10);
                             MessStatus messStatus = new MessStatus(bs,ls,ds,date);
                             messStatuses.add(messStatus);
+//                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//                            try {
+//                                Date coupondate = sdf.parse(date);
+//                                Date todaydate = Calendar.getInstance().getTime();
+//
+//                            } catch (ParseException e) {
+//                                e.printStackTrace();
+//                            }
                         }
                      }
                      if (!messStatuses.isEmpty()){
