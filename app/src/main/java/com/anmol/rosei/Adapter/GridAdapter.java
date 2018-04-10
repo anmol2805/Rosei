@@ -31,7 +31,78 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(final GridAdapter.MyViewHolder holder, int position) {
-
+        if(!messStatuses.get(position).getBreakfast().contains("NotIssued")){
+            if(messStatuses.get(position).getBreakfast().contains("1")){
+                holder.bs.setText("G");
+                if(messStatuses.get(position).getBreakfast().contains("N")){
+                    holder.bs.setBackgroundColor(c.getResources().getColor(R.color.nonveg));
+                }
+                else if(messStatuses.get(position).getBreakfast().contains("V")){
+                    holder.bs.setBackgroundColor(c.getResources().getColor(R.color.veg));
+                }
+            }
+            else if(messStatuses.get(position).getBreakfast().contains("2")){
+                holder.bs.setText("1");
+                if(messStatuses.get(position).getBreakfast().contains("N")){
+                    holder.bs.setBackgroundColor(c.getResources().getColor(R.color.nonveg));
+                }
+                else if(messStatuses.get(position).getBreakfast().contains("V")){
+                    holder.bs.setBackgroundColor(c.getResources().getColor(R.color.veg));
+                }
+            }
+        }
+        else{
+            holder.bs.setText("");
+            holder.bs.setBackgroundColor(c.getResources().getColor(R.color.white));
+        }
+        if(!messStatuses.get(position).getLunch().contains("NotIssued")){
+            if(messStatuses.get(position).getLunch().contains("1")){
+                holder.ls.setText("G");
+                if(messStatuses.get(position).getLunch().contains("N")){
+                    holder.ls.setBackgroundColor(c.getResources().getColor(R.color.nonveg));
+                }
+                else if(messStatuses.get(position).getLunch().contains("V")){
+                    holder.ls.setBackgroundColor(c.getResources().getColor(R.color.veg));
+                }
+            }
+            else if(messStatuses.get(position).getLunch().contains("2")){
+                holder.ls.setText("1");
+                if(messStatuses.get(position).getLunch().contains("N")){
+                    holder.ls.setBackgroundColor(c.getResources().getColor(R.color.nonveg));
+                }
+                else if(messStatuses.get(position).getLunch().contains("V")){
+                    holder.ls.setBackgroundColor(c.getResources().getColor(R.color.veg));
+                }
+            }
+        }
+        else{
+            holder.ls.setText("");
+            holder.ls.setBackgroundColor(c.getResources().getColor(R.color.white));
+        }
+        if(!messStatuses.get(position).getDinner().contains("NotIssued")){
+            if(messStatuses.get(position).getDinner().contains("1")){
+                holder.ds.setText("G");
+                if(messStatuses.get(position).getDinner().contains("N")){
+                    holder.ds.setBackgroundColor(c.getResources().getColor(R.color.nonveg));
+                }
+                else if(messStatuses.get(position).getDinner().contains("V")){
+                    holder.ds.setBackgroundColor(c.getResources().getColor(R.color.veg));
+                }
+            }
+            else if(messStatuses.get(position).getDinner().contains("2")){
+                holder.ds.setText("1");
+                if(messStatuses.get(position).getDinner().contains("N")){
+                    holder.ds.setBackgroundColor(c.getResources().getColor(R.color.nonveg));
+                }
+                else if(messStatuses.get(position).getDinner().contains("V")){
+                    holder.ds.setBackgroundColor(c.getResources().getColor(R.color.veg));
+                }
+            }
+        }
+        else{
+            holder.ds.setText("");
+            holder.ds.setBackgroundColor(c.getResources().getColor(R.color.white));
+        }
     }
 
     @Override
