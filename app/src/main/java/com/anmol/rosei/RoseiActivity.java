@@ -18,6 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.anmol.rosei.Adapter.GridAdapter;
+import com.anmol.rosei.Adapter.ViewpageAdapter;
+import com.anmol.rosei.Model.Coupon;
 import com.anmol.rosei.Model.MessStatus;
 import com.anmol.rosei.Services.MessStatusService;
 import com.anmol.rosei.Services.MessStatusService2;
@@ -59,6 +61,8 @@ public class RoseiActivity extends AppCompatActivity {
     RecyclerView gridview;
     GridAdapter gridAdapter;
     ViewPager viewPager;
+    List<Coupon> coupons = new ArrayList<>();
+    ViewpageAdapter viewpageAdapter;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -252,28 +256,93 @@ public class RoseiActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot!=null){
+                    messStatuses.clear();
+                    coupons.clear();
                      for(int i = 0;i<7;i++){
                         if(dataSnapshot.child(String.valueOf(i))!=null)  {
                             String bs = dataSnapshot.child(String.valueOf(i)).child("bs").getValue(String.class);
                             String ls = dataSnapshot.child(String.valueOf(i)).child("ls").getValue(String.class);
                             String ds = dataSnapshot.child(String.valueOf(i)).child("ds").getValue(String.class);
                             String date = dataSnapshot.child(String.valueOf(i)).child("date").getValue(String.class);
-                            date = date.substring(0,10);
                             MessStatus messStatus = new MessStatus(bs,ls,ds,date);
                             messStatuses.add(messStatus);
-//                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//                            try {
-//                                Date coupondate = sdf.parse(date);
-//                                Date todaydate = Calendar.getInstance().getTime();
-//
-//                            } catch (ParseException e) {
-//                                e.printStackTrace();
-//                            }
+                            String daydate = date.substring(0,10);
+                            String day = date.substring(12,15);
+                            String breakfastdate = daydate + " 09:45:00";
+                            String lunchdate = daydate + " 14:45:00";
+                            String dinnerdate = daydate + " 21:45:00";
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            try {
+                                Date bfdate = sdf.parse(breakfastdate);
+                                Date lnchdate = sdf.parse(lunchdate);
+                                Date dindate = sdf.parse(dinnerdate);
+                                Date todaydate = Calendar.getInstance().getTime();
+                                String bmess = "notissued";
+                                String lmess = "notissued";
+                                String dmess = "notissued";
+                                if(bs.contains("1")){
+                                    bmess = "Ground floor Mess";
+                                }
+                                else if(bs.contains("2")){
+                                    bmess = "First floor Mess";
+                                }
+                                if(ls.contains("1")){
+                                    lmess = "Ground floor Mess";
+                                }
+                                else if(ls.contains("2")){
+                                    lmess = "First floor Mess";
+                                }
+                                if(ds.contains("1")){
+                                    dmess = "Ground floor Mess";
+                                }
+                                else if(ds.contains("2")){
+                                    dmess = "First floor Mess";
+                                }
+                                Coupon bfcoupon = new Coupon("Breakfast",bmess,daydate,day);
+                                Coupon lnccoupon = new Coupon("Lunch",lmess,daydate,day);
+                                Coupon dincoupon = new Coupon("Dinner",dmess,daydate,day);
+                                if(todaydate.before(bfdate)){
+                                    if(!bmess.contains("notissued")){
+                                        coupons.add(bfcoupon);
+                                    }
+                                    if(!lmess.contains("notissued")){
+                                        coupons.add(lnccoupon);
+                                    }
+                                    if(!dmess.contains("notissued")){
+                                        coupons.add(dincoupon);
+                                    }
+
+                                }
+                                else if(todaydate.after(bfdate) && todaydate.before(lnchdate)){
+                                    if(!lmess.contains("notissued")){
+                                        coupons.add(lnccoupon);
+                                    }
+                                    if(!dmess.contains("notissued")){
+                                        coupons.add(dincoupon);
+                                    }
+
+
+                                }
+                                else if(todaydate.after(lnchdate) && todaydate.before(dindate)){
+                                    if(!dmess.contains("notissued")){
+                                        coupons.add(dincoupon);
+                                    }
+
+                                }
+
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
                         }
                      }
                      if (!messStatuses.isEmpty()){
                          gridAdapter = new GridAdapter(RoseiActivity.this,messStatuses);
                          gridview.setAdapter(gridAdapter);
+                     }
+                     if(!coupons.isEmpty()){
+                         viewpageAdapter = new ViewpageAdapter(RoseiActivity.this,coupons);
+                         viewpageAdapter.notifyDataSetChanged();
+                         viewPager.setAdapter(viewpageAdapter);
                      }
 
                 }
