@@ -14,6 +14,10 @@ import com.anmol.rosei.Model.MessStatus;
 import com.anmol.rosei.R;
 import com.bumptech.glide.Glide;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class GridAdapter extends RecyclerView.Adapter<GridAdapter.MyViewHolder> {
@@ -34,78 +38,130 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.MyViewHolder> 
     @Override
     public void onBindViewHolder(final GridAdapter.MyViewHolder holder, int position) {
         holder.day.setText(messStatuses.get(position).getDay());
-        if(!messStatuses.get(position).getBreakfast().contains("NotIssued")){
-            if(messStatuses.get(position).getBreakfast().contains("1")){
-                holder.bst.setText("1");
-                if(messStatuses.get(position).getBreakfast().contains("N")){
-                    holder.bs.setCardBackgroundColor(c.getResources().getColor(R.color.nonveg));
+        String date = messStatuses.get(position).getcoupondate();
+        date = date.substring(0,10);
+        String breakfastdate = date + " 09:45:00";
+        String lunchdate = date + " 14:45:00";
+        String dinnerdate = date + " 21:45:00";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date bdate = sdf.parse(breakfastdate);
+            Date ldate = sdf.parse(lunchdate);
+            Date ddate = sdf.parse(dinnerdate);
+            Date currentdate = Calendar.getInstance().getTime();
+            if(!messStatuses.get(position).getBreakfast().contains("NotIssued")){
+                if(messStatuses.get(position).getBreakfast().contains("1")){
+                    holder.bst.setText("1");
+                    if(messStatuses.get(position).getBreakfast().contains("N")){
+                        if (currentdate.before(bdate))
+                            holder.bs.setCardBackgroundColor(c.getResources().getColor(R.color.nonveg));
+                        else
+                            holder.bs.setCardBackgroundColor(c.getResources().getColor(R.color.inactivered));
+                    }
+                    else if(messStatuses.get(position).getBreakfast().contains("V")){
+                        if (currentdate.before(bdate))
+                        holder.bs.setCardBackgroundColor(c.getResources().getColor(R.color.veg));
+                        else
+                            holder.bs.setCardBackgroundColor(c.getResources().getColor(R.color.inactivegreen));
+                    }
                 }
-                else if(messStatuses.get(position).getBreakfast().contains("V")){
-                    holder.bs.setCardBackgroundColor(c.getResources().getColor(R.color.veg));
-                }
-            }
-            else if(messStatuses.get(position).getBreakfast().contains("2")){
-                holder.bst.setText("2");
-                if(messStatuses.get(position).getBreakfast().contains("N")){
-                    holder.bs.setCardBackgroundColor(c.getResources().getColor(R.color.nonveg));
-                }
-                else if(messStatuses.get(position).getBreakfast().contains("V")){
-                    holder.bs.setCardBackgroundColor(c.getResources().getColor(R.color.veg));
-                }
-            }
-        }
-        else{
-            holder.bst.setText("");
-            holder.bs.setCardBackgroundColor(c.getResources().getColor(R.color.dull));
-        }
-        if(!messStatuses.get(position).getLunch().contains("NotIssued")){
-            if(messStatuses.get(position).getLunch().contains("1")){
-                holder.lst.setText("1");
-                if(messStatuses.get(position).getLunch().contains("N")){
-                    holder.ls.setCardBackgroundColor(c.getResources().getColor(R.color.nonveg));
-                }
-                else if(messStatuses.get(position).getLunch().contains("V")){
-                    holder.ls.setCardBackgroundColor(c.getResources().getColor(R.color.veg));
-                }
-            }
-            else if(messStatuses.get(position).getLunch().contains("2")){
-                holder.lst.setText("2");
-                if(messStatuses.get(position).getLunch().contains("N")){
-                    holder.ls.setCardBackgroundColor(c.getResources().getColor(R.color.nonveg));
-                }
-                else if(messStatuses.get(position).getLunch().contains("V")){
-                    holder.ls.setCardBackgroundColor(c.getResources().getColor(R.color.veg));
-                }
-            }
-        }
-        else{
-            holder.lst.setText("");
-            holder.ls.setCardBackgroundColor(c.getResources().getColor(R.color.dull));
-        }
-        if(!messStatuses.get(position).getDinner().contains("NotIssued")){
-            if(messStatuses.get(position).getDinner().contains("1")){
-                holder.dst.setText("1");
-                if(messStatuses.get(position).getDinner().contains("N")){
-                    holder.ds.setCardBackgroundColor(c.getResources().getColor(R.color.nonveg));
-                }
-                else if(messStatuses.get(position).getDinner().contains("V")){
-                    holder.ds.setCardBackgroundColor(c.getResources().getColor(R.color.veg));
+                else if(messStatuses.get(position).getBreakfast().contains("2")){
+                    holder.bst.setText("2");
+                    if(messStatuses.get(position).getBreakfast().contains("N")){
+                        if (currentdate.before(bdate))
+                        holder.bs.setCardBackgroundColor(c.getResources().getColor(R.color.nonveg));
+                        else
+                            holder.bs.setCardBackgroundColor(c.getResources().getColor(R.color.inactivered));
+                    }
+                    else if(messStatuses.get(position).getBreakfast().contains("V")){
+                        if (currentdate.before(bdate))
+                        holder.bs.setCardBackgroundColor(c.getResources().getColor(R.color.veg));
+                        else
+                            holder.bs.setCardBackgroundColor(c.getResources().getColor(R.color.inactivegreen));
+                    }
                 }
             }
-            else if(messStatuses.get(position).getDinner().contains("2")){
-                holder.dst.setText("2");
-                if(messStatuses.get(position).getDinner().contains("N")){
-                    holder.ds.setCardBackgroundColor(c.getResources().getColor(R.color.nonveg));
+            else{
+                holder.bst.setText("");
+                holder.bs.setCardBackgroundColor(c.getResources().getColor(R.color.dull));
+            }
+            if(!messStatuses.get(position).getLunch().contains("NotIssued")){
+                if(messStatuses.get(position).getLunch().contains("1")){
+                    holder.lst.setText("1");
+                    if(messStatuses.get(position).getLunch().contains("N")){
+                        if (currentdate.before(ldate))
+                        holder.ls.setCardBackgroundColor(c.getResources().getColor(R.color.nonveg));
+                        else
+                            holder.ls.setCardBackgroundColor(c.getResources().getColor(R.color.inactivered));
+
+                    }
+                    else if(messStatuses.get(position).getLunch().contains("V")){
+                        if (currentdate.before(ldate))
+                        holder.ls.setCardBackgroundColor(c.getResources().getColor(R.color.veg));
+                        else
+                            holder.ls.setCardBackgroundColor(c.getResources().getColor(R.color.inactivegreen));
+                    }
                 }
-                else if(messStatuses.get(position).getDinner().contains("V")){
-                    holder.ds.setCardBackgroundColor(c.getResources().getColor(R.color.veg));
+                else if(messStatuses.get(position).getLunch().contains("2")){
+                    holder.lst.setText("2");
+                    if(messStatuses.get(position).getLunch().contains("N")){
+                        if (currentdate.before(ldate))
+                        holder.ls.setCardBackgroundColor(c.getResources().getColor(R.color.nonveg));
+                        else
+                            holder.ls.setCardBackgroundColor(c.getResources().getColor(R.color.inactivered));
+                    }
+                    else if(messStatuses.get(position).getLunch().contains("V")){
+                        if (currentdate.before(ldate))
+                        holder.ls.setCardBackgroundColor(c.getResources().getColor(R.color.veg));
+                        else
+                            holder.ls.setCardBackgroundColor(c.getResources().getColor(R.color.inactivegreen));
+                    }
                 }
             }
+            else{
+                holder.lst.setText("");
+                holder.ls.setCardBackgroundColor(c.getResources().getColor(R.color.dull));
+            }
+            if(!messStatuses.get(position).getDinner().contains("NotIssued")){
+                if(messStatuses.get(position).getDinner().contains("1")){
+                    holder.dst.setText("1");
+                    if(messStatuses.get(position).getDinner().contains("N")){
+                        if (currentdate.before(ddate))
+                        holder.ds.setCardBackgroundColor(c.getResources().getColor(R.color.nonveg));
+                        else
+                            holder.ds.setCardBackgroundColor(c.getResources().getColor(R.color.inactivered));
+                    }
+                    else if(messStatuses.get(position).getDinner().contains("V")){
+                        if (currentdate.before(ddate))
+                        holder.ds.setCardBackgroundColor(c.getResources().getColor(R.color.veg));
+                        else
+                            holder.ds.setCardBackgroundColor(c.getResources().getColor(R.color.inactivegreen));
+                    }
+                }
+                else if(messStatuses.get(position).getDinner().contains("2")){
+                    holder.dst.setText("2");
+                    if(messStatuses.get(position).getDinner().contains("N")){
+                        if (currentdate.before(ddate))
+                        holder.ds.setCardBackgroundColor(c.getResources().getColor(R.color.nonveg));
+                        else
+                            holder.ds.setCardBackgroundColor(c.getResources().getColor(R.color.inactivered));
+                    }
+                    else if(messStatuses.get(position).getDinner().contains("V")){
+                        if (currentdate.before(ddate))
+                        holder.ds.setCardBackgroundColor(c.getResources().getColor(R.color.veg));
+                        else
+                            holder.ds.setCardBackgroundColor(c.getResources().getColor(R.color.inactivegreen));
+                    }
+                }
+            }
+            else{
+                holder.dst.setText("");
+                holder.ds.setCardBackgroundColor(c.getResources().getColor(R.color.dull));
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
-        else{
-            holder.dst.setText("");
-            holder.ds.setCardBackgroundColor(c.getResources().getColor(R.color.dull));
-        }
+
     }
 
     @Override

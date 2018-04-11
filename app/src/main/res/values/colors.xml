@@ -10,4 +10,6 @@
     <color name="dull">#eaeaea</color>
     <color name="nonveglit">#dc3545</color>
     <color name="veglit">#28a745</color>
+    <color name="inactivered">#bc8d7c</color>
+    <color name="inactivegreen">#75b675</color>
 </resources>
