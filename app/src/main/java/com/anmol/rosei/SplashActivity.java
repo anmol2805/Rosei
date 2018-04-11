@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.anmol.rosei.Services.MessStatusService;
+import com.anmol.rosei.Services.NotifyService;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -56,7 +57,8 @@ public class SplashActivity extends AppCompatActivity {
                     R.anim.fade_in);
             zoomin = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.zoom_in);
             img.startAnimation(zoomin);
-
+            Intent intent = new Intent(SplashActivity.this, NotifyService.class);
+            startService(intent);
 
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
