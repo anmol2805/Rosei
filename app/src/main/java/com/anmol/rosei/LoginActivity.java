@@ -302,7 +302,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
 
         });
-        GoogleLogin();
+        //GoogleLogin();
     }
 
 
