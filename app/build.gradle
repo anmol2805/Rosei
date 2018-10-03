@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'io.fabric'
 android {
     compileSdkVersion 28
     buildToolsVersion '28.0.2'
@@ -58,7 +58,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:15.0.1'
     implementation 'com.google.android.gms:play-services-base:15.0.1'
     implementation 'com.google.android.gms:play-services-identity:15.0.1'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.4'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.5'
     implementation 'com.github.coyarzun89:fabtransitionactivity:0.2.0'
     implementation 'com.github.clans:fab:1.6.4'
     testImplementation 'junit:junit:4.12'

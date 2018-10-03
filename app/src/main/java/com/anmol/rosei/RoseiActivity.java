@@ -214,7 +214,7 @@ public class RoseiActivity extends AppCompatActivity {
         updb.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot!=null && dataSnapshot.child(String.valueOf("0"))!=null && dataSnapshot.child(String.valueOf("0")).child("date").getValue(String.class)!=null){
+                if(dataSnapshot!=null && dataSnapshot.child(String.valueOf("0")).exists() && dataSnapshot.child(String.valueOf("0")).child("date").getValue(String.class)!=null){
                     String date = dataSnapshot.child(String.valueOf("0")).child("date").getValue(String.class);
                     date = date.substring(0,10);
                     System.out.println("coupondate:" + date);
@@ -259,7 +259,7 @@ public class RoseiActivity extends AppCompatActivity {
                     messStatuses.clear();
                     coupons.clear();
                      for(int i = 0;i<7;i++){
-                        if(dataSnapshot.child(String.valueOf(i))!=null)  {
+                        if(dataSnapshot.child(String.valueOf(i)).exists())  {
                             String bs = dataSnapshot.child(String.valueOf(i)).child("bs").getValue(String.class);
                             String ls = dataSnapshot.child(String.valueOf(i)).child("ls").getValue(String.class);
                             String ds = dataSnapshot.child(String.valueOf(i)).child("ds").getValue(String.class);
