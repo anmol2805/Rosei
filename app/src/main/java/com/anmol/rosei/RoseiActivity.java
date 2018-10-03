@@ -81,7 +81,7 @@ public class RoseiActivity extends AppCompatActivity {
         book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(RoseiActivity.this,Book_Activity.class));
+                startActivity(new Intent(RoseiActivity.this,BookingnewActivity.class));
             }
         });
         set.setOnClickListener(new View.OnClickListener() {

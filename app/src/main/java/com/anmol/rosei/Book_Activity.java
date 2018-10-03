@@ -53,8 +53,8 @@ public class Book_Activity extends AppCompatActivity {
         Intent intent = new Intent(Book_Activity.this, MessStatusService.class);
         startService(intent);
         FragmentManager fm = getFragmentManager();
-        fm.beginTransaction().replace(R.id.content,new ground()).commit();
-
+        getSupportFragmentManager().beginTransaction().replace(R.id.content,new ground()).commitAllowingStateLoss();
+        getSupportFragmentManager().executePendingTransactions();
 
         m1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,9 +67,9 @@ public class Book_Activity extends AppCompatActivity {
                 m2.setTextColor(getResources().getColor(R.color.colorPrimary));
                 m1.setTextColor(getResources().getColor(R.color.white));
                 m1.setBackground(getResources().getDrawable(R.drawable.round_button));
-                FragmentManager fm = getFragmentManager();
-                fm.beginTransaction().replace(R.id.content,new ground()).commit();
 
+                getSupportFragmentManager().beginTransaction().replace(R.id.content,new ground()).commitAllowingStateLoss();
+                getSupportFragmentManager().executePendingTransactions();
 
             }
         });
@@ -85,8 +85,8 @@ public class Book_Activity extends AppCompatActivity {
                 m2.setTextColor(getResources().getColor(R.color.white));
                 m2.setBackground(getResources().getDrawable(R.drawable.round_button));
                 FragmentManager fm = getFragmentManager();
-                fm.beginTransaction().replace(R.id.content,new first()).commit();
-
+                getSupportFragmentManager().beginTransaction().replace(R.id.content,new first()).commitAllowingStateLoss();
+                getSupportFragmentManager().executePendingTransactions();
             }
         });
 
