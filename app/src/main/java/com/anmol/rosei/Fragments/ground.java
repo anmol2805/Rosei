@@ -142,6 +142,8 @@ public class ground extends Fragment {
                                                         getActivity().startService(intent);
                                                         Intent intent1 = new Intent(getActivity(), MessStatusService2.class);
                                                         getActivity().startService(intent1);
+                                                        Intent intent2 = new Intent(getActivity(), MessStatusService.class);
+                                                        getActivity().startService(intent2);
                                                     }
                                                 }, new Response.ErrorListener() {
                                                     @Override
@@ -184,4 +186,13 @@ public class ground extends Fragment {
 
         return v;
     }
+//    @Override
+//    public void setUserVisibleHint(boolean isVisibleToUser) {
+//        super.setUserVisibleHint(isVisibleToUser);
+//        if (isVisibleToUser) {
+//            if (getFragmentManager() != null) {
+//                getFragmentManager().beginTransaction().detach(this).attach(this).commitAllowingStateLoss();
+//            }
+//        }
+//    }
 }

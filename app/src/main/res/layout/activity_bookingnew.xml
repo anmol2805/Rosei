@@ -6,20 +6,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".BookingnewActivity">
+    tools:context=".BookingnewActivity"
+    android:background="@drawable/backcolor"
+    >
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:id="@+id/tablayout"
-        android:background="@color/colorPrimaryDark"
+
         >
+
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
-            android:background="#fff"
-            android:layout_margin="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/round_button_white"
+            app:tabIndicatorColor="@color/colorPrimary"
+            app:tabIndicatorFullWidth="false"
+            app:tabIndicatorHeight="2.5dp"
+            app:tabSelectedTextColor="@color/colorPrimary">
 
             <android.support.design.widget.TabItem
                 android:id="@+id/tabItem"
@@ -32,7 +40,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/tab_text_2" />
-
 
 
         </android.support.design.widget.TabLayout>
@@ -48,12 +55,26 @@
 
         <!---->
     <!--</android.support.design.widget.AppBarLayout>-->
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/container"
-        android:layout_below="@+id/tablayout"
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        android:layout_below="@+id/tablayout"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        app:cardCornerRadius="4dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/container"
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
 
 </RelativeLayout>
