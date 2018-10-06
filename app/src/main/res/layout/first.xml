@@ -59,21 +59,33 @@
         android:visibility="gone"
         android:background="@drawable/round_button"
         />
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        app:cardCornerRadius="4dp">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/menu"
         android:divider="@null"
-        android:layout_weight="1"
+
         android:dividerHeight="0dp"
         />
+    </RelativeLayout>
+    </android.support.v7.widget.CardView>
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="4dp"
         android:layout_marginTop="5dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="4dp"
         android:layout_marginBottom="-5dp"
 
         app:cardCornerRadius="6dp">
