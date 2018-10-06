@@ -59,10 +59,10 @@ public class first extends Fragment {
         list = (ListView)v.findViewById(R.id.menu);
         amt2 = (TextView)v.findViewById(R.id.amt2);
         total = (TextView)v.findViewById(R.id.total);
-        LayoutInflater layoutInflater = getActivity().getLayoutInflater();
-        ViewGroup footer = (ViewGroup)layoutInflater.inflate(R.layout.footer2,list,false);
-        list.addFooterView(footer,null,false);
-        bookm2 = (Button)footer.findViewById(R.id.bookm2);
+//        LayoutInflater layoutInflater = getActivity().getLayoutInflater();
+//        ViewGroup footer = (ViewGroup)layoutInflater.inflate(R.layout.footer2,list,false);
+//        list.addFooterView(footer,null,false);
+        bookm2 = (Button)v.findViewById(R.id.bookm2);
         Intent intent = new Intent(getActivity(), MessStatusService.class);
         getActivity().startService(intent);
         Handler handler = new Handler();

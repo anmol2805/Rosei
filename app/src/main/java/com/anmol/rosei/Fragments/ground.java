@@ -59,10 +59,10 @@ public class ground extends Fragment {
         list = (ListView)v.findViewById(R.id.menu);
         amt1 = (TextView)v.findViewById(R.id.amt1);
         total = (TextView)v.findViewById(R.id.total);
-        LayoutInflater layoutInflater = getActivity().getLayoutInflater();
-        ViewGroup footer = (ViewGroup)layoutInflater.inflate(R.layout.footer,list,false);
-        list.addFooterView(footer,null,false);
-        bookm1 = (Button)footer.findViewById(R.id.bookm1);
+//        LayoutInflater layoutInflater = getActivity().getLayoutInflater();
+//        ViewGroup footer = (ViewGroup)layoutInflater.inflate(R.layout.footer,list,false);
+//        list.addFooterView(footer,null,false);
+        bookm1 = (Button)v.findViewById(R.id.bookm1);
         Intent intent = new Intent(getActivity(), MessStatusService.class);
         getActivity().startService(intent);
         Handler handler = new Handler();
