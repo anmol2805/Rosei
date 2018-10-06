@@ -11,5 +11,10 @@
     <color name="nonveglit">#dc3545</color>
     <color name="veglit">#28a745</color>
     <color name="inactivered">#bc8d7c</color>
+    <color name="orange">#ef4e28</color>
     <color name="inactivegreen">#75b675</color>
+    <integer-array name="mycolors">
+        <item>@color/colorPrimary</item>
+        <item>@color/colorPrimaryDark</item>
+    </integer-array>
 </resources>

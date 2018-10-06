@@ -24,10 +24,10 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/round_button_white"
-            app:tabIndicatorColor="@color/colorPrimary"
+            app:tabIndicatorColor="@color/orange"
             app:tabIndicatorFullWidth="false"
             app:tabIndicatorHeight="2.5dp"
-            app:tabSelectedTextColor="@color/colorPrimary">
+            app:tabSelectedTextColor="@color/orange">
 
             <android.support.design.widget.TabItem
                 android:id="@+id/tabItem"
