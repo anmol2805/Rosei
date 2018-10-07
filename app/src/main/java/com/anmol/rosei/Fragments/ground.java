@@ -34,9 +34,12 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 
 /**
  * Created by anmol on 10/20/2017.
@@ -50,6 +53,8 @@ public class ground extends Fragment {
     FirebaseAuth auth = FirebaseAuth.getInstance();
     TextView amt1,total;
     Button bookm1;
+    private CircularProgressBar bookpgr;
+    private TextView booktext;
     DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("students").child(auth.getCurrentUser().getUid());
     @Nullable
     @Override
@@ -63,6 +68,11 @@ public class ground extends Fragment {
 //        ViewGroup footer = (ViewGroup)layoutInflater.inflate(R.layout.footer,list,false);
 //        list.addFooterView(footer,null,false);
         bookm1 = (Button)v.findViewById(R.id.bookm1);
+        booktext = (TextView)v.findViewById(R.id.bookingtext);
+        bookpgr = (CircularProgressBar)v.findViewById(R.id.bookpgr);
+        bookm1.setVisibility(View.VISIBLE);
+        booktext.setVisibility(View.INVISIBLE);
+        bookpgr.setVisibility(View.INVISIBLE);
         Intent intent = new Intent(getActivity(), MessStatusService.class);
         getActivity().startService(intent);
         Handler handler = new Handler();

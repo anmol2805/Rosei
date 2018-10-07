@@ -38,6 +38,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.castorflex.android.circularprogressbar.CircularProgressBar;
+
 /**
  * Created by anmol on 10/20/2017.
  */
@@ -50,6 +52,8 @@ public class first extends Fragment {
     List<mess2>mess2s = new ArrayList<>();
     Mess2Adapter mess2Adapter;
     TextView amt2,total;
+    private CircularProgressBar bookpgr;
+    private TextView booktext;
     Button bookm2;
     @Nullable
     @Override
@@ -63,6 +67,11 @@ public class first extends Fragment {
 //        ViewGroup footer = (ViewGroup)layoutInflater.inflate(R.layout.footer2,list,false);
 //        list.addFooterView(footer,null,false);
         bookm2 = (Button)v.findViewById(R.id.bookm2);
+        booktext = (TextView)v.findViewById(R.id.bookingtext);
+        bookpgr = (CircularProgressBar)v.findViewById(R.id.bookpgr);
+        bookm2.setVisibility(View.VISIBLE);
+        booktext.setVisibility(View.INVISIBLE);
+        bookpgr.setVisibility(View.INVISIBLE);
         Intent intent = new Intent(getActivity(), MessStatusService.class);
         getActivity().startService(intent);
         Handler handler = new Handler();
