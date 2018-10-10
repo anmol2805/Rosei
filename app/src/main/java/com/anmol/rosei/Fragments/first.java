@@ -131,6 +131,9 @@ public class first extends Fragment {
                         bookm2.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                bookm2.setVisibility(View.INVISIBLE);
+                                bookpgr.setVisibility(View.VISIBLE);
+                                booktext.setVisibility(View.VISIBLE);
                                 final JSONObject jsonObject = mess2Adapter.getJsonObject();
                                 System.out.println("jsonobj:" + jsonObject);
                                 db.child("rosei").addValueEventListener(new ValueEventListener() {
@@ -148,6 +151,9 @@ public class first extends Fragment {
                                                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, "http://14.139.198.171/api/rosei/booking", jsonObject, new Response.Listener<JSONObject>() {
                                                     @Override
                                                     public void onResponse(JSONObject response) {
+                                                        bookm2.setVisibility(View.VISIBLE);
+                                                        bookpgr.setVisibility(View.INVISIBLE);
+                                                        booktext.setVisibility(View.INVISIBLE);
                                                         Intent intent = new Intent(getActivity(),UpcomingWeekService.class);
                                                         getActivity().startService(intent);
                                                         Intent intent1 = new Intent(getActivity(), MessStatusService2.class);
@@ -158,7 +164,10 @@ public class first extends Fragment {
                                                 }, new Response.ErrorListener() {
                                                     @Override
                                                     public void onErrorResponse(VolleyError error) {
-                                                        Toast.makeText(getActivity(),"Error occured",Toast.LENGTH_SHORT).show();
+                                                        bookm2.setVisibility(View.VISIBLE);
+                                                        bookpgr.setVisibility(View.INVISIBLE);
+                                                        booktext.setVisibility(View.INVISIBLE);
+                                                        Toast.makeText(getActivity(),"Coupon booking failed",Toast.LENGTH_SHORT).show();
                                                     }
                                                 });
                                                 Mysingleton.getInstance(getActivity()).addToRequestqueue(jsonObjectRequest);
@@ -171,7 +180,9 @@ public class first extends Fragment {
 
                                     @Override
                                     public void onCancelled(DatabaseError databaseError) {
-
+                                        bookm2.setVisibility(View.VISIBLE);
+                                        bookpgr.setVisibility(View.INVISIBLE);
+                                        booktext.setVisibility(View.INVISIBLE);
                                     }
                                 });
                             }
