@@ -1,7 +1,11 @@
 package com.anmol.rosei;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -16,6 +20,8 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Calendar;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -59,7 +65,14 @@ public class SplashActivity extends AppCompatActivity {
             img.startAnimation(zoomin);
             Intent intent = new Intent(SplashActivity.this, NotifyService.class);
             startService(intent);
-
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, 10);
+            calendar.set(Calendar.MINUTE, 45);
+            calendar.set(Calendar.SECOND, 0);
+            Intent intent1 = new Intent(this, AlarmReceiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+            AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -86,4 +99,5 @@ public class SplashActivity extends AppCompatActivity {
         finish();
         overridePendingTransition(R.anim.still,R.anim.slide_in_up);
     }
+
 }
