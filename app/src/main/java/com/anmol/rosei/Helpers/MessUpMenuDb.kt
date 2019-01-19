@@ -8,14 +8,14 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.database.sqlite.SQLiteReadOnlyDatabaseException
 import com.anmol.rosei.Model.Mess_Menu
 
-val DATABASE_NAME = "menudb"
-val TABLE_NAME = "messup_menu_table"
-val COL_DAY = "day"
-val COL_BREAKFAST = "breakfast"
-val COL_LUNCH = "lunch"
-val COL_DINNER = "dinner"
+private val DATABASE_NAME = "menudb"
+private val TABLE_NAME = "messup_menu_table"
+private val COL_DAY = "day"
+private val COL_BREAKFAST = "breakfast"
+private val COL_LUNCH = "lunch"
+private val COL_DINNER = "dinner"
 
-class Dbhelper (context: Context): SQLiteOpenHelper(context, DATABASE_NAME,null,1){
+class MessUpMenuDb (context: Context): SQLiteOpenHelper(context, DATABASE_NAME,null,1){
 
     override fun onCreate(p0: SQLiteDatabase?) {
         val createtable = "CREATE TABLE " + TABLE_NAME + " (" +
