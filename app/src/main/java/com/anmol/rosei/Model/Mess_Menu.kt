@@ -5,12 +5,14 @@ class Mess_Menu{
     var breakfast:String?=null
     var lunch:String?=null
     var dinner:String?=null
+    var date:String?=null
 
     constructor()
-    constructor(weekday: String?, breakfast: String?, lunch: String?, dinner: String?) {
+    constructor(weekday: String?, breakfast: String?, lunch: String?, dinner: String?,date:String?) {
         this.weekday = weekday
         this.breakfast = breakfast
         this.lunch = lunch
         this.dinner = dinner
+        this.date = date
     }
 }

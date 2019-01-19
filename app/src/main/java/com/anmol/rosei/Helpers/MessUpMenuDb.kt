@@ -14,6 +14,7 @@ private val COL_DAY = "day"
 private val COL_BREAKFAST = "breakfast"
 private val COL_LUNCH = "lunch"
 private val COL_DINNER = "dinner"
+private val COL_DATE = "date"
 
 class MessUpMenuDb (context: Context): SQLiteOpenHelper(context, DATABASE_NAME,null,1){
 
@@ -22,7 +23,8 @@ class MessUpMenuDb (context: Context): SQLiteOpenHelper(context, DATABASE_NAME,n
                 COL_DAY + " VARCHAR(16) PRIMARY KEY NOT NULL UNIQUE," +
                 COL_BREAKFAST + " VARCHAR(256)," +
                 COL_LUNCH + " VARCHAR(256)," +
-                COL_DINNER + " VARCHAR(256))"
+                COL_DINNER + " VARCHAR(256),"+
+                COL_DATE + " VARCHAR(16))"
         p0?.execSQL(createtable)
     }
 
