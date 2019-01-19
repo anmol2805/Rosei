@@ -42,6 +42,7 @@ class MessDownMenuDb (context: Context): SQLiteOpenHelper(context, DATABASE_NAME
             cv.put(COL_BREAKFAST,mess_Menu.breakfast)
             cv.put(COL_LUNCH,mess_Menu.lunch)
             cv.put(COL_DINNER,mess_Menu.dinner)
+            cv.put(COL_DATE,mess_Menu.date)
             val result = db.insert(TABLE_NAME,null,cv)
             if(result == (-1).toLong())
                 System.out.println("sqlstatus is failed")
@@ -63,7 +64,8 @@ class MessDownMenuDb (context: Context): SQLiteOpenHelper(context, DATABASE_NAME
                     val breakfast = result.getString(result.getColumnIndex(COL_BREAKFAST))
                     val lunch = result.getString(result.getColumnIndex(COL_LUNCH))
                     val dinner = result.getString(result.getColumnIndex(COL_DINNER))
-                    val mess_Menu = Mess_Menu(weekday,breakfast,lunch,dinner)
+                    val date = result.getString(result.getColumnIndex(COL_DATE))
+                    val mess_Menu = Mess_Menu(weekday,breakfast,lunch,dinner,date)
                     mess_menus.add(mess_Menu)
 
                 }while (result.moveToNext())
@@ -87,6 +89,7 @@ class MessDownMenuDb (context: Context): SQLiteOpenHelper(context, DATABASE_NAME
         cv.put(COL_BREAKFAST,mess_Menu.breakfast)
         cv.put(COL_LUNCH,mess_Menu.lunch)
         cv.put(COL_DINNER,mess_Menu.dinner)
+        cv.put(COL_DATE,mess_Menu.date)
         db.update(TABLE_NAME,cv,"$COL_DAY = ?", arrayOf(mess_Menu.weekday))
         db.close()
     }
