@@ -67,7 +67,7 @@ public class SplashActivity extends AppCompatActivity {
             startService(intent);
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.HOUR_OF_DAY, 10);
-            calendar.set(Calendar.MINUTE, 45);
+            calendar.set(Calendar.MINUTE, 59);
             calendar.set(Calendar.SECOND, 0);
             Intent intent1 = new Intent(this, AlarmReceiver.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,intent1, PendingIntent.FLAG_UPDATE_CURRENT);

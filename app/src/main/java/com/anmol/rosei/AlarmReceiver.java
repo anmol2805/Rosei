@@ -26,7 +26,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     }
     private void createNotificationChannel(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            String name = "canopy notification channel";
+            String name = "Rasoi notification channel";
             String description = "notifications to keep you updated about latest IIIT news";
             int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
