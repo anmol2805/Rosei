@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteConstraintException;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
@@ -91,8 +92,14 @@ public class SplashActivity extends AppCompatActivity {
                             String dinner = messup.getJSONObject(days.get(i)).getString("dinner");
                             String date = messup.getJSONObject(days.get(i)).getString("date");
                             Mess_Menu mess_menu = new Mess_Menu(days.get(i), breakfast, lunch, dinner, date.substring(0,10));
-                            messUpMenuDb.insertData(mess_menu);
-                            messUpMenuDb.updatenotice(mess_menu);
+                            try{
+                                messUpMenuDb.insertData(mess_menu);
+                            }
+                            catch (SQLiteConstraintException e){
+                                messUpMenuDb.updatenotice(mess_menu);
+                            }
+
+
                         }
 
                             JSONObject messdown = menuresponse.getJSONObject(0).getJSONObject("messDown");
@@ -102,8 +109,13 @@ public class SplashActivity extends AppCompatActivity {
                                 String dinner = messdown.getJSONObject(days.get(i)).getString("dinner");
                                 String date = messdown.getJSONObject(days.get(i)).getString("date");
                                 Mess_Menu mess_menu = new Mess_Menu(days.get(i), breakfast, lunch, dinner, date.substring(0,10));
-                                messDownMenuDb.insertData(mess_menu);
-                                messDownMenuDb.updatenotice(mess_menu);
+                                try{
+                                    messDownMenuDb.insertData(mess_menu);
+                                }
+                                catch (SQLiteConstraintException e){
+                                    messDownMenuDb.updatenotice(mess_menu);
+                                }
+
                             }
 
 
