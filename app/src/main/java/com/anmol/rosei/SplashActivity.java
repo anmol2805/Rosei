@@ -19,6 +19,9 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.anmol.rosei.Helpers.MessDownMenuDb;
+import com.anmol.rosei.Helpers.MessUpMenuDb;
+import com.anmol.rosei.Model.Mess_Menu;
 import com.anmol.rosei.Services.MessStatusService;
 import com.anmol.rosei.Services.NotifyService;
 import com.bumptech.glide.Glide;
@@ -26,7 +29,11 @@ import com.canopydevelopers.canopyauth.AuthConfig;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Calendar;
@@ -61,6 +68,67 @@ public class SplashActivity extends AppCompatActivity {
             JsonObjectRequest menurequest = new JsonObjectRequest(Request.Method.POST, "", null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject menuresponse) {
+                    try {
+                        MessUpMenuDb messUpMenuDb = new MessUpMenuDb(SplashActivity.this);
+                        JSONArray messup = menuresponse.getJSONArray("messUp");
+                        for(int i=0;i<messup.length();i++) {
+                            String breakfast = messup.getJSONObject(i).getString("breakfast");
+                            String lunch = messup.getJSONObject(i).getString("lunch");
+                            String dinner = messup.getJSONObject(i).getString("dinner");
+                            String date = messup.getJSONObject(i).getString("date");
+                            String day = null;
+                            if (i == 0) {
+                                day = "Monday";
+                            } else if (i == 1) {
+                                day = "Tuesday";
+                            } else if (i == 2) {
+                                day = "Wednesday";
+                            } else if (i == 3) {
+                                day = "Thursday";
+                            } else if (i == 4) {
+                                day = "Friday";
+                            } else if (i == 5) {
+                                day = "Saturday";
+                            } else if (i == 6) {
+                                day = "Sunday";
+                            }
+                            Mess_Menu mess_menu = new Mess_Menu(day, breakfast, lunch, dinner, date);
+                            messUpMenuDb.insertData(mess_menu);
+                            messUpMenuDb.updatenotice(mess_menu);
+                        }
+                            MessDownMenuDb messDownMenuDb = new MessDownMenuDb(SplashActivity.this);
+                            JSONArray messdown = menuresponse.getJSONArray("messDown");
+                            for(int i=0;i<messdown.length();i++) {
+                                String breakfast = messdown.getJSONObject(i).getString("breakfast");
+                                String lunch = messdown.getJSONObject(i).getString("lunch");
+                                String dinner = messdown.getJSONObject(i).getString("dinner");
+                                String date = messdown.getJSONObject(i).getString("date");
+                                String day = null;
+                                if (i == 0) {
+                                    day = "Monday";
+                                } else if (i == 1) {
+                                    day = "Tuesday";
+                                } else if (i == 2) {
+                                    day = "Wednesday";
+                                } else if (i == 3) {
+                                    day = "Thursday";
+                                } else if (i == 4) {
+                                    day = "Friday";
+                                } else if (i == 5) {
+                                    day = "Saturday";
+                                } else if (i == 6) {
+                                    day = "Sunday";
+                                }
+                                Mess_Menu mess_menu = new Mess_Menu(day, breakfast, lunch, dinner, date);
+                                messDownMenuDb.insertData(mess_menu);
+                                messDownMenuDb.updatenotice(mess_menu);
+                            }
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
                     //coupon request
                     JsonObjectRequest couponrequest = new JsonObjectRequest(Request.Method.POST, "", null, new Response.Listener<JSONObject>() {
                         @Override
