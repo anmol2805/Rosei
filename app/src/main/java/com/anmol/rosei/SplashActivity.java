@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.anmol.rosei.Helpers.CouponDb;
 import com.anmol.rosei.Helpers.MessDownMenuDb;
@@ -38,6 +39,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -58,7 +60,7 @@ public class SplashActivity extends AppCompatActivity {
         Glide.with(this).load(R.drawable.ankit).into(sankit);
         AuthConfig authConfig = new AuthConfig(this);
         //condition to go to loginactivity
-        if(!authConfig.readloginstatus()){
+        if(authConfig.readloginstatus()){
             startActivity(new Intent(SplashActivity.this,LoginActivity.class));
         }
         //go to roseiactivity or dashboard
@@ -67,63 +69,41 @@ public class SplashActivity extends AppCompatActivity {
             progressBar = (ProgressBar)findViewById(R.id.load);
             progressBar.setVisibility(View.VISIBLE);
             //menu request
-            JsonObjectRequest menurequest = new JsonObjectRequest(Request.Method.GET, getResources().getString(R.string.root_url) + "/menu",null,new Response.Listener<JSONObject>() {
+            JsonArrayRequest menurequest = new JsonArrayRequest(Request.Method.GET, getResources().getString(R.string.root_url) + "/menu",null,new Response.Listener<JSONArray>() {
                 @Override
-                public void onResponse(JSONObject menuresponse) {
+                public void onResponse(JSONArray menuresponse) {
+                    System.out.println(menuresponse);
                     try {
                         MessUpMenuDb messUpMenuDb = new MessUpMenuDb(SplashActivity.this);
-                        JSONArray messup = menuresponse.getJSONArray("messUP");
-                        for(int i=0;i<messup.length();i++) {
-                            String breakfast = messup.getJSONObject(i).getString("breakfast");
-                            String lunch = messup.getJSONObject(i).getString("lunch");
-                            String dinner = messup.getJSONObject(i).getString("dinner");
-                            String date = messup.getJSONObject(i).getString("date");
-                            String day = null;
-                            if (i == 0) {
-                                day = "Monday";
-                            } else if (i == 1) {
-                                day = "Tuesday";
-                            } else if (i == 2) {
-                                day = "Wednesday";
-                            } else if (i == 3) {
-                                day = "Thursday";
-                            } else if (i == 4) {
-                                day = "Friday";
-                            } else if (i == 5) {
-                                day = "Saturday";
-                            } else if (i == 6) {
-                                day = "Sunday";
-                            }
-                            Mess_Menu mess_menu = new Mess_Menu(day, breakfast, lunch, dinner, date);
-                            //messUpMenuDb.insertData(mess_menu);
-                            //messUpMenuDb.updatenotice(mess_menu);
+                        MessDownMenuDb messDownMenuDb = new MessDownMenuDb(SplashActivity.this);
+                        JSONObject messup = menuresponse.getJSONObject(0).getJSONObject("messUP");
+                        ArrayList<String> days = new ArrayList<>();
+                        days.add("mon");
+                        days.add("tue");
+                        days.add("wed");
+                        days.add("thr");
+                        days.add("fri");
+                        days.add("sat");
+                        days.add("sun");
+                        for(int i=0;i<days.size();i++) {
+                            String breakfast = messup.getJSONObject(days.get(i)).getString("breakfast");
+                            String lunch = messup.getJSONObject(days.get(i)).getString("lunch");
+                            String dinner = messup.getJSONObject(days.get(i)).getString("dinner");
+                            String date = messup.getJSONObject(days.get(i)).getString("date");
+                            Mess_Menu mess_menu = new Mess_Menu(days.get(i), breakfast, lunch, dinner, date.substring(0,10));
+                            messUpMenuDb.insertData(mess_menu);
+                            messUpMenuDb.updatenotice(mess_menu);
                         }
-                            MessDownMenuDb messDownMenuDb = new MessDownMenuDb(SplashActivity.this);
-                            JSONArray messdown = menuresponse.getJSONArray("messDown");
-                            for(int i=0;i<messdown.length();i++) {
-                                String breakfast = messdown.getJSONObject(i).getString("breakfast");
-                                String lunch = messdown.getJSONObject(i).getString("lunch");
-                                String dinner = messdown.getJSONObject(i).getString("dinner");
-                                String date = messdown.getJSONObject(i).getString("date");
-                                String day = null;
-                                if (i == 0) {
-                                    day = "Monday";
-                                } else if (i == 1) {
-                                    day = "Tuesday";
-                                } else if (i == 2) {
-                                    day = "Wednesday";
-                                } else if (i == 3) {
-                                    day = "Thursday";
-                                } else if (i == 4) {
-                                    day = "Friday";
-                                } else if (i == 5) {
-                                    day = "Saturday";
-                                } else if (i == 6) {
-                                    day = "Sunday";
-                                }
-                                Mess_Menu mess_menu = new Mess_Menu(day, breakfast, lunch, dinner, date);
-                                //messDownMenuDb.insertData(mess_menu);
-                                //messDownMenuDb.updatenotice(mess_menu);
+
+                            JSONObject messdown = menuresponse.getJSONObject(0).getJSONObject("messDown");
+                            for(int i=0;i<days.size();i++) {
+                                String breakfast = messdown.getJSONObject(days.get(i)).getString("breakfast");
+                                String lunch = messdown.getJSONObject(days.get(i)).getString("lunch");
+                                String dinner = messdown.getJSONObject(days.get(i)).getString("dinner");
+                                String date = messdown.getJSONObject(days.get(i)).getString("date");
+                                Mess_Menu mess_menu = new Mess_Menu(days.get(i), breakfast, lunch, dinner, date.substring(0,10));
+                                messDownMenuDb.insertData(mess_menu);
+                                messDownMenuDb.updatenotice(mess_menu);
                             }
 
 
@@ -219,6 +199,7 @@ public class SplashActivity extends AppCompatActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    System.out.println("Error" + error);
                     progressBar.setVisibility(View.INVISIBLE);
                     Toast.makeText(SplashActivity.this,"Unable to load Menu",Toast.LENGTH_SHORT).show();
                 }

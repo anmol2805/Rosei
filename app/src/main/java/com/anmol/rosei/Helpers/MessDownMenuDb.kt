@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.database.sqlite.SQLiteReadOnlyDatabaseException
 import com.anmol.rosei.Model.Mess_Menu
 
-private val DATABASE_NAME = "menudb"
+private val DATABASE_NAME = "menudowndb"
 private val TABLE_NAME = "messdown_menu_table"
 private val COL_DAY = "day"
 private val COL_BREAKFAST = "breakfast"
@@ -23,7 +23,7 @@ class MessDownMenuDb (context: Context): SQLiteOpenHelper(context, DATABASE_NAME
                 COL_DAY + " VARCHAR(16) PRIMARY KEY NOT NULL UNIQUE," +
                 COL_BREAKFAST + " VARCHAR(256)," +
                 COL_LUNCH + " VARCHAR(256)," +
-                COL_DINNER + " VARCHAR(256)" +
+                COL_DINNER + " VARCHAR(256)," +
                 COL_DATE + " VARCHAR(16))"
         p0?.execSQL(createtable)
     }

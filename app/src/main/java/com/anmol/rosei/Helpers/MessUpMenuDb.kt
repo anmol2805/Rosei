@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.database.sqlite.SQLiteReadOnlyDatabaseException
 import com.anmol.rosei.Model.Mess_Menu
 
-private val DATABASE_NAME = "menudb"
+private val DATABASE_NAME = "menuupdb"
 private val TABLE_NAME = "messup_menu_table"
 private val COL_DAY = "day"
 private val COL_BREAKFAST = "breakfast"
