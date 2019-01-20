@@ -74,32 +74,29 @@ public class SplashActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(JSONArray menuresponse) {
                     System.out.println(menuresponse);
+                    String monday = null;
+                    final ArrayList<String> days = new ArrayList<>();
+                    days.add("mon");
+                    days.add("tue");
+                    days.add("wed");
+                    days.add("thr");
+                    days.add("fri");
+                    days.add("sat");
+                    days.add("sun");
                     try {
                         MessUpMenuDb messUpMenuDb = new MessUpMenuDb(SplashActivity.this);
                         MessDownMenuDb messDownMenuDb = new MessDownMenuDb(SplashActivity.this);
                         JSONObject messup = menuresponse.getJSONObject(0).getJSONObject("messUP");
-                        ArrayList<String> days = new ArrayList<>();
-                        days.add("mon");
-                        days.add("tue");
-                        days.add("wed");
-                        days.add("thr");
-                        days.add("fri");
-                        days.add("sat");
-                        days.add("sun");
+                        monday = messup.getJSONObject("mon").getString("date");
+
                         for(int i=0;i<days.size();i++) {
                             String breakfast = messup.getJSONObject(days.get(i)).getString("breakfast");
                             String lunch = messup.getJSONObject(days.get(i)).getString("lunch");
                             String dinner = messup.getJSONObject(days.get(i)).getString("dinner");
                             String date = messup.getJSONObject(days.get(i)).getString("date");
                             Mess_Menu mess_menu = new Mess_Menu(days.get(i), breakfast, lunch, dinner, date.substring(0,10));
-                            try{
                                 messUpMenuDb.insertData(mess_menu);
-                            }
-                            catch (SQLiteConstraintException e){
                                 messUpMenuDb.updatenotice(mess_menu);
-                            }
-
-
                         }
 
                             JSONObject messdown = menuresponse.getJSONObject(0).getJSONObject("messDown");
@@ -109,12 +106,10 @@ public class SplashActivity extends AppCompatActivity {
                                 String dinner = messdown.getJSONObject(days.get(i)).getString("dinner");
                                 String date = messdown.getJSONObject(days.get(i)).getString("date");
                                 Mess_Menu mess_menu = new Mess_Menu(days.get(i), breakfast, lunch, dinner, date.substring(0,10));
-                                try{
+
                                     messDownMenuDb.insertData(mess_menu);
-                                }
-                                catch (SQLiteConstraintException e){
                                     messDownMenuDb.updatenotice(mess_menu);
-                                }
+
 
                             }
 
@@ -124,89 +119,56 @@ public class SplashActivity extends AppCompatActivity {
                     }
 
                     //coupon request
-//                    JsonObjectRequest couponrequest = new JsonObjectRequest(Request.Method.POST, "", null, new Response.Listener<JSONObject>() {
-//                        @Override
-//                        public void onResponse(JSONObject couponresponse) {
-//                            try {
-//                                CouponDb couponDb = new CouponDb(SplashActivity.this);
-//                                JSONArray coupon = couponresponse.getJSONArray("coupon");
-//                                for(int i=0;i<coupon.length();i++){
-//                                    JSONArray day = coupon.getJSONArray(i);
-//                                    String weekday = null;
-//                                    StringBuilder breakfast= new StringBuilder("000");
-//                                    StringBuilder lunch= new StringBuilder("000");
-//                                    StringBuilder dinner= new StringBuilder("000");
-//                                    for(int j=0;j<day.length();j++){
-//                                        JSONObject meal = day.getJSONObject(j);
-//
-//                                        if(meal.getBoolean("isSelected")){
-//                                            if(j==0){
-//                                                breakfast.setCharAt(0,'1');
-//                                            }
-//                                            else if(j==1){
-//                                                lunch.setCharAt(0,'1');
-//                                            }else{
-//                                                dinner.setCharAt(0,'1');
-//                                            }
-//                                        }
-//                                        if(meal.getBoolean("isVeg")){
-//                                            if(j==0){
-//                                                breakfast.setCharAt(1,'1');
-//                                            }
-//                                            else if(j==1){
-//                                                lunch.setCharAt(1,'1');
-//                                            }else{
-//                                                dinner.setCharAt(1,'1');
-//                                            }
-//                                        }
-//                                        if(meal.getBoolean("isMessUp")){
-//                                            if(j==0){
-//                                                breakfast.setCharAt(2,'1');
-//                                            }
-//                                            else if(j==1){
-//                                                lunch.setCharAt(2,'1');
-//                                            }else{
-//                                                dinner.setCharAt(2,'1');
-//                                            }
-//                                        }
-//
-//                                    }
-//                                    if (i == 0) {
-//                                        weekday = "Monday";
-//                                    } else if (i == 1) {
-//                                        weekday = "Tuesday";
-//                                    } else if (i == 2) {
-//                                        weekday = "Wednesday";
-//                                    } else if (i == 3) {
-//                                        weekday = "Thursday";
-//                                    } else if (i == 4) {
-//                                        weekday = "Friday";
-//                                    } else if (i == 5) {
-//                                        weekday = "Saturday";
-//                                    } else if (i == 6) {
-//                                        weekday = "Sunday";
-//                                    }
-//                                    CouponStatus couponStatus = new CouponStatus(weekday,breakfast,lunch,dinner);
-//                                    couponDb.insertData(couponStatus);
-//                                    couponDb.updatenotice(couponStatus);
-//                                }
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//
-//                            progressBar.setVisibility(View.INVISIBLE);
-//                            Intent intent = new Intent(SplashActivity.this, RoseiActivity.class);
-//                            startActivity(intent);
-//                            overridePendingTransition(R.anim.still,R.anim.slide_in_up);
-//                        }
-//                    }, new Response.ErrorListener() {
-//                        @Override
-//                        public void onErrorResponse(VolleyError error) {
-//                            progressBar.setVisibility(View.INVISIBLE);
-//                            Toast.makeText(SplashActivity.this,"Unable to load Coupons",Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-//                    Mysingleton.getInstance(SplashActivity.this).addToRequestqueue(couponrequest);
+                    JsonObjectRequest couponrequest = new JsonObjectRequest(Request.Method.GET, getResources().getString(R.string.root_url) + "/coupon/b216008/" + monday, null, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject couponresponse) {
+                            try {
+                                System.out.println(couponresponse);
+                                CouponDb couponDb = new CouponDb(SplashActivity.this);
+                                JSONObject coupon = couponresponse.getJSONObject("coupon");
+                                ArrayList<String> meals = new ArrayList<>();
+                                meals.add("breakfast");
+                                meals.add("lunch");
+                                meals.add("dinner");
+                                ArrayList<String> params = new ArrayList<>();
+                                params.add("isSelected");
+                                params.add("isVeg");
+                                params.add("isMessUp");
+                                for(int i=0;i<days.size();i++){
+                                    JSONObject day = coupon.getJSONObject(days.get(i));
+                                    ArrayList<StringBuilder> binaries = new ArrayList<>();
+                                    binaries.add(new StringBuilder("000"));
+                                    binaries.add(new StringBuilder("000"));
+                                    binaries.add(new StringBuilder("000"));
+                                    for(int j=0;j<meals.size();j++){
+                                        JSONObject meal = day.getJSONObject(meals.get(j));
+                                        for(int k=0;k<params.size();k++){
+                                            if(meal.getBoolean(params.get(k))){
+                                                binaries.get(j).setCharAt(k,'1');
+                                            }
+                                        }
+                                    }
+                                    System.out.println(days.get(i)+binaries.get(0).toString()+binaries.get(1).toString()+binaries.get(2).toString());
+                                    CouponStatus couponStatus = new CouponStatus(days.get(i),binaries.get(0).toString(),binaries.get(1).toString(),binaries.get(2).toString());
+                                    couponDb.insertData(couponStatus);
+                                    couponDb.updatenotice(couponStatus);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            progressBar.setVisibility(View.INVISIBLE);
+                            Intent intent = new Intent(SplashActivity.this, RoseiActivity.class);
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.still,R.anim.slide_in_up);
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            progressBar.setVisibility(View.INVISIBLE);
+                            Toast.makeText(SplashActivity.this,"Unable to load Coupons",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    Mysingleton.getInstance(SplashActivity.this).addToRequestqueue(couponrequest);
                 }
             }, new Response.ErrorListener() {
                 @Override
