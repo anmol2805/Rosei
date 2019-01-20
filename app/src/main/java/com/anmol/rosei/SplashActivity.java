@@ -67,12 +67,12 @@ public class SplashActivity extends AppCompatActivity {
             progressBar = (ProgressBar)findViewById(R.id.load);
             progressBar.setVisibility(View.VISIBLE);
             //menu request
-            JsonObjectRequest menurequest = new JsonObjectRequest(Request.Method.POST, "", null, new Response.Listener<JSONObject>() {
+            JsonObjectRequest menurequest = new JsonObjectRequest(Request.Method.GET, getResources().getString(R.string.root_url) + "/menu",null,new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject menuresponse) {
                     try {
                         MessUpMenuDb messUpMenuDb = new MessUpMenuDb(SplashActivity.this);
-                        JSONArray messup = menuresponse.getJSONArray("messUp");
+                        JSONArray messup = menuresponse.getJSONArray("messUP");
                         for(int i=0;i<messup.length();i++) {
                             String breakfast = messup.getJSONObject(i).getString("breakfast");
                             String lunch = messup.getJSONObject(i).getString("lunch");
@@ -95,8 +95,8 @@ public class SplashActivity extends AppCompatActivity {
                                 day = "Sunday";
                             }
                             Mess_Menu mess_menu = new Mess_Menu(day, breakfast, lunch, dinner, date);
-                            messUpMenuDb.insertData(mess_menu);
-                            messUpMenuDb.updatenotice(mess_menu);
+                            //messUpMenuDb.insertData(mess_menu);
+                            //messUpMenuDb.updatenotice(mess_menu);
                         }
                             MessDownMenuDb messDownMenuDb = new MessDownMenuDb(SplashActivity.this);
                             JSONArray messdown = menuresponse.getJSONArray("messDown");
@@ -122,8 +122,8 @@ public class SplashActivity extends AppCompatActivity {
                                     day = "Sunday";
                                 }
                                 Mess_Menu mess_menu = new Mess_Menu(day, breakfast, lunch, dinner, date);
-                                messDownMenuDb.insertData(mess_menu);
-                                messDownMenuDb.updatenotice(mess_menu);
+                                //messDownMenuDb.insertData(mess_menu);
+                                //messDownMenuDb.updatenotice(mess_menu);
                             }
 
 
@@ -132,89 +132,89 @@ public class SplashActivity extends AppCompatActivity {
                     }
 
                     //coupon request
-                    JsonObjectRequest couponrequest = new JsonObjectRequest(Request.Method.POST, "", null, new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject couponresponse) {
-                            try {
-                                CouponDb couponDb = new CouponDb(SplashActivity.this);
-                                JSONArray coupon = couponresponse.getJSONArray("coupon");
-                                for(int i=0;i<coupon.length();i++){
-                                    JSONArray day = coupon.getJSONArray(i);
-                                    String weekday = null;
-                                    StringBuilder breakfast= new StringBuilder("000");
-                                    StringBuilder lunch= new StringBuilder("000");
-                                    StringBuilder dinner= new StringBuilder("000");
-                                    for(int j=0;j<day.length();j++){
-                                        JSONObject meal = day.getJSONObject(j);
-
-                                        if(meal.getBoolean("isSelected")){
-                                            if(j==0){
-                                                breakfast.setCharAt(0,'1');
-                                            }
-                                            else if(j==1){
-                                                lunch.setCharAt(0,'1');
-                                            }else{
-                                                dinner.setCharAt(0,'1');
-                                            }
-                                        }
-                                        if(meal.getBoolean("isVeg")){
-                                            if(j==0){
-                                                breakfast.setCharAt(1,'1');
-                                            }
-                                            else if(j==1){
-                                                lunch.setCharAt(1,'1');
-                                            }else{
-                                                dinner.setCharAt(1,'1');
-                                            }
-                                        }
-                                        if(meal.getBoolean("isMessUp")){
-                                            if(j==0){
-                                                breakfast.setCharAt(2,'1');
-                                            }
-                                            else if(j==1){
-                                                lunch.setCharAt(2,'1');
-                                            }else{
-                                                dinner.setCharAt(2,'1');
-                                            }
-                                        }
-
-                                    }
-                                    if (i == 0) {
-                                        weekday = "Monday";
-                                    } else if (i == 1) {
-                                        weekday = "Tuesday";
-                                    } else if (i == 2) {
-                                        weekday = "Wednesday";
-                                    } else if (i == 3) {
-                                        weekday = "Thursday";
-                                    } else if (i == 4) {
-                                        weekday = "Friday";
-                                    } else if (i == 5) {
-                                        weekday = "Saturday";
-                                    } else if (i == 6) {
-                                        weekday = "Sunday";
-                                    }
-                                    CouponStatus couponStatus = new CouponStatus(weekday,breakfast,lunch,dinner);
-                                    couponDb.insertData(couponStatus);
-                                    couponDb.updatenotice(couponStatus);
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                            progressBar.setVisibility(View.INVISIBLE);
-                            Intent intent = new Intent(SplashActivity.this, RoseiActivity.class);
-                            startActivity(intent);
-                            overridePendingTransition(R.anim.still,R.anim.slide_in_up);
-                        }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            progressBar.setVisibility(View.INVISIBLE);
-                            Toast.makeText(SplashActivity.this,"Unable to load Coupons",Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    Mysingleton.getInstance(SplashActivity.this).addToRequestqueue(couponrequest);
+//                    JsonObjectRequest couponrequest = new JsonObjectRequest(Request.Method.POST, "", null, new Response.Listener<JSONObject>() {
+//                        @Override
+//                        public void onResponse(JSONObject couponresponse) {
+//                            try {
+//                                CouponDb couponDb = new CouponDb(SplashActivity.this);
+//                                JSONArray coupon = couponresponse.getJSONArray("coupon");
+//                                for(int i=0;i<coupon.length();i++){
+//                                    JSONArray day = coupon.getJSONArray(i);
+//                                    String weekday = null;
+//                                    StringBuilder breakfast= new StringBuilder("000");
+//                                    StringBuilder lunch= new StringBuilder("000");
+//                                    StringBuilder dinner= new StringBuilder("000");
+//                                    for(int j=0;j<day.length();j++){
+//                                        JSONObject meal = day.getJSONObject(j);
+//
+//                                        if(meal.getBoolean("isSelected")){
+//                                            if(j==0){
+//                                                breakfast.setCharAt(0,'1');
+//                                            }
+//                                            else if(j==1){
+//                                                lunch.setCharAt(0,'1');
+//                                            }else{
+//                                                dinner.setCharAt(0,'1');
+//                                            }
+//                                        }
+//                                        if(meal.getBoolean("isVeg")){
+//                                            if(j==0){
+//                                                breakfast.setCharAt(1,'1');
+//                                            }
+//                                            else if(j==1){
+//                                                lunch.setCharAt(1,'1');
+//                                            }else{
+//                                                dinner.setCharAt(1,'1');
+//                                            }
+//                                        }
+//                                        if(meal.getBoolean("isMessUp")){
+//                                            if(j==0){
+//                                                breakfast.setCharAt(2,'1');
+//                                            }
+//                                            else if(j==1){
+//                                                lunch.setCharAt(2,'1');
+//                                            }else{
+//                                                dinner.setCharAt(2,'1');
+//                                            }
+//                                        }
+//
+//                                    }
+//                                    if (i == 0) {
+//                                        weekday = "Monday";
+//                                    } else if (i == 1) {
+//                                        weekday = "Tuesday";
+//                                    } else if (i == 2) {
+//                                        weekday = "Wednesday";
+//                                    } else if (i == 3) {
+//                                        weekday = "Thursday";
+//                                    } else if (i == 4) {
+//                                        weekday = "Friday";
+//                                    } else if (i == 5) {
+//                                        weekday = "Saturday";
+//                                    } else if (i == 6) {
+//                                        weekday = "Sunday";
+//                                    }
+//                                    CouponStatus couponStatus = new CouponStatus(weekday,breakfast,lunch,dinner);
+//                                    couponDb.insertData(couponStatus);
+//                                    couponDb.updatenotice(couponStatus);
+//                                }
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//
+//                            progressBar.setVisibility(View.INVISIBLE);
+//                            Intent intent = new Intent(SplashActivity.this, RoseiActivity.class);
+//                            startActivity(intent);
+//                            overridePendingTransition(R.anim.still,R.anim.slide_in_up);
+//                        }
+//                    }, new Response.ErrorListener() {
+//                        @Override
+//                        public void onErrorResponse(VolleyError error) {
+//                            progressBar.setVisibility(View.INVISIBLE);
+//                            Toast.makeText(SplashActivity.this,"Unable to load Coupons",Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//                    Mysingleton.getInstance(SplashActivity.this).addToRequestqueue(couponrequest);
                 }
             }, new Response.ErrorListener() {
                 @Override
