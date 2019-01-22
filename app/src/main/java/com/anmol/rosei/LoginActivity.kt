@@ -19,6 +19,7 @@ import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
+import com.anmol.rosei.Helpers.AuthUser
 
 import com.anmol.rosei.Model.Students
 import com.canopydevelopers.canopyauth.CanopyAuthCallback
@@ -80,20 +81,18 @@ class LoginActivity : AppCompatActivity() {
             male.isChecked = false
             gender = "female"
         }
-        val sharedPreferences:SharedPreferences = getSharedPreferences("com.canopydevelopers.canopyauth", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
+        val authUser = AuthUser(this)
         btnLogin!!.setOnClickListener {
             sid = inputEmail!!.text.toString().trim()
             password = inputPassword!!.text.toString().trim()
             when {
-                TextUtils.isEmpty(email) -> Toast.makeText(applicationContext, "Enter Student ID!", Toast.LENGTH_SHORT).show()
+                TextUtils.isEmpty(sid) -> Toast.makeText(applicationContext, "Enter Student ID!", Toast.LENGTH_SHORT).show()
                 TextUtils.isEmpty(password) -> Toast.makeText(applicationContext, "Enter password!", Toast.LENGTH_SHORT).show()
                 else -> {
                     val canopyAuthCallback = object : CanopyAuthCallback {
                         override fun onLoginSuccess(loginresponse: Boolean?) {
                             if (loginresponse!!){
-                                editor.putString("gender",gender)
-                                if(editor.commit()){
+                                if(authUser.writegender(gender) && authUser.writeuser(sid!!)){
                                     val intent = Intent(applicationContext, SplashActivity::class.java)
                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
