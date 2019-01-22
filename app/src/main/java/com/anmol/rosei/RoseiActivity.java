@@ -125,7 +125,6 @@ public class RoseiActivity extends AppCompatActivity {
                                 startActivity(intent);
                                 finish();
                                 overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_down);
-
                             }
                         });
 
@@ -143,11 +142,13 @@ public class RoseiActivity extends AppCompatActivity {
         });
 
         //user image here
-//        String url = "https://hib.iiit-bh.ac.in/Hibiscus/docs/iiit/Photos/"+sid+".jpg";
-//        Glide.with(RoseiActivity.this).load(url).into(user);
+        final AuthUser authUser = new AuthUser(this);
+        String url = "https://hib.iiit-bh.ac.in/Hibiscus/docs/iiit/Photos/"+authUser.readuser().toUpperCase()+".jpg";
+        stuid.setText(authUser.readuser().toUpperCase());
+        Glide.with(RoseiActivity.this).load(url).into(user);
 
         loadDataFromDb();
-        final AuthUser authUser = new AuthUser(this);
+
         swipeRefreshLayout.setColorSchemeColors(
                 getResources().getColor(R.color.colorAccent)
         );
