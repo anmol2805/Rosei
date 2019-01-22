@@ -19,11 +19,17 @@ import android.widget.Toast;
 
 import com.anmol.rosei.Adapter.GridAdapter;
 import com.anmol.rosei.Adapter.ViewpageAdapter;
+import com.anmol.rosei.Helpers.CurrentCouponDb;
+import com.anmol.rosei.Helpers.MessDownMenuDb;
+import com.anmol.rosei.Helpers.MessUpMenuDb;
 import com.anmol.rosei.Model.Coupon;
+import com.anmol.rosei.Model.CouponStatus;
 import com.anmol.rosei.Model.MessStatus;
+import com.anmol.rosei.Model.Mess_Menu;
 import com.anmol.rosei.Services.MessStatusService;
 import com.anmol.rosei.Services.MessStatusService2;
 import com.bumptech.glide.Glide;
+import com.canopydevelopers.canopyauth.AuthConfig;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -45,11 +51,7 @@ import java.util.Locale;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RoseiActivity extends AppCompatActivity {
-    FirebaseAuth auth = FirebaseAuth.getInstance();
-    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("students").child(auth.getCurrentUser().getUid()).child("rosei");
-    DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("students").child(auth.getCurrentUser().getUid()).child("mess1");
-    DatabaseReference updb = FirebaseDatabase.getInstance().getReference().child("students").child(auth.getCurrentUser().getUid()).child("UpcomingWeek");
-    DatabaseReference predb = FirebaseDatabase.getInstance().getReference().child("students").child(auth.getCurrentUser().getUid()).child("PresentWeek");
+
     Animation rotate;
     Button book;
     ImageButton set;
@@ -90,6 +92,7 @@ public class RoseiActivity extends AppCompatActivity {
                 set.startAnimation(rotate);
             }
         });
+        final AuthConfig authConfig = new AuthConfig(this);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,12 +100,11 @@ public class RoseiActivity extends AppCompatActivity {
                 builder1.setTitle("Logout");
                 builder1.setMessage("Are you sure you want to logout?");
                 builder1.setCancelable(true);
-
                 builder1.setPositiveButton(
                         "Logout",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-
+                                authConfig.writeloginstatus(false);
                                 Intent intent = new Intent(RoseiActivity.this,LoginActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -130,166 +132,110 @@ public class RoseiActivity extends AppCompatActivity {
 //        String url = "https://hib.iiit-bh.ac.in/Hibiscus/docs/iiit/Photos/"+sid+".jpg";
 //        Glide.with(RoseiActivity.this).load(url).into(user);
 
+        loadDataFromDb();
 
-        SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
-        final Date d = new Date();
-        final String dayOfTheWeek = sdf.format(d);
-        if(dayOfTheWeek.contains("Sunday")){
 
-        }
-        Intent i = new Intent(this, MessStatusService.class);
-        startService(i);
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent i2 = new Intent(RoseiActivity.this, MessStatusService2.class);
-                startService(i2);
-            }
-        },1000);
-        updb.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot!=null && dataSnapshot.child(String.valueOf("0")).exists() && dataSnapshot.child(String.valueOf("0")).child("date").getValue(String.class)!=null){
-                    String date = dataSnapshot.child(String.valueOf("0")).child("date").getValue(String.class);
-                    date = date.substring(0,10);
-                    System.out.println("coupondate:" + date);
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                    try {
-                        Date changedate = simpleDateFormat.parse(date);
-                        System.out.println("coupondate:" + changedate);
-                        Date onedaybefore = new Date(changedate.getTime() - 2);
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        String stringodf = sdf.format(onedaybefore);
-                        stringodf = stringodf.substring(0,10);
-                        stringodf = stringodf + " 21:45:00";
-                        onedaybefore = sdf.parse(stringodf);
-                        System.out.println("onedaybefore:" + onedaybefore);
-                        Date currenttime = Calendar.getInstance().getTime();
-                        if (currenttime.after(onedaybefore)){
-                            System.out.println("swap database");
-                            for(int i = 0;i<7;i++){
-                                movePres(updb.child(String.valueOf(i)),predb.child(String.valueOf(i)));
-                                updb.child(String.valueOf(i)).removeValue();
-                            }
-                        }
-                    } catch (ParseException e) {
-                        e.printStackTrace();
+    }
+
+    private void loadDataFromDb() {
+        CurrentCouponDb currentCouponDb = new CurrentCouponDb(this);
+        MessUpMenuDb messUpMenuDb = new MessUpMenuDb(this);
+        MessDownMenuDb messDownMenuDb = new MessDownMenuDb(this);
+
+        List<CouponStatus> couponStatuses = new ArrayList<>();
+        couponStatuses.clear();
+        couponStatuses = currentCouponDb.readData("Select * from current_coupon_table");
+        List<Mess_Menu> messupmenu = new ArrayList<>();
+        messupmenu.clear();
+        messupmenu = messUpMenuDb.readData("Select * from messup_menu_table");
+        List<Mess_Menu> messdownmenu = new ArrayList<>();
+        messdownmenu.clear();
+        messdownmenu = messDownMenuDb.readData("Select * from messdown_menu_table");
+        messStatuses.clear();
+        coupons.clear();
+        for(int i=0;i<couponStatuses.size();i++){
+            MessStatus messStatus = new MessStatus(couponStatuses.get(i).getBreakfast(),couponStatuses.get(i).getLunch(),couponStatuses.get(i).getDinner(),messupmenu.get(i).getDate(),couponStatuses.get(i).getWeekday());
+            messStatuses.add(messStatus);
+            String daydate = messupmenu.get(i).getDate();
+            String day = couponStatuses.get(i).getWeekday();
+            String bs = couponStatuses.get(i).getBreakfast();
+            String ls = couponStatuses.get(i).getLunch();
+            String ds = couponStatuses.get(i).getDinner();
+            String breakfastdate = daydate + " 09:15:00";
+            String lunchdate = daydate + " 14:15:00";
+            String dinnerdate = daydate + " 21:15:00";
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            try {
+                Date bfdate = sdf.parse(breakfastdate);
+                Date lnchdate = sdf.parse(lunchdate);
+                Date dindate = sdf.parse(dinnerdate);
+                Date todaydate = Calendar.getInstance().getTime();
+                String bmess = "notissued";
+                String lmess = "notissued";
+                String dmess = "notissued";
+                if(bs.charAt(2) == '0'){
+                    bmess = "Ground floor Mess";
+                }
+                else if(bs.charAt(2) == '1'){
+                    bmess = "First floor Mess";
+                }
+                if(ls.charAt(2) == '0'){
+                    lmess = "Ground floor Mess";
+                }
+                else if(ls.charAt(2) == '1'){
+                    lmess = "First floor Mess";
+                }
+                if(ds.charAt(2) == '0'){
+                    dmess = "Ground floor Mess";
+                }
+                else if(ds.charAt(2) == '1'){
+                    dmess = "First floor Mess";
+                }
+                Coupon bfcoupon = new Coupon("Breakfast",bmess,day,daydate);
+                Coupon lnccoupon = new Coupon("Lunch",lmess,day,daydate);
+                Coupon dincoupon = new Coupon("Dinner",dmess,day,daydate);
+                if(todaydate.before(bfdate)){
+                    if(!bmess.contains("notissued")){
+                        coupons.add(bfcoupon);
                     }
-                }
-                else {
-                    System.out.println("document is null");
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-        predb.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot!=null){
-                    messStatuses.clear();
-                    coupons.clear();
-                     for(int i = 0;i<7;i++){
-                        if(dataSnapshot.child(String.valueOf(i)).exists())  {
-                            String bs = dataSnapshot.child(String.valueOf(i)).child("bs").getValue(String.class);
-                            String ls = dataSnapshot.child(String.valueOf(i)).child("ls").getValue(String.class);
-                            String ds = dataSnapshot.child(String.valueOf(i)).child("ds").getValue(String.class);
-                            String date = dataSnapshot.child(String.valueOf(i)).child("date").getValue(String.class);
-                            String day = date.substring(11,14);
-                            MessStatus messStatus = new MessStatus(bs,ls,ds,date,day);
-                            messStatuses.add(messStatus);
-                            String daydate = date.substring(0,10);
-
-                            String breakfastdate = daydate + " 09:45:00";
-                            String lunchdate = daydate + " 14:45:00";
-                            String dinnerdate = daydate + " 21:45:00";
-                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                            try {
-                                Date bfdate = sdf.parse(breakfastdate);
-                                Date lnchdate = sdf.parse(lunchdate);
-                                Date dindate = sdf.parse(dinnerdate);
-                                Date todaydate = Calendar.getInstance().getTime();
-                                String bmess = "notissued";
-                                String lmess = "notissued";
-                                String dmess = "notissued";
-                                if(bs.contains("1")){
-                                    bmess = "Ground floor Mess";
-                                }
-                                else if(bs.contains("2")){
-                                    bmess = "First floor Mess";
-                                }
-                                if(ls.contains("1")){
-                                    lmess = "Ground floor Mess";
-                                }
-                                else if(ls.contains("2")){
-                                    lmess = "First floor Mess";
-                                }
-                                if(ds.contains("1")){
-                                    dmess = "Ground floor Mess";
-                                }
-                                else if(ds.contains("2")){
-                                    dmess = "First floor Mess";
-                                }
-                                Coupon bfcoupon = new Coupon("Breakfast",bmess,day,daydate);
-                                Coupon lnccoupon = new Coupon("Lunch",lmess,day,daydate);
-                                Coupon dincoupon = new Coupon("Dinner",dmess,day,daydate);
-                                if(todaydate.before(bfdate)){
-                                    if(!bmess.contains("notissued")){
-                                        coupons.add(bfcoupon);
-                                    }
-                                    if(!lmess.contains("notissued")){
-                                        coupons.add(lnccoupon);
-                                    }
-                                    if(!dmess.contains("notissued")){
-                                        coupons.add(dincoupon);
-                                    }
-
-                                }
-                                else if(todaydate.after(bfdate) && todaydate.before(lnchdate)){
-                                    if(!lmess.contains("notissued")){
-                                        coupons.add(lnccoupon);
-                                    }
-                                    if(!dmess.contains("notissued")){
-                                        coupons.add(dincoupon);
-                                    }
-
-
-                                }
-                                else if(todaydate.after(lnchdate) && todaydate.before(dindate)){
-                                    if(!dmess.contains("notissued")){
-                                        coupons.add(dincoupon);
-                                    }
-
-                                }
-
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                     }
-                     if (!messStatuses.isEmpty()){
-                         gridAdapter = new GridAdapter(RoseiActivity.this,messStatuses);
-                         gridview.setAdapter(gridAdapter);
-                     }
-                     if(!coupons.isEmpty()){
-                         viewpageAdapter = new ViewpageAdapter(RoseiActivity.this,coupons);
-                         viewpageAdapter.notifyDataSetChanged();
-                         viewPager.setAdapter(viewpageAdapter);
-                     }
+                    if(!lmess.contains("notissued")){
+                        coupons.add(lnccoupon);
+                    }
+                    if(!dmess.contains("notissued")){
+                        coupons.add(dincoupon);
+                    }
 
                 }
-            }
+                else if(todaydate.after(bfdate) && todaydate.before(lnchdate)){
+                    if(!lmess.contains("notissued")){
+                        coupons.add(lnccoupon);
+                    }
+                    if(!dmess.contains("notissued")){
+                        coupons.add(dincoupon);
+                    }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
 
+                }
+                else if(todaydate.after(lnchdate) && todaydate.before(dindate)){
+                    if(!dmess.contains("notissued")){
+                        coupons.add(dincoupon);
+                    }
+
+                }
+
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
-        });
+        }
+        if(!messStatuses.isEmpty()){
+            gridAdapter = new GridAdapter(this,messStatuses);
+            gridview.setAdapter(gridAdapter);
+        }
+        if(!coupons.isEmpty()){
+            viewpageAdapter = new ViewpageAdapter(RoseiActivity.this,coupons);
+            viewpageAdapter.notifyDataSetChanged();
+            viewPager.setAdapter(viewpageAdapter);
+        }
 
     }
 
@@ -305,29 +251,6 @@ public class RoseiActivity extends AppCompatActivity {
             back_pressed = System.currentTimeMillis();
         }
     }
-    private void movePres(final DatabaseReference fromPath, final DatabaseReference toPath) {
-        fromPath.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                toPath.setValue(dataSnapshot.getValue(), new DatabaseReference.CompletionListener() {
-                    @Override
-                    public void onComplete(DatabaseError firebaseError, DatabaseReference firebase) {
-                        if (firebaseError != null) {
-                            System.out.println("Copy failed");
-                        } else {
-                            System.out.println("Success");
 
-                        }
-                    }
-                });
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
 
 }

@@ -47,7 +47,7 @@ class CurrentCouponDb (context: Context): SQLiteOpenHelper(context, DATABASE_NAM
                 System.out.println("sqlstatus is failed")
             else
                 System.out.println("sqlstatus is successs")
-        }catch (e: SQLiteCantOpenDatabaseException){
+        }catch (e:SQLiteCantOpenDatabaseException){
 
         }
 
