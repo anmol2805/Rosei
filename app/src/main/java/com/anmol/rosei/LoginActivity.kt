@@ -69,30 +69,28 @@ class LoginActivity : AppCompatActivity() {
         btnLogin!!.setOnClickListener {
             sid = inputEmail!!.text.toString().trim()
             password = inputPassword!!.text.toString().trim()
-            if (TextUtils.isEmpty(email)) {
-                Toast.makeText(applicationContext, "Enter Student ID!", Toast.LENGTH_SHORT).show()
-            }
-            else if (TextUtils.isEmpty(password)) {
-                Toast.makeText(applicationContext, "Enter password!", Toast.LENGTH_SHORT).show()
-            }
-            else{
-                val canopyAuthCallback = object : CanopyAuthCallback {
-                    override fun onLoginSuccess(loginresponse: Boolean?) {
-                        if (loginresponse!!){
-                            val intent = Intent(applicationContext, SplashActivity::class.java)
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                            startActivity(intent)
-                            finish()
-                            overridePendingTransition(R.anim.still,R.anim.slide_in_up)
+            when {
+                TextUtils.isEmpty(email) -> Toast.makeText(applicationContext, "Enter Student ID!", Toast.LENGTH_SHORT).show()
+                TextUtils.isEmpty(password) -> Toast.makeText(applicationContext, "Enter password!", Toast.LENGTH_SHORT).show()
+                else -> {
+                    val canopyAuthCallback = object : CanopyAuthCallback {
+                        override fun onLoginSuccess(loginresponse: Boolean?) {
+                            if (loginresponse!!){
+                                val intent = Intent(applicationContext, SplashActivity::class.java)
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                startActivity(intent)
+                                finish()
+                                overridePendingTransition(R.anim.still,R.anim.slide_in_up)
+                            }
+                        }
+                        override fun onLoginFailure(loginerror: String?) {
+                            Toast.makeText(applicationContext,loginerror,Toast.LENGTH_SHORT).show()
                         }
                     }
-                    override fun onLoginFailure(loginerror: String?) {
-                        Toast.makeText(applicationContext,loginerror,Toast.LENGTH_SHORT).show()
-                    }
+                    val canopyLogin = CanopyLogin(canopyAuthCallback, this)
+                    canopyLogin.generate_token(sid,password,"http://14.139.198.171:8080/token/generate-token")
                 }
-                val canopyLogin = CanopyLogin(canopyAuthCallback, this)
-                canopyLogin.generate_token(sid,password,"http://14.139.198.171:8080/token/generate-token")
             }
 
 
