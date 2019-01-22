@@ -141,6 +141,8 @@ public class SplashActivity extends AppCompatActivity {
                                         binaries.add(new StringBuilder("000"));
                                         for(int j=0;j<meals.size();j++){
                                             JSONObject meal = day.getJSONObject(meals.get(j));
+                                            String food = meal.getString("food");
+                                            binaries.get(j).append(food);
                                             for(int k=0;k<params.size();k++){
                                                 if(meal.getBoolean(params.get(k))){
                                                     binaries.get(j).setCharAt(k,'1');
@@ -176,6 +178,8 @@ public class SplashActivity extends AppCompatActivity {
                                                         binaries.add(new StringBuilder("000"));
                                                         for(int j=0;j<meals.size();j++){
                                                             JSONObject meal = day.getJSONObject(meals.get(j));
+                                                            String food = meal.getString("food");
+                                                            binaries.get(j).append(food);
                                                             for(int k=0;k<params.size();k++){
                                                                 if(meal.getBoolean(params.get(k))){
                                                                     binaries.get(j).setCharAt(k,'1');

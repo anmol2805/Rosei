@@ -222,6 +222,8 @@ public class RoseiActivity extends AppCompatActivity {
                                             binaries.add(new StringBuilder("000"));
                                             for(int j=0;j<meals.size();j++){
                                                 JSONObject meal = day.getJSONObject(meals.get(j));
+                                                String food = meal.getString("food");
+                                                binaries.get(j).append(food);
                                                 for(int k=0;k<params.size();k++){
                                                     if(meal.getBoolean(params.get(k))){
                                                         binaries.get(j).setCharAt(k,'1');
@@ -288,16 +290,32 @@ public class RoseiActivity extends AppCompatActivity {
         messStatuses.clear();
         coupons.clear();
         for(int i=0;i<couponStatuses.size();i++){
-            MessStatus messStatus = new MessStatus(couponStatuses.get(i).getBreakfast(),couponStatuses.get(i).getLunch(),couponStatuses.get(i).getDinner(),messupmenu.get(i).getDate(),couponStatuses.get(i).getWeekday());
-            messStatuses.add(messStatus);
             String daydate = messupmenu.get(i).getDate();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String lastmonday = null;
+            try {
+                Date changedate = simpleDateFormat.parse(daydate);
+                System.out.println("coupondate:" + changedate);
+                Date onedaybefore = new Date(changedate.getTime() - 8);
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                lastmonday = sdf.format(onedaybefore);
+                System.out.println("onedaybefore:" + onedaybefore);
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            MessStatus messStatus = new MessStatus(couponStatuses.get(i).getBreakfast(),couponStatuses.get(i).getLunch(),couponStatuses.get(i).getDinner(),lastmonday,couponStatuses.get(i).getWeekday());
+            messStatuses.add(messStatus);
+
             String day = couponStatuses.get(i).getWeekday();
             String bs = couponStatuses.get(i).getBreakfast();
             String ls = couponStatuses.get(i).getLunch();
             String ds = couponStatuses.get(i).getDinner();
-            String breakfastdate = daydate + " 09:15:00";
-            String lunchdate = daydate + " 14:15:00";
-            String dinnerdate = daydate + " 21:15:00";
+
+
+            String breakfastdate = lastmonday + " 09:15:00";
+            String lunchdate = lastmonday + " 14:15:00";
+            String dinnerdate = lastmonday + " 21:15:00";
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             try {
                 Date bfdate = sdf.parse(breakfastdate);
@@ -307,32 +325,33 @@ public class RoseiActivity extends AppCompatActivity {
                 String bmess = "notissued";
                 String lmess = "notissued";
                 String dmess = "notissued";
-                String bmenu = "";
-                String lmenu = "";
-                String dmenu = "";
+
+                String bmenu = bs.substring(3);
+                String lmenu = ls.substring(3);
+                String dmenu = ds.substring(3);
                 if(bs.charAt(2) == '0'){
                     bmess = "Ground floor Mess";
-                    bmenu = messdownmenu.get(i).getBreakfast();
+
                 }
                 else if(bs.charAt(2) == '1'){
                     bmess = "First floor Mess";
-                    bmenu = messupmenu.get(i).getBreakfast();
+
                 }
                 if(ls.charAt(2) == '0'){
                     lmess = "Ground floor Mess";
-                    lmenu = messdownmenu.get(i).getLunch();
+
                 }
                 else if(ls.charAt(2) == '1'){
                     lmess = "First floor Mess";
-                    lmenu = messupmenu.get(i).getLunch();
+
                 }
                 if(ds.charAt(2) == '0'){
                     dmess = "Ground floor Mess";
-                    dmenu = messdownmenu.get(i).getDinner();
+
                 }
                 else if(ds.charAt(2) == '1'){
                     dmess = "First floor Mess";
-                    dmenu = messupmenu.get(i).getDinner();
+
                 }
                 Coupon bfcoupon = new Coupon("Breakfast",bmess,day,daydate,bmenu);
                 Coupon lnccoupon = new Coupon("Lunch",lmess,day,daydate,lmenu);

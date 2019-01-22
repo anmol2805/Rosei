@@ -22,9 +22,9 @@ class CouponDb (context: Context): SQLiteOpenHelper(context, DATABASE_NAME,null,
     override fun onCreate(p0: SQLiteDatabase?) {
         val createtable = "CREATE TABLE " + TABLE_NAME + " (" +
                 COL_DAY + " VARCHAR(16) PRIMARY KEY NOT NULL UNIQUE," +
-                COL_BREAKFAST + " VARCHAR(8)," +
-                COL_LUNCH + " VARCHAR(8)," +
-                COL_DINNER + " VARCHAR(8))"
+                COL_BREAKFAST + " VARCHAR(256)," +
+                COL_LUNCH + " VARCHAR(256)," +
+                COL_DINNER + " VARCHAR(256))"
         p0?.execSQL(createtable)
     }
 
