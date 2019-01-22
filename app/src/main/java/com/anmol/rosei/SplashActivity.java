@@ -21,6 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.anmol.rosei.Helpers.AuthUser;
 import com.anmol.rosei.Helpers.CouponDb;
 import com.anmol.rosei.Helpers.CurrentCouponDb;
 import com.anmol.rosei.Helpers.MessDownMenuDb;
@@ -74,6 +75,7 @@ public class SplashActivity extends AppCompatActivity {
             progressBar = (ProgressBar)findViewById(R.id.load);
             progressBar.setVisibility(View.VISIBLE);
             //menu request
+            final AuthUser authUser = new AuthUser(this);
             JsonArrayRequest menurequest = new JsonArrayRequest(Request.Method.GET, getResources().getString(R.string.root_url) + "/menu",null,new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray menuresponse) {
@@ -130,7 +132,7 @@ public class SplashActivity extends AppCompatActivity {
                         }
                         //coupon request
 
-                        JsonObjectRequest currentcouponrequest = new JsonObjectRequest(Request.Method.GET, getResources().getString(R.string.root_url) + "/coupon/b216008/" + lastmonday, null, new Response.Listener<JSONObject>() {
+                        JsonObjectRequest currentcouponrequest = new JsonObjectRequest(Request.Method.GET, getResources().getString(R.string.root_url) + "/coupon/" + authUser.readuser() + "/" + lastmonday, null, new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject couponresponse) {
                                 try {
@@ -165,7 +167,7 @@ public class SplashActivity extends AppCompatActivity {
                                         currentcouponDb.updatenotice(couponStatus);
 
 
-                                        JsonObjectRequest upcomingcouponrequest = new JsonObjectRequest(Request.Method.GET, getResources().getString(R.string.root_url) + "/coupon/b216008/" + monday, null, new Response.Listener<JSONObject>() {
+                                        JsonObjectRequest upcomingcouponrequest = new JsonObjectRequest(Request.Method.GET, getResources().getString(R.string.root_url) + "/coupon/" + authUser.readuser() + "/" + monday, null, new Response.Listener<JSONObject>() {
                                             @Override
                                             public void onResponse(JSONObject couponresponse) {
                                                 try {
@@ -212,6 +214,10 @@ public class SplashActivity extends AppCompatActivity {
                                             public void onErrorResponse(VolleyError error) {
                                                 progressBar.setVisibility(View.INVISIBLE);
                                                 Toast.makeText(SplashActivity.this,"Unable to load Coupons",Toast.LENGTH_SHORT).show();
+                                                progressBar.setVisibility(View.INVISIBLE);
+                                                Intent intent = new Intent(SplashActivity.this, RoseiActivity.class);
+                                                startActivity(intent);
+                                                overridePendingTransition(R.anim.still,R.anim.slide_in_up);
                                             }
                                         });
                                         Mysingleton.getInstance(SplashActivity.this).addToRequestqueue(upcomingcouponrequest);
@@ -226,6 +232,10 @@ public class SplashActivity extends AppCompatActivity {
                             public void onErrorResponse(VolleyError error) {
                                 progressBar.setVisibility(View.INVISIBLE);
                                 Toast.makeText(SplashActivity.this,"Unable to load Coupons",Toast.LENGTH_SHORT).show();
+                                progressBar.setVisibility(View.INVISIBLE);
+                                Intent intent = new Intent(SplashActivity.this, RoseiActivity.class);
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.still,R.anim.slide_in_up);
                             }
                         });
                         Mysingleton.getInstance(SplashActivity.this).addToRequestqueue(currentcouponrequest);
@@ -241,6 +251,10 @@ public class SplashActivity extends AppCompatActivity {
                     System.out.println("Error" + error);
                     progressBar.setVisibility(View.INVISIBLE);
                     Toast.makeText(SplashActivity.this,"Unable to load Menu",Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.INVISIBLE);
+                    Intent intent = new Intent(SplashActivity.this, RoseiActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.still,R.anim.slide_in_up);
                 }
             });
             Mysingleton.getInstance(this).addToRequestqueue(menurequest);
