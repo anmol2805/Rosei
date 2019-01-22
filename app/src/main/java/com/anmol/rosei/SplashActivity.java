@@ -132,7 +132,56 @@ public class SplashActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     //coupon request
-                    JsonObjectRequest couponrequest = new JsonObjectRequest(Request.Method.GET, getResources().getString(R.string.root_url) + "/coupon/b216008/" + monday, null, new Response.Listener<JSONObject>() {
+
+                    JsonObjectRequest currentcouponrequest = new JsonObjectRequest(Request.Method.GET, getResources().getString(R.string.root_url) + "/coupon/b216008/" + monday, null, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject couponresponse) {
+                            try {
+                                System.out.println(couponresponse);
+                                CouponDb couponDb = new CouponDb(SplashActivity.this);
+                                JSONObject coupon = couponresponse.getJSONObject("coupon");
+                                ArrayList<String> meals = new ArrayList<>();
+                                meals.add("breakfast");
+                                meals.add("lunch");
+                                meals.add("dinner");
+                                ArrayList<String> params = new ArrayList<>();
+                                params.add("isSelected");
+                                params.add("isVeg");
+                                params.add("isMessUp");
+                                for(int i=0;i<days.size();i++){
+                                    JSONObject day = coupon.getJSONObject(days.get(i));
+                                    ArrayList<StringBuilder> binaries = new ArrayList<>();
+                                    binaries.add(new StringBuilder("000"));
+                                    binaries.add(new StringBuilder("000"));
+                                    binaries.add(new StringBuilder("000"));
+                                    for(int j=0;j<meals.size();j++){
+                                        JSONObject meal = day.getJSONObject(meals.get(j));
+                                        for(int k=0;k<params.size();k++){
+                                            if(meal.getBoolean(params.get(k))){
+                                                binaries.get(j).setCharAt(k,'1');
+                                            }
+                                        }
+                                    }
+                                    System.out.println(days.get(i)+binaries.get(0).toString()+binaries.get(1).toString()+binaries.get(2).toString());
+                                    CouponStatus couponStatus = new CouponStatus(days.get(i),binaries.get(0).toString(),binaries.get(1).toString(),binaries.get(2).toString());
+                                    couponDb.insertData(couponStatus);
+                                    couponDb.updatenotice(couponStatus);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            progressBar.setVisibility(View.INVISIBLE);
+                            Toast.makeText(SplashActivity.this,"Unable to load Coupons",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    Mysingleton.getInstance(SplashActivity.this).addToRequestqueue(currentcouponrequest);
+
+                    JsonObjectRequest upcomingcouponrequest = new JsonObjectRequest(Request.Method.GET, getResources().getString(R.string.root_url) + "/coupon/b216008/" + monday, null, new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject couponresponse) {
                             try {
@@ -181,7 +230,7 @@ public class SplashActivity extends AppCompatActivity {
                             Toast.makeText(SplashActivity.this,"Unable to load Coupons",Toast.LENGTH_SHORT).show();
                         }
                     });
-                    Mysingleton.getInstance(SplashActivity.this).addToRequestqueue(couponrequest);
+                    Mysingleton.getInstance(SplashActivity.this).addToRequestqueue(upcomingcouponrequest);
                 }
             }, new Response.ErrorListener() {
                 @Override
