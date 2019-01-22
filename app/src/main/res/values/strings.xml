@@ -32,10 +32,9 @@
     <string name="title_activity_hibiscus">HibiscusActivity</string>
 
     <string name="action_settings">Settings</string>
-    <string name="root_url">http://172.17.5.93:9000</string>
+    <string name="root_url">http://14.139.198.171/api/rasoi</string>
 
-    <string name="login_url">http://14.139.198.171/api/rosei/login</string>
-    <string name="status">http://14.139.198.171/api/rosei/status</string>
+
     <string name="title_activity_bookingnew">BookingnewActivity</string>
     <string name="tab_text_1">Ground floor</string>
     <string name="tab_text_2">First floor</string>

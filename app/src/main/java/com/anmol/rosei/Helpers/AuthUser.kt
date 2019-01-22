@@ -31,4 +31,12 @@ class AuthUser(context: Context){
     fun readusername(): String {
         return sharedPreferences.getString("firstname","")
     }
+    fun writedate(wd:String): Boolean {
+        val editor = sharedPreferences.edit()
+        editor.putString("wd",wd)
+        return editor.commit()
+    }
+    fun readdate(): String {
+        return sharedPreferences.getString("wd","0001-01-01T00:00:00Z")
+    }
 }

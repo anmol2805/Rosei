@@ -160,6 +160,8 @@ public class SplashActivity extends AppCompatActivity {
                                             public void onResponse(JSONObject couponresponse) {
                                                 try {
                                                     System.out.println(couponresponse);
+                                                    String weekstartdate = couponresponse.getString("weekstartdate");
+                                                    authUser.writedate(weekstartdate);
                                                     CouponDb couponDb = new CouponDb(SplashActivity.this);
                                                     JSONObject coupon = couponresponse.getJSONObject("coupon");
                                                     ArrayList<String> meals = new ArrayList<>();
