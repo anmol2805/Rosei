@@ -25,6 +25,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.anmol.rosei.Adapter.GridAdapter;
 import com.anmol.rosei.Adapter.ViewpageAdapter;
+import com.anmol.rosei.Helpers.AuthUser;
 import com.anmol.rosei.Helpers.CouponDb;
 import com.anmol.rosei.Helpers.CurrentCouponDb;
 import com.anmol.rosei.Helpers.MessDownMenuDb;
@@ -146,6 +147,7 @@ public class RoseiActivity extends AppCompatActivity {
 //        Glide.with(RoseiActivity.this).load(url).into(user);
 
         loadDataFromDb();
+        final AuthUser authUser = new AuthUser(this);
         swipeRefreshLayout.setColorSchemeColors(
                 getResources().getColor(R.color.colorAccent)
         );
@@ -210,7 +212,7 @@ public class RoseiActivity extends AppCompatActivity {
                             }
                             //coupon request
 
-                            JsonObjectRequest currentcouponrequest = new JsonObjectRequest(Request.Method.GET, getResources().getString(R.string.root_url) + "/coupon/b216008/" + lastmonday, null, new Response.Listener<JSONObject>() {
+                            JsonObjectRequest currentcouponrequest = new JsonObjectRequest(Request.Method.GET, getResources().getString(R.string.root_url) + "/coupon/" + authUser.readuser() + "/" + lastmonday, null, new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject couponresponse) {
                                     try {
