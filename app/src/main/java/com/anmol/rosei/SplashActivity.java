@@ -65,7 +65,7 @@ public class SplashActivity extends AppCompatActivity {
         Glide.with(this).load(R.drawable.ankit).into(sankit);
         AuthConfig authConfig = new AuthConfig(this);
         //condition to go to loginactivity
-        if(authConfig.readloginstatus()){
+        if(!authConfig.readloginstatus()){
             startActivity(new Intent(SplashActivity.this,LoginActivity.class));
         }
         //go to roseiactivity or dashboard
