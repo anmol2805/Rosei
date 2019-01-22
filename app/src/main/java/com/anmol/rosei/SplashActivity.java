@@ -40,8 +40,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -87,8 +90,7 @@ public class SplashActivity extends AppCompatActivity {
                         MessUpMenuDb messUpMenuDb = new MessUpMenuDb(SplashActivity.this);
                         MessDownMenuDb messDownMenuDb = new MessDownMenuDb(SplashActivity.this);
                         JSONObject messup = menuresponse.getJSONObject(0).getJSONObject("messUP");
-                        monday = messup.getJSONObject("mon").getString("date");
-
+                        monday = messup.getJSONObject("mon").getString("date").substring(0,10);
                         for(int i=0;i<days.size();i++) {
                             String breakfast = messup.getJSONObject(days.get(i)).getString("breakfast");
                             String lunch = messup.getJSONObject(days.get(i)).getString("lunch");
@@ -117,7 +119,18 @@ public class SplashActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    try {
+                        Date changedate = simpleDateFormat.parse(monday);
+                        System.out.println("coupondate:" + changedate);
+                        Date onedaybefore = new Date(changedate.getTime() - 8);
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                        String lastmonday = sdf.format(onedaybefore);
+                        System.out.println("onedaybefore:" + onedaybefore);
 
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                     //coupon request
                     JsonObjectRequest couponrequest = new JsonObjectRequest(Request.Method.GET, getResources().getString(R.string.root_url) + "/coupon/b216008/" + monday, null, new Response.Listener<JSONObject>() {
                         @Override
