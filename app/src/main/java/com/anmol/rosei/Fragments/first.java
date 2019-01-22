@@ -22,9 +22,6 @@ import com.anmol.rosei.Adapter.Mess2Adapter;
 import com.anmol.rosei.Model.mess2;
 import com.anmol.rosei.Mysingleton;
 import com.anmol.rosei.R;
-import com.anmol.rosei.Services.MessStatusService;
-import com.anmol.rosei.Services.MessStatusService2;
-import com.anmol.rosei.Services.UpcomingWeekService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -72,16 +69,7 @@ public class first extends Fragment {
         bookm2.setVisibility(View.VISIBLE);
         booktext.setVisibility(View.INVISIBLE);
         bookpgr.setVisibility(View.INVISIBLE);
-        Intent intent = new Intent(getActivity(), MessStatusService.class);
-        getActivity().startService(intent);
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent1 = new Intent(getActivity(), MessStatusService2.class);
-                getActivity().startService(intent1);
-            }
-        },1000);
+
         db.child("messStatus").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -102,10 +90,10 @@ public class first extends Fragment {
             @Override
             public void onClick(View view) {
                 load.setVisibility(View.GONE);
-                Intent intent = new Intent(getActivity(), MessStatusService.class);
-                getActivity().startService(intent);
+
             }
         });
+        loaddata();
         db.child("messStatus").child("mess2").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -154,12 +142,7 @@ public class first extends Fragment {
                                                         bookm2.setVisibility(View.VISIBLE);
                                                         bookpgr.setVisibility(View.INVISIBLE);
                                                         booktext.setVisibility(View.INVISIBLE);
-                                                        Intent intent = new Intent(getActivity(),UpcomingWeekService.class);
-                                                        getActivity().startService(intent);
-                                                        Intent intent1 = new Intent(getActivity(), MessStatusService2.class);
-                                                        getActivity().startService(intent1);
-                                                        Intent intent2 = new Intent(getActivity(), MessStatusService.class);
-                                                        getActivity().startService(intent2);
+
                                                     }
                                                 }, new Response.ErrorListener() {
                                                     @Override
@@ -204,13 +187,8 @@ public class first extends Fragment {
 
         return v;
     }
-//    @Override
-//    public void setUserVisibleHint(boolean isVisibleToUser) {
-//        super.setUserVisibleHint(isVisibleToUser);
-//        if (isVisibleToUser) {
-//            if (getFragmentManager() != null) {
-//                getFragmentManager().beginTransaction().detach(this).attach(this).commitAllowingStateLoss();
-//            }
-//        }
-//    }
+
+    private void loaddata() {
+
+    }
 }

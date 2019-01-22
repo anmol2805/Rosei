@@ -1,12 +1,6 @@
 package com.anmol.rosei;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteConstraintException;
-import android.os.Handler;
-import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -28,15 +22,8 @@ import com.anmol.rosei.Helpers.MessDownMenuDb;
 import com.anmol.rosei.Helpers.MessUpMenuDb;
 import com.anmol.rosei.Model.CouponStatus;
 import com.anmol.rosei.Model.Mess_Menu;
-import com.anmol.rosei.Services.MessStatusService;
-import com.anmol.rosei.Services.NotifyService;
 import com.bumptech.glide.Glide;
 import com.canopydevelopers.canopyauth.AuthConfig;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,7 +32,6 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;

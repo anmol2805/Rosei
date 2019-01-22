@@ -27,9 +27,6 @@
             android:name=".Book_Activity"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <service android:name=".Services.MessStatusService" />
-        <service android:name=".Services.MessStatusService2" />
-        <service android:name=".Services.UpcomingWeekService" />
         <service android:name=".Services.NotifyService" />
 
         <activity android:name=".TestActivity"></activity>

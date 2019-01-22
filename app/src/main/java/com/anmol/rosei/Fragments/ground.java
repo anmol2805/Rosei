@@ -22,9 +22,6 @@ import com.anmol.rosei.Adapter.Mess1Adapter;
 import com.anmol.rosei.Model.mess1;
 import com.anmol.rosei.Mysingleton;
 import com.anmol.rosei.R;
-import com.anmol.rosei.Services.MessStatusService;
-import com.anmol.rosei.Services.MessStatusService2;
-import com.anmol.rosei.Services.UpcomingWeekService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,7 +31,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
