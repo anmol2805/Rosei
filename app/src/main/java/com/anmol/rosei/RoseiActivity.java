@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,8 +18,14 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.anmol.rosei.Adapter.GridAdapter;
 import com.anmol.rosei.Adapter.ViewpageAdapter;
+import com.anmol.rosei.Helpers.CouponDb;
 import com.anmol.rosei.Helpers.CurrentCouponDb;
 import com.anmol.rosei.Helpers.MessDownMenuDb;
 import com.anmol.rosei.Helpers.MessUpMenuDb;
@@ -36,6 +43,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -65,6 +76,7 @@ public class RoseiActivity extends AppCompatActivity {
     ViewPager viewPager;
     List<Coupon> coupons = new ArrayList<>();
     ViewpageAdapter viewpageAdapter;
+    SwipeRefreshLayout swipeRefreshLayout;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +88,7 @@ public class RoseiActivity extends AppCompatActivity {
         stuid = (TextView)findViewById(R.id.stuid);
         logout = (Button)findViewById(R.id.logout);
         viewPager = (ViewPager)findViewById(R.id.viewpager);
+        swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.refreshdata);
         gridview = (RecyclerView)findViewById(R.id.gridrecycler);
         gridview.setHasFixedSize(true);
         gridview.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
@@ -133,7 +146,139 @@ public class RoseiActivity extends AppCompatActivity {
 //        Glide.with(RoseiActivity.this).load(url).into(user);
 
         loadDataFromDb();
+        swipeRefreshLayout.setColorSchemeColors(
+                getResources().getColor(R.color.colorAccent)
+        );
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(true);
+                //menu request
+                JsonArrayRequest menurequest = new JsonArrayRequest(Request.Method.GET, getResources().getString(R.string.root_url) + "/menu",null,new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray menuresponse) {
+                        System.out.println(menuresponse);
+                        final ArrayList<String> days = new ArrayList<>();
+                        days.add("mon");
+                        days.add("tue");
+                        days.add("wed");
+                        days.add("thr");
+                        days.add("fri");
+                        days.add("sat");
+                        days.add("sun");
+                        try {
+                            MessUpMenuDb messUpMenuDb = new MessUpMenuDb(RoseiActivity.this);
+                            MessDownMenuDb messDownMenuDb = new MessDownMenuDb(RoseiActivity.this);
+                            JSONObject messup = menuresponse.getJSONObject(0).getJSONObject("messUP");
+                            final String monday = messup.getJSONObject("mon").getString("date").substring(0,10);
+                            for(int i=0;i<days.size();i++) {
+                                String breakfast = messup.getJSONObject(days.get(i)).getString("breakfast");
+                                String lunch = messup.getJSONObject(days.get(i)).getString("lunch");
+                                String dinner = messup.getJSONObject(days.get(i)).getString("dinner");
+                                String date = messup.getJSONObject(days.get(i)).getString("date");
+                                Mess_Menu mess_menu = new Mess_Menu(days.get(i), breakfast, lunch, dinner, date.substring(0,10));
+                                messUpMenuDb.insertData(mess_menu);
+                                messUpMenuDb.updatenotice(mess_menu);
+                            }
 
+                            JSONObject messdown = menuresponse.getJSONObject(0).getJSONObject("messDown");
+                            for(int i=0;i<days.size();i++) {
+                                String breakfast = messdown.getJSONObject(days.get(i)).getString("breakfast");
+                                String lunch = messdown.getJSONObject(days.get(i)).getString("lunch");
+                                String dinner = messdown.getJSONObject(days.get(i)).getString("dinner");
+                                String date = messdown.getJSONObject(days.get(i)).getString("date");
+                                Mess_Menu mess_menu = new Mess_Menu(days.get(i), breakfast, lunch, dinner, date.substring(0,10));
+
+                                messDownMenuDb.insertData(mess_menu);
+                                messDownMenuDb.updatenotice(mess_menu);
+
+
+                            }
+
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                            String lastmonday = null;
+                            try {
+                                Date changedate = simpleDateFormat.parse(monday);
+                                System.out.println("coupondate:" + changedate);
+                                Date onedaybefore = new Date(changedate.getTime() - 8);
+                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                                lastmonday = sdf.format(onedaybefore);
+                                System.out.println("onedaybefore:" + onedaybefore);
+
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            //coupon request
+
+                            JsonObjectRequest currentcouponrequest = new JsonObjectRequest(Request.Method.GET, getResources().getString(R.string.root_url) + "/coupon/b216008/" + lastmonday, null, new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject couponresponse) {
+                                    try {
+                                        System.out.println(couponresponse);
+                                        CurrentCouponDb currentcouponDb = new CurrentCouponDb(RoseiActivity.this);
+                                        JSONObject coupon = couponresponse.getJSONObject("coupon");
+                                        ArrayList<String> meals = new ArrayList<>();
+                                        meals.add("breakfast");
+                                        meals.add("lunch");
+                                        meals.add("dinner");
+                                        ArrayList<String> params = new ArrayList<>();
+                                        params.add("isSelected");
+                                        params.add("isVeg");
+                                        params.add("isMessUp");
+                                        for(int i=0;i<days.size();i++){
+                                            JSONObject day = coupon.getJSONObject(days.get(i));
+                                            ArrayList<StringBuilder> binaries = new ArrayList<>();
+                                            binaries.add(new StringBuilder("000"));
+                                            binaries.add(new StringBuilder("000"));
+                                            binaries.add(new StringBuilder("000"));
+                                            for(int j=0;j<meals.size();j++){
+                                                JSONObject meal = day.getJSONObject(meals.get(j));
+                                                for(int k=0;k<params.size();k++){
+                                                    if(meal.getBoolean(params.get(k))){
+                                                        binaries.get(j).setCharAt(k,'1');
+                                                    }
+                                                }
+                                            }
+                                            System.out.println(days.get(i)+binaries.get(0).toString()+binaries.get(1).toString()+binaries.get(2).toString());
+                                            CouponStatus couponStatus = new CouponStatus(days.get(i),binaries.get(0).toString(),binaries.get(1).toString(),binaries.get(2).toString());
+                                            currentcouponDb.insertData(couponStatus);
+                                            currentcouponDb.updatenotice(couponStatus);
+                                            swipeRefreshLayout.setRefreshing(false);
+                                            loadDataFromDb();
+
+                                            
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                }
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    swipeRefreshLayout.setRefreshing(false);
+                                    Toast.makeText(RoseiActivity.this,"Unable to load Coupons",Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            Mysingleton.getInstance(RoseiActivity.this).addToRequestqueue(currentcouponrequest);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        System.out.println("Error" + error);
+                        swipeRefreshLayout.setRefreshing(false);
+                        Toast.makeText(RoseiActivity.this,"Unable to load Menu",Toast.LENGTH_SHORT).show();
+                    }
+                });
+                Mysingleton.getInstance(RoseiActivity.this).addToRequestqueue(menurequest);
+
+            }
+        });
 
     }
 
