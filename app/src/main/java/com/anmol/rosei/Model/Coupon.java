@@ -1,16 +1,17 @@
 package com.anmol.rosei.Model;
 
 public class Coupon {
-    String meal,mess,day,date;
+    String meal,mess,day,date,menuitem;
 
     public Coupon() {
     }
 
-    public Coupon(String meal, String mess, String day, String date) {
+    public Coupon(String meal, String mess, String day, String date,String menuitem) {
         this.meal = meal;
         this.mess = mess;
         this.day = day;
         this.date = date;
+        this.menuitem = menuitem;
     }
 
     public String getMeal() {
@@ -45,5 +46,11 @@ public class Coupon {
         this.date = date;
     }
 
+    public String getMenuitem() {
+        return menuitem;
+    }
 
+    public void setMenuitem(String menuitem) {
+        this.menuitem = menuitem;
+    }
 }

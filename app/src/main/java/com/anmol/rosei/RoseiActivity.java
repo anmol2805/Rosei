@@ -173,27 +173,36 @@ public class RoseiActivity extends AppCompatActivity {
                 String bmess = "notissued";
                 String lmess = "notissued";
                 String dmess = "notissued";
+                String bmenu = "";
+                String lmenu = "";
+                String dmenu = "";
                 if(bs.charAt(2) == '0'){
                     bmess = "Ground floor Mess";
+                    bmenu = messdownmenu.get(i).getBreakfast();
                 }
                 else if(bs.charAt(2) == '1'){
                     bmess = "First floor Mess";
+                    bmenu = messupmenu.get(i).getBreakfast();
                 }
                 if(ls.charAt(2) == '0'){
                     lmess = "Ground floor Mess";
+                    lmenu = messdownmenu.get(i).getLunch();
                 }
                 else if(ls.charAt(2) == '1'){
                     lmess = "First floor Mess";
+                    lmenu = messupmenu.get(i).getLunch();
                 }
                 if(ds.charAt(2) == '0'){
                     dmess = "Ground floor Mess";
+                    dmenu = messdownmenu.get(i).getDinner();
                 }
                 else if(ds.charAt(2) == '1'){
                     dmess = "First floor Mess";
+                    dmenu = messupmenu.get(i).getDinner();
                 }
-                Coupon bfcoupon = new Coupon("Breakfast",bmess,day,daydate);
-                Coupon lnccoupon = new Coupon("Lunch",lmess,day,daydate);
-                Coupon dincoupon = new Coupon("Dinner",dmess,day,daydate);
+                Coupon bfcoupon = new Coupon("Breakfast",bmess,day,daydate,bmenu);
+                Coupon lnccoupon = new Coupon("Lunch",lmess,day,daydate,lmenu);
+                Coupon dincoupon = new Coupon("Dinner",dmess,day,daydate,dmenu);
                 if(todaydate.before(bfdate)){
                     if(!bmess.contains("notissued")){
                         coupons.add(bfcoupon);
