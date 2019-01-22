@@ -26,7 +26,7 @@ class LoginActivity : AppCompatActivity() {
     private val btnReset: Button? = null
     var sid:String?=null
     var password:String?=null
-
+    var fname:String?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,14 +53,16 @@ class LoginActivity : AppCompatActivity() {
         btnLogin!!.setOnClickListener {
             sid = inputEmail!!.text.toString().trim()
             password = inputPassword!!.text.toString().trim()
+            fname = firstname.text.toString().trim()
             when {
                 TextUtils.isEmpty(sid) -> Toast.makeText(applicationContext, "Enter Student ID!", Toast.LENGTH_SHORT).show()
                 TextUtils.isEmpty(password) -> Toast.makeText(applicationContext, "Enter password!", Toast.LENGTH_SHORT).show()
+                TextUtils.isEmpty(fname) -> Toast.makeText(applicationContext, "Enter name!", Toast.LENGTH_SHORT).show()
                 else -> {
                     val canopyAuthCallback = object : CanopyAuthCallback {
                         override fun onLoginSuccess(loginresponse: Boolean?) {
                             if (loginresponse!!){
-                                if(authUser.writegender(gender) && authUser.writeuser(sid!!)){
+                                if(authUser.writegender(gender) && authUser.writeuser(sid!!) && authUser.writeusername(fname!!)){
                                     val intent = Intent(applicationContext, SplashActivity::class.java)
                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)

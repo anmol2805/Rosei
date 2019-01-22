@@ -23,4 +23,12 @@ class AuthUser(context: Context){
     fun readuser(): String {
         return sharedPreferences.getString("sid","")
     }
+    fun writeusername(fname:String): Boolean {
+        val editor = sharedPreferences.edit()
+        editor.putString("firstname",fname)
+        return editor.commit()
+    }
+    fun readusername(): String {
+        return sharedPreferences.getString("firstname","")
+    }
 }
