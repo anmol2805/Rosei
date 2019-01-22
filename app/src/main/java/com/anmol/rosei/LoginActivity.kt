@@ -1,6 +1,8 @@
 package com.anmol.rosei
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
@@ -37,6 +39,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.messaging.FirebaseMessaging
+import kotlinx.android.synthetic.main.activity_login.*
 
 import org.json.JSONException
 import org.json.JSONObject
@@ -48,7 +51,6 @@ class LoginActivity : AppCompatActivity() {
 
     private var inputEmail: EditText? = null
     private var inputPassword: EditText? = null
-    private var auth: FirebaseAuth? = null
     private var progressBar: ProgressBar? = null
     private var btnLogin: Button? = null
     private val btnReset: Button? = null
@@ -66,6 +68,20 @@ class LoginActivity : AppCompatActivity() {
         inputPassword = findViewById<View>(R.id.password) as EditText
         progressBar = findViewById<View>(R.id.progressBar) as ProgressBar
         btnLogin = findViewById<View>(R.id.btn_login) as Button
+        var gender = "male"
+        male.isChecked = true
+        male.setOnClickListener {
+            male.isChecked = true
+            female.isChecked = false
+            gender = "male"
+        }
+        female.setOnClickListener {
+            female.isChecked = true
+            male.isChecked = false
+            gender = "female"
+        }
+        val sharedPreferences:SharedPreferences = getSharedPreferences("com.canopydevelopers.canopyauth", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
         btnLogin!!.setOnClickListener {
             sid = inputEmail!!.text.toString().trim()
             password = inputPassword!!.text.toString().trim()
@@ -76,12 +92,16 @@ class LoginActivity : AppCompatActivity() {
                     val canopyAuthCallback = object : CanopyAuthCallback {
                         override fun onLoginSuccess(loginresponse: Boolean?) {
                             if (loginresponse!!){
-                                val intent = Intent(applicationContext, SplashActivity::class.java)
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                                startActivity(intent)
-                                finish()
-                                overridePendingTransition(R.anim.still,R.anim.slide_in_up)
+                                editor.putString("gender",gender)
+                                if(editor.commit()){
+                                    val intent = Intent(applicationContext, SplashActivity::class.java)
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                    startActivity(intent)
+                                    finish()
+                                    overridePendingTransition(R.anim.still,R.anim.slide_in_up)
+                                }
+
                             }
                         }
                         override fun onLoginFailure(loginerror: String?) {
