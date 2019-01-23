@@ -227,7 +227,7 @@ public class first extends Fragment {
                                     System.out.println(response);
                                     try{
                                         if(response.getString("result").equals("success")){
-                                            JsonObjectRequest couponrequest = new JsonObjectRequest(Request.Method.GET, getResources().getString(R.string.root_url) + "/coupon/" + authUser.readuser() + "/" + authUser.readdate(), null, new Response.Listener<JSONObject>() {
+                                            JsonObjectRequest couponrequest = new JsonObjectRequest(Request.Method.GET, getResources().getString(R.string.root_url) + "/coupon/" + authUser.readuser() + "/" + authUser.readdate().substring(0,10), null, new Response.Listener<JSONObject>() {
                                                 @Override
                                                 public void onResponse(JSONObject response) {
                                                     try{
@@ -299,10 +299,7 @@ public class first extends Fragment {
                                     catch(JSONException e){
                                         e.printStackTrace();
                                     }
-                                    bookm2.setVisibility(View.VISIBLE);
-                                    bookpgr.setVisibility(View.INVISIBLE);
-                                    booktext.setVisibility(View.INVISIBLE);
-                                    Toast.makeText(getActivity(),"Coupon Booking Successful",Toast.LENGTH_SHORT).show();
+
 
                                 }
                             }, new Response.ErrorListener() {
