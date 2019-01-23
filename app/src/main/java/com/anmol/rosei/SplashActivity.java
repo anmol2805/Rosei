@@ -161,7 +161,12 @@ public class SplashActivity extends AppCompatActivity {
                                                 try {
                                                     System.out.println(couponresponse);
                                                     String weekstartdate = couponresponse.getString("weekstartdate");
+                                                    int amount1 = couponresponse.getInt("amount1");
+                                                    int amount2 = couponresponse.getInt("mount2");
+                                                    int total = couponresponse.getInt("Total");
+                                                    String cid = couponresponse.getString("id");
                                                     authUser.writedate(weekstartdate);
+                                                    authUser.writeprice(amount1,amount2,total,cid);
                                                     CouponDb couponDb = new CouponDb(SplashActivity.this);
                                                     JSONObject coupon = couponresponse.getJSONObject("coupon");
                                                     ArrayList<String> meals = new ArrayList<>();

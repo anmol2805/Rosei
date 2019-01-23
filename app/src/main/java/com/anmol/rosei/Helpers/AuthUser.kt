@@ -39,4 +39,25 @@ class AuthUser(context: Context){
     fun readdate(): String {
         return sharedPreferences.getString("wd","0001-01-01T00:00:00Z")
     }
+
+    fun writeprice(amount1:Int,amount2:Int,total:Int,cid:String): Boolean {
+        val editor = sharedPreferences.edit()
+        editor.putInt("amount1",amount1)
+        editor.putInt("amount2",amount2)
+        editor.putInt("total",total)
+        editor.putString("cid",cid)
+        return editor.commit()
+    }
+    fun readamount1(): Int {
+        return sharedPreferences.getInt("amount1",0)
+    }
+    fun readamount2(): Int {
+        return sharedPreferences.getInt("amount2",0)
+    }
+    fun readtotal(): Int {
+        return sharedPreferences.getInt("total",0)
+    }
+    fun readcid(): String {
+        return sharedPreferences.getString("cid","")
+    }
 }

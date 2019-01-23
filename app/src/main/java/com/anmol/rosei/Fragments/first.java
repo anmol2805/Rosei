@@ -19,6 +19,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.anmol.rosei.Adapter.Mess2Adapter;
+import com.anmol.rosei.Helpers.AuthUser;
+import com.anmol.rosei.Helpers.CouponDb;
+import com.anmol.rosei.Helpers.MessUpMenuDb;
+import com.anmol.rosei.Model.CouponStatus;
+import com.anmol.rosei.Model.Mess_Menu;
 import com.anmol.rosei.Model.mess2;
 import com.anmol.rosei.Mysingleton;
 import com.anmol.rosei.R;
@@ -28,6 +33,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,7 +48,7 @@ import fr.castorflex.android.circularprogressbar.CircularProgressBar;
  */
 
 public class first extends Fragment {
-    Button load;
+
     ListView list;
     FirebaseAuth auth = FirebaseAuth.getInstance();
     DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("students").child(auth.getCurrentUser().getUid());
@@ -52,143 +58,232 @@ public class first extends Fragment {
     private CircularProgressBar bookpgr;
     private TextView booktext;
     Button bookm2;
+    AuthUser authUser;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.first,container,false);
-        load = (Button)v.findViewById(R.id.load);
+
         list = (ListView)v.findViewById(R.id.menu);
         amt2 = (TextView)v.findViewById(R.id.amt2);
         total = (TextView)v.findViewById(R.id.total);
-//        LayoutInflater layoutInflater = getActivity().getLayoutInflater();
-//        ViewGroup footer = (ViewGroup)layoutInflater.inflate(R.layout.footer2,list,false);
-//        list.addFooterView(footer,null,false);
         bookm2 = (Button)v.findViewById(R.id.bookm2);
         booktext = (TextView)v.findViewById(R.id.bookingtext);
         bookpgr = (CircularProgressBar)v.findViewById(R.id.bookpgr);
         bookm2.setVisibility(View.VISIBLE);
         booktext.setVisibility(View.INVISIBLE);
         bookpgr.setVisibility(View.INVISIBLE);
-
-        db.child("messStatus").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.child("amount2").getValue(String.class)!=null){
-                    amt2.setText(dataSnapshot.child("amount2").getValue(String.class));
-                }
-                if(dataSnapshot.child("total").getValue(String.class)!=null){
-                    total.setText(dataSnapshot.child("total").getValue(String.class));
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-        load.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                load.setVisibility(View.GONE);
-
-            }
-        });
+        if(getActivity()!=null){
+            authUser = new AuthUser(getActivity());
+        }
         loaddata();
-        db.child("messStatus").child("mess2").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                mess2s.clear();
-                for(DataSnapshot data:dataSnapshot.getChildren()){
-                    String day = data.child("date").getValue().toString();
-                    String brkfast = data.child("brkfast").getValue().toString();
-                    String lnch = data.child("lnch").getValue().toString();
-                    String dinnr = data.child("dinnr").getValue().toString();
-                    String bs = data.child("bs").getValue().toString();
-                    String ls = data.child("ls").getValue().toString();
-                    String ds = data.child("ds").getValue().toString();
-                    mess2 mess2 = new mess2(day,brkfast,lnch,dinnr,bs,ls,ds);
-                    mess2s.add(mess2);
-                }
-                if(getActivity()!=null){
-                    mess2Adapter = new Mess2Adapter(getActivity(),R.layout.menu,mess2s);
-                    mess2Adapter.notifyDataSetChanged();
-
-                    if(!mess2Adapter.isEmpty()){
-                        load.setVisibility(View.GONE);
-                        list.setAdapter(mess2Adapter);
-                        bookm2.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                bookm2.setVisibility(View.INVISIBLE);
-                                bookpgr.setVisibility(View.VISIBLE);
-                                booktext.setVisibility(View.VISIBLE);
-                                final JSONObject jsonObject = mess2Adapter.getJsonObject();
-                                System.out.println("jsonobj:" + jsonObject);
-                                db.child("rosei").addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        if(dataSnapshot!=null && dataSnapshot.child("sid").getValue(String.class)!=null && dataSnapshot.child("pwd").getValue(String.class)!=null) {
-                                            String sid = dataSnapshot.child("sid").getValue(String.class);
-                                            String pwd = dataSnapshot.child("pwd").getValue(String.class);
-                                            try {
-                                                jsonObject.put("un",sid);
-                                                jsonObject.put("pw",pwd);
-                                                jsonObject.put("pass","encrypt");
-                                                jsonObject.put("check",2);
-                                                System.out.println("jsonobj:" + jsonObject);
-                                                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, "http://14.139.198.171/api/rosei/booking", jsonObject, new Response.Listener<JSONObject>() {
-                                                    @Override
-                                                    public void onResponse(JSONObject response) {
-                                                        bookm2.setVisibility(View.VISIBLE);
-                                                        bookpgr.setVisibility(View.INVISIBLE);
-                                                        booktext.setVisibility(View.INVISIBLE);
-
-                                                    }
-                                                }, new Response.ErrorListener() {
-                                                    @Override
-                                                    public void onErrorResponse(VolleyError error) {
-                                                        bookm2.setVisibility(View.VISIBLE);
-                                                        bookpgr.setVisibility(View.INVISIBLE);
-                                                        booktext.setVisibility(View.INVISIBLE);
-                                                        Toast.makeText(getActivity(),"Coupon booking failed",Toast.LENGTH_SHORT).show();
-                                                    }
-                                                });
-                                                Mysingleton.getInstance(getActivity()).addToRequestqueue(jsonObjectRequest);
-                                            } catch (JSONException e) {
-                                                e.printStackTrace();
-                                            }
-
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-                                        bookm2.setVisibility(View.VISIBLE);
-                                        bookpgr.setVisibility(View.INVISIBLE);
-                                        booktext.setVisibility(View.INVISIBLE);
-                                    }
-                                });
-                            }
-                        });
-                    }
-                    else{
-                        load.setVisibility(View.VISIBLE);
-
-                    }
-                }
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
         return v;
     }
 
     private void loaddata() {
+        final ArrayList<String> days = new ArrayList<>();
+        days.add("mon");
+        days.add("tue");
+        days.add("wed");
+        days.add("thr");
+        days.add("fri");
+        days.add("sat");
+        days.add("sun");
+        if(getActivity()!=null){
+            MessUpMenuDb messUpMenuDb = new MessUpMenuDb(getActivity());
+            List<Mess_Menu> mess_menus = new ArrayList<>();
+            mess_menus.clear();
+            mess_menus = messUpMenuDb.readData("Select * from messup_menu_table");
+            CouponDb couponDb = new CouponDb(getActivity());
+            List<CouponStatus> couponStatuses = new ArrayList<>();
+            couponStatuses.clear();
+            couponStatuses = couponDb.readData("Select * from coupon_table");
+            amt2.setText(authUser.readamount2());
+            total.setText(authUser.readtotal());
+            mess2s.clear();
+            final String date = mess_menus.get(0).getDate();
+            for(int i=0;i<couponStatuses.size();i++){
+                String day = mess_menus.get(i).getWeekday() + " " + mess_menus.get(i).getDate();
+                String breakfast = mess_menus.get(i).getBreakfast();
+                String lunch = mess_menus.get(i).getLunch();
+                String dinner = mess_menus.get(i).getDinner();
+                String bs = couponStatuses.get(i).getBreakfast();
+                String ls = couponStatuses.get(i).getLunch();
+                String ds = couponStatuses.get(i).getDinner();
+                mess2 mess2 = new mess2(day,breakfast,lunch,dinner,bs,ls,ds);
+                mess2s.add(mess2);
+            }
+            if(!mess2s.isEmpty()){
+                mess2Adapter = new Mess2Adapter(getActivity(),R.layout.menu,mess2s);
+                mess2Adapter.notifyDataSetChanged();
+                list.setAdapter(mess2Adapter);
+                bookm2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        JSONObject jsonObject = mess2Adapter.getJsonObject();
+                        if(authUser.readdate().equals("0001-01-01T00:00:00Z")){
+                            //POST
 
+                            try {
+                                jsonObject.put("userid",authUser.readuser());
+                                jsonObject.put("username",authUser.readusername());
+                                jsonObject.put("gender",authUser.readgender());
+                                jsonObject.put("weekstartdate",date);
+                                jsonObject.put("id",authUser.readcid());
+                                jsonObject.put("amount1",authUser.readamount1());
+                                jsonObject.put("mount2",authUser.readamount2());
+                                jsonObject.put("Total",authUser.readtotal());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+
+                            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getResources().getString(R.string.root_url) + "/coupon", jsonObject, new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    try{
+                                        String weekstartdate = response.getString("weekstartdate");
+                                        int amount1 = response.getInt("amount1");
+                                        int amount2 = response.getInt("mount2");
+                                        int total = response.getInt("Total");
+                                        String cid = response.getString("id");
+                                        authUser.writedate(weekstartdate);
+                                        authUser.writeprice(amount1,amount2,total,cid);
+                                        CouponDb couponDb = new CouponDb(getActivity());
+                                        JSONObject coupon = response.getJSONObject("coupon");
+                                        ArrayList<String> meals = new ArrayList<>();
+                                        meals.add("breakfast");
+                                        meals.add("lunch");
+                                        meals.add("dinner");
+                                        ArrayList<String> params = new ArrayList<>();
+                                        params.add("isSelected");
+                                        params.add("isVeg");
+                                        for(int i=0;i<days.size();i++) {
+                                            JSONObject day = coupon.getJSONObject(days.get(i));
+                                            ArrayList<StringBuilder> binaries = new ArrayList<>();
+                                            binaries.add(new StringBuilder("001"));
+                                            binaries.add(new StringBuilder("001"));
+                                            binaries.add(new StringBuilder("001"));
+                                            for (int j = 0; j < meals.size(); j++) {
+                                                JSONObject meal = day.getJSONObject(meals.get(j));
+                                                String food = meal.getString("food");
+                                                binaries.get(j).append(food);
+                                                for (int k = 0; k < params.size(); k++) {
+                                                    if (meal.getBoolean(params.get(k))) {
+                                                        binaries.get(j).setCharAt(k, '1');
+                                                    }
+                                                }
+                                            }
+                                            System.out.println(days.get(i) + binaries.get(0).toString() + binaries.get(1).toString() + binaries.get(2).toString());
+                                            CouponStatus couponStatus = new CouponStatus(days.get(i), binaries.get(0).toString(), binaries.get(1).toString(), binaries.get(2).toString());
+                                            couponDb.insertData(couponStatus);
+                                            couponDb.updatenotice(couponStatus);
+                                        }
+                                        loaddata();
+                                    }
+                                    catch (JSONException e){
+                                        e.printStackTrace();
+                                    }
+                                    bookm2.setVisibility(View.VISIBLE);
+                                    bookpgr.setVisibility(View.INVISIBLE);
+                                    booktext.setVisibility(View.INVISIBLE);
+
+                                }
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    bookm2.setVisibility(View.VISIBLE);
+                                    bookpgr.setVisibility(View.INVISIBLE);
+                                    booktext.setVisibility(View.INVISIBLE);
+                                    Toast.makeText(getActivity(),"Coupon booking failed",Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            if (getActivity()!=null){
+                                Mysingleton.getInstance(getActivity()).addToRequestqueue(jsonObjectRequest);
+                            }
+
+                        }
+                        else{
+                            //PUT
+                            try {
+                                jsonObject.put("userid",authUser.readuser());
+                                jsonObject.put("username",authUser.readusername());
+                                jsonObject.put("gender",authUser.readgender());
+                                jsonObject.put("weekstartdate",authUser.readdate());
+                                jsonObject.put("id",authUser.readcid());
+                                jsonObject.put("amount1",authUser.readamount1());
+                                jsonObject.put("mount2",authUser.readamount2());
+                                jsonObject.put("Total",authUser.readtotal());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, getResources().getString(R.string.root_url) + "/coupon", jsonObject, new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    try{
+                                        String weekstartdate = response.getString("weekstartdate");
+                                        int amount1 = response.getInt("amount1");
+                                        int amount2 = response.getInt("mount2");
+                                        int total = response.getInt("Total");
+                                        String cid = response.getString("id");
+                                        authUser.writedate(weekstartdate);
+                                        authUser.writeprice(amount1,amount2,total,cid);
+                                        CouponDb couponDb = new CouponDb(getActivity());
+                                        JSONObject coupon = response.getJSONObject("coupon");
+                                        ArrayList<String> meals = new ArrayList<>();
+                                        meals.add("breakfast");
+                                        meals.add("lunch");
+                                        meals.add("dinner");
+                                        ArrayList<String> params = new ArrayList<>();
+                                        params.add("isSelected");
+                                        params.add("isVeg");
+                                        for(int i=0;i<days.size();i++) {
+                                            JSONObject day = coupon.getJSONObject(days.get(i));
+                                            ArrayList<StringBuilder> binaries = new ArrayList<>();
+                                            binaries.add(new StringBuilder("001"));
+                                            binaries.add(new StringBuilder("001"));
+                                            binaries.add(new StringBuilder("001"));
+                                            for (int j = 0; j < meals.size(); j++) {
+                                                JSONObject meal = day.getJSONObject(meals.get(j));
+                                                String food = meal.getString("food");
+                                                binaries.get(j).append(food);
+                                                for (int k = 0; k < params.size(); k++) {
+                                                    if (meal.getBoolean(params.get(k))) {
+                                                        binaries.get(j).setCharAt(k, '1');
+                                                    }
+                                                }
+                                            }
+                                            System.out.println(days.get(i) + binaries.get(0).toString() + binaries.get(1).toString() + binaries.get(2).toString());
+                                            CouponStatus couponStatus = new CouponStatus(days.get(i), binaries.get(0).toString(), binaries.get(1).toString(), binaries.get(2).toString());
+                                            couponDb.insertData(couponStatus);
+                                            couponDb.updatenotice(couponStatus);
+                                        }
+                                        loaddata();
+                                    }
+                                    catch(JSONException e){
+                                        e.printStackTrace();
+                                    }
+                                    bookm2.setVisibility(View.VISIBLE);
+                                    bookpgr.setVisibility(View.INVISIBLE);
+                                    booktext.setVisibility(View.INVISIBLE);
+
+                                }
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    bookm2.setVisibility(View.VISIBLE);
+                                    bookpgr.setVisibility(View.INVISIBLE);
+                                    booktext.setVisibility(View.INVISIBLE);
+                                    Toast.makeText(getActivity(),"Coupon booking failed",Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            if (getActivity()!=null){
+                                Mysingleton.getInstance(getActivity()).addToRequestqueue(jsonObjectRequest);
+                            }
+                        }
+                    }
+                });
+            }
+        }
     }
 }
