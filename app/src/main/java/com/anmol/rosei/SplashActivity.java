@@ -165,8 +165,20 @@ public class SplashActivity extends AppCompatActivity {
                                                     int amount2 = couponresponse.getInt("mount2");
                                                     int total = couponresponse.getInt("Total");
                                                     String cid = couponresponse.getString("id");
-                                                    authUser.writedate(weekstartdate);
-                                                    authUser.writeprice(amount1,amount2,total,cid);
+                                                    System.out.println(weekstartdate + " " + amount1  + " " + amount2 + " " + total + " " + cid);
+                                                    if(authUser.writedate(weekstartdate)){
+                                                        System.out.println(authUser.readdate());
+                                                    }else {
+                                                        System.out.println("sharedpreferences failed");
+                                                    }
+                                                    if(authUser.writeprice(amount1,amount2,total,cid)){
+                                                        System.out.println("amount1" + authUser.readamount1());
+                                                        System.out.println("amount2" + authUser.readamount2());
+                                                        System.out.println("total" + authUser.readtotal());
+                                                        System.out.println("cid" + authUser.readcid());
+                                                    }else {
+                                                        System.out.println("sharedpreferences failed");
+                                                    }
                                                     CouponDb couponDb = new CouponDb(SplashActivity.this);
                                                     JSONObject coupon = couponresponse.getJSONObject("coupon");
                                                     ArrayList<String> meals = new ArrayList<>();
@@ -209,6 +221,8 @@ public class SplashActivity extends AppCompatActivity {
                                         }, new Response.ErrorListener() {
                                             @Override
                                             public void onErrorResponse(VolleyError error) {
+
+                                                System.out.println("upcoming loading error" + error);
                                                 progressBar.setVisibility(View.INVISIBLE);
                                                 Toast.makeText(SplashActivity.this,"Unable to load Coupons",Toast.LENGTH_SHORT).show();
                                                 progressBar.setVisibility(View.INVISIBLE);
@@ -227,6 +241,7 @@ public class SplashActivity extends AppCompatActivity {
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
+                                System.out.println("currrent loading error" + error);
                                 progressBar.setVisibility(View.INVISIBLE);
                                 Toast.makeText(SplashActivity.this,"Unable to load Coupons",Toast.LENGTH_SHORT).show();
                                 progressBar.setVisibility(View.INVISIBLE);

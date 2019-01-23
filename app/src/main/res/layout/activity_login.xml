@@ -76,7 +76,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:hint="Last Name"
-                    android:inputType="textPassword"
                     android:textAlignment="center"
                     android:textColor="#000"
                     android:textColorHint="@color/colorPrimary"

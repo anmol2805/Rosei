@@ -97,8 +97,8 @@ public class first extends Fragment {
             List<CouponStatus> couponStatuses = new ArrayList<>();
             couponStatuses.clear();
             couponStatuses = couponDb.readData("Select * from coupon_table");
-            amt2.setText(authUser.readamount2());
-            total.setText(authUser.readtotal());
+            amt2.setText(String.valueOf(authUser.readamount2()));
+            total.setText(String.valueOf(authUser.readtotal()));
             mess2s.clear();
             final String date = mess_menus.get(0).getDate();
             for(int i=0;i<couponStatuses.size();i++){
@@ -119,6 +119,9 @@ public class first extends Fragment {
                 bookm2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        bookm2.setVisibility(View.INVISIBLE);
+                        bookpgr.setVisibility(View.VISIBLE);
+                        booktext.setVisibility(View.VISIBLE);
                         JSONObject jsonObject = mess2Adapter.getJsonObject();
                         if(authUser.readdate().equals("0001-01-01T00:00:00Z")){
                             //POST

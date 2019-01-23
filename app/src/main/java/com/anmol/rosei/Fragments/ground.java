@@ -71,6 +71,9 @@ public class ground extends Fragment {
         bookm1.setVisibility(View.VISIBLE);
         booktext.setVisibility(View.INVISIBLE);
         bookpgr.setVisibility(View.INVISIBLE);
+        if(getActivity()!=null){
+            authUser = new AuthUser(getActivity());
+        }
         loaddata();
         return v;
     }
@@ -92,8 +95,9 @@ public class ground extends Fragment {
             List<CouponStatus> couponStatuses = new ArrayList<>();
             couponStatuses.clear();
             couponStatuses = couponDb.readData("Select * from coupon_table");
-            amt1.setText(authUser.readamount2());
-            total.setText(authUser.readtotal());
+            System.out.println("amount1:" + authUser.readamount1());
+            amt1.setText(String.valueOf(authUser.readamount1()));
+            total.setText(String.valueOf(authUser.readtotal()));
             mess1s.clear();
             final String date = mess_menus.get(0).getDate();
             for(int i=0;i<couponStatuses.size();i++){
@@ -114,6 +118,9 @@ public class ground extends Fragment {
                 bookm1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        bookm1.setVisibility(View.INVISIBLE);
+                        bookpgr.setVisibility(View.VISIBLE);
+                        booktext.setVisibility(View.VISIBLE);
                         JSONObject jsonObject = mess1Adapter.getJsonObject();
                         if(authUser.readdate().equals("0001-01-01T00:00:00Z")){
                             //POST

@@ -296,10 +296,10 @@ public class RoseiActivity extends AppCompatActivity {
             try {
                 Date changedate = simpleDateFormat.parse(daydate);
                 System.out.println("coupondate:" + changedate);
-                Date onedaybefore = new Date(changedate.getTime() - 8);
+                Date onedaybefore = new Date(changedate.getTime() - 604800000L);
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 lastmonday = sdf.format(onedaybefore);
-                System.out.println("onedaybefore:" + onedaybefore);
+                System.out.println("onedaybefore:" + lastmonday);
 
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -353,9 +353,9 @@ public class RoseiActivity extends AppCompatActivity {
                     dmess = "First floor Mess";
 
                 }
-                Coupon bfcoupon = new Coupon("Breakfast",bmess,day,daydate,bmenu);
-                Coupon lnccoupon = new Coupon("Lunch",lmess,day,daydate,lmenu);
-                Coupon dincoupon = new Coupon("Dinner",dmess,day,daydate,dmenu);
+                Coupon bfcoupon = new Coupon("Breakfast",bmess,day,lastmonday,bmenu);
+                Coupon lnccoupon = new Coupon("Lunch",lmess,day,lastmonday,lmenu);
+                Coupon dincoupon = new Coupon("Dinner",dmess,day,lastmonday,dmenu);
                 if(todaydate.before(bfdate)){
                     if(!bmess.contains("notissued")){
                         coupons.add(bfcoupon);
