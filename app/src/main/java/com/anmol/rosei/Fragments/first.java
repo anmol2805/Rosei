@@ -50,8 +50,7 @@ import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 public class first extends Fragment {
 
     ListView list;
-    FirebaseAuth auth = FirebaseAuth.getInstance();
-    DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("students").child(auth.getCurrentUser().getUid());
+
     List<mess2>mess2s = new ArrayList<>();
     Mess2Adapter mess2Adapter;
     TextView amt2,total;
