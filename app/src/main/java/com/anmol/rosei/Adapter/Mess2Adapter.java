@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.anmol.rosei.Model.mess2;
 import com.anmol.rosei.R;
+import com.google.gson.JsonIOException;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,6 +33,12 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
     private int resource;
     private List<mess2> mess2s;
     JSONObject jsonObject2 = new JSONObject();
+    JSONObject coupon = new JSONObject();
+    JSONObject breakfast = new JSONObject();
+    JSONObject lunch = new JSONObject();
+    JSONObject dinner = new JSONObject();
+    JSONObject meal = new JSONObject();
+
 
     public Mess2Adapter(@NonNull Activity context, @LayoutRes int resource, @NonNull List<mess2> objects) {
         super(context, resource, objects);
@@ -68,8 +75,8 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
             foodl.setText(mess2s.get(position).getLnch());
             foodd.setText(mess2s.get(position).getDinnr());
             final String weekday = mess2s.get(position).getDay();
+            String dayobject = weekday.substring(0,3);
             day.setText(weekday);
-            final String couponcode = "m002" + weekday;
             final CheckBox b = (CheckBox)v.findViewById(R.id.b);
             final CheckBox l = (CheckBox)v.findViewById(R.id.l);
             final CheckBox d = (CheckBox)v.findViewById(R.id.d);
@@ -82,16 +89,19 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
             bv.setChecked(true);
             lv.setChecked(true);
             dv.setChecked(true);
-            final String couponday = weekday.substring(weekday.length() - 3).toLowerCase();
-            System.out.println("couponday:" + couponday);
-            try {
-                jsonObject2.put(couponday + "bfmt","veg");
-                jsonObject2.put(couponday + "lunmt","veg");
-                jsonObject2.put(couponday + "dinmt","veg");
-                jsonObject2.put(couponday + "bf",1);
-                jsonObject2.put(couponday + "lun",1);
-                jsonObject2.put(couponday + "din",1);
-            } catch (JSONException e) {
+            try{
+                breakfast.put("isMessUp",true);
+                lunch.put("isMessUp",true);
+                dinner.put("isMessUp",true);
+                breakfast.put("isVeg",true);
+                lunch.put("isVeg",true);
+                dinner.put("isVeg",true);
+                breakfast.put("isSelected",false);
+                lunch.put("isSelected",false);
+                dinner.put("isSelected",false);
+            }
+
+            catch(JSONException e){
                 e.printStackTrace();
             }
 
@@ -101,8 +111,7 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
                     if(compoundButton.isChecked()){
                         bv.setChecked(false);
                         try {
-                            jsonObject2.remove(couponday + "bfmt");
-                            jsonObject2.put(couponday + "bfmt","nonveg");
+                            breakfast.put("isVeg",false);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -115,8 +124,7 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
                     if(compoundButton.isChecked()){
                         bnv.setChecked(false);
                         try {
-                            jsonObject2.remove(couponday + "bfmt");
-                            jsonObject2.put(couponday + "bfmt","veg");
+                            breakfast.put("isVeg",true);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -129,8 +137,7 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
                     if(compoundButton.isChecked()){
                         lv.setChecked(false);
                         try {
-                            jsonObject2.remove(couponday + "lunmt");
-                            jsonObject2.put(couponday + "lunmt","nonveg");
+                            lunch.put("isVeg",false);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -143,8 +150,7 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
                     if(compoundButton.isChecked()){
                         lnv.setChecked(false);
                         try {
-                            jsonObject2.remove(couponday + "lunmt");
-                            jsonObject2.put(couponday + "lunmt","veg");
+                            lunch.put("isVeg",true);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -157,8 +163,7 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
                     if(compoundButton.isChecked()){
                         dv.setChecked(false);
                         try {
-                            jsonObject2.remove(couponday + "dinmt");
-                            jsonObject2.put(couponday + "dinmt","nonveg");
+                            dinner.put("isVeg",false);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -171,8 +176,7 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
                     if(compoundButton.isChecked()){
                         dnv.setChecked(false);
                         try {
-                            jsonObject2.remove(couponday + "dinmt");
-                            jsonObject2.put(couponday + "dinmt","veg");
+                            dinner.put("isVeg",true);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -187,10 +191,7 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
                         bnv.setVisibility(View.VISIBLE);
                         bv.setVisibility(View.VISIBLE);
                         try {
-                            jsonObject2.remove(couponday + "bfmt");
-                            jsonObject2.remove(couponday + "bf");
-                            jsonObject2.put(couponday + "bfmt","veg");
-                            jsonObject2.put(couponday + "bf",couponcode);
+                            breakfast.put("isSelected",true);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -200,10 +201,7 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
                         bnv.setVisibility(View.INVISIBLE);
                         bv.setVisibility(View.INVISIBLE);
                         try {
-                            jsonObject2.remove(couponday + "bfmt");
-                            jsonObject2.remove(couponday + "bf");
-                            jsonObject2.put(couponday + "bfmt","veg");
-                            jsonObject2.put(couponday + "bf",1);
+                            breakfast.put("isSelected",false);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -218,10 +216,7 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
                         lnv.setVisibility(View.VISIBLE);
                         lv.setVisibility(View.VISIBLE);
                         try {
-                            jsonObject2.remove(couponday + "lunmt");
-                            jsonObject2.remove(couponday + "lun");
-                            jsonObject2.put(couponday + "lunmt","veg");
-                            jsonObject2.put(couponday + "lun",couponcode);
+                            lunch.put("isSelected",true);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -231,11 +226,7 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
                         lnv.setVisibility(View.INVISIBLE);
                         lv.setVisibility(View.INVISIBLE);
                         try {
-                            jsonObject2.remove(couponday + "lunmt");
-                            jsonObject2.remove(couponday + "lun");
-                            jsonObject2.put(couponday + "lunmt","veg");
-                            jsonObject2.put(couponday + "lun",1);
-
+                            lunch.put("isSelected",false);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -249,10 +240,7 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
                         dnv.setVisibility(View.VISIBLE);
                         dv.setVisibility(View.VISIBLE);
                         try {
-                            jsonObject2.remove(couponday + "dinmt");
-                            jsonObject2.remove(couponday + "din");
-                            jsonObject2.put(couponday + "dinmt","veg");
-                            jsonObject2.put(couponday + "din",couponcode);
+                            dinner.put("isSelected",true);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -262,11 +250,7 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
                         dnv.setVisibility(View.INVISIBLE);
                         dv.setVisibility(View.INVISIBLE);
                         try {
-                            jsonObject2.remove(couponday + "dinmt");
-                            jsonObject2.remove(couponday + "din");
-                            jsonObject2.put(couponday + "dinmt","veg");
-                            jsonObject2.put(couponday + "din",1);
-
+                            dinner.put("isSelected",false);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -277,25 +261,26 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
             CardView brk = (CardView)v.findViewById(R.id.brk);
             CardView lnch = (CardView)v.findViewById(R.id.lnch);
             CardView dnnr = (CardView)v.findViewById(R.id.dnnr);
-            if(!mess2s.get(position).getBs().contains("NotIssued")){
-                b.setVisibility(View.INVISIBLE);
+            String brkstat = mess2s.get(position).getBs();
+            String lnchstat = mess2s.get(position).getLs();
+            String dnrstat = mess2s.get(position).getDs();
+            if(brkstat.charAt(0) == '1'){
                 b.setChecked(false);
-
-                if(mess2s.get(position).getBs().contains("1")){
+                if(brkstat.charAt(2) == '0'){
                     bstatus.setText("Ground Floor");
-                    if(mess2s.get(position).getBs().contains("N")){
+                    if(brkstat.charAt(1)=='0'){
                         bstatus.setTextColor(getContext().getResources().getColor(R.color.nonveg));
                     }
-                    else if(mess2s.get(position).getBs().contains("V")){
+                    else {
                         bstatus.setTextColor(getContext().getResources().getColor(R.color.veg));
                     }
                 }
-                else if(mess2s.get(position).getBs().contains("2")){
+                else {
                     bstatus.setText("First Floor");
-                    if(mess2s.get(position).getBs().contains("N")){
+                    if(brkstat.charAt(1)=='0'){
                         bstatus.setTextColor(getContext().getResources().getColor(R.color.nonveg));
                     }
-                    else if(mess2s.get(position).getBs().contains("V")){
+                    else {
                         bstatus.setTextColor(getContext().getResources().getColor(R.color.veg));
                     }
                 }
@@ -316,25 +301,24 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
                     }
                 });
             }
-            if(!mess2s.get(position).getLs().contains("NotIssued")){
-                l.setVisibility(View.INVISIBLE);
+            if(lnchstat.charAt(0)=='1'){
                 l.setChecked(false);
 
-                if(mess2s.get(position).getLs().contains("1")){
+                if(lnchstat.charAt(2)=='0'){
                     lstatus.setText("Ground Floor");
-                    if(mess2s.get(position).getLs().contains("N")){
+                    if(lnchstat.charAt(1)=='0'){
                         lstatus.setTextColor(getContext().getResources().getColor(R.color.nonveg));
                     }
-                    else if(mess2s.get(position).getLs().contains("V")){
+                    else {
                         lstatus.setTextColor(getContext().getResources().getColor(R.color.veg));
                     }
                 }
-                else if(mess2s.get(position).getLs().contains("2")){
+                else{
                     lstatus.setText("First Floor");
-                    if(mess2s.get(position).getLs().contains("N")){
+                    if(lnchstat.charAt(1)=='0'){
                         lstatus.setTextColor(getContext().getResources().getColor(R.color.nonveg));
                     }
-                    else if(mess2s.get(position).getLs().contains("V")){
+                    else {
                         lstatus.setTextColor(getContext().getResources().getColor(R.color.veg));
                     }
                 }
@@ -356,25 +340,23 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
                 });
 
             }
-            if(!mess2s.get(position).getDs().contains("NotIssued")){
-                d.setVisibility(View.INVISIBLE);
+            if(dnrstat.charAt(0)=='1'){
                 d.setChecked(false);
-
-                if(mess2s.get(position).getDs().contains("1")){
+                if(dnrstat.charAt(2)=='0'){
                     dstatus.setText("Ground Floor");
-                    if(mess2s.get(position).getDs().contains("N")){
+                    if(dnrstat.charAt(1)=='0'){
                         dstatus.setTextColor(getContext().getResources().getColor(R.color.nonveg));
                     }
-                    else if(mess2s.get(position).getDs().contains("V")){
+                    else {
                         dstatus.setTextColor(getContext().getResources().getColor(R.color.veg));
                     }
                 }
-                else if(mess2s.get(position).getDs().contains("2")){
+                else{
                     dstatus.setText("First Floor");
-                    if(mess2s.get(position).getDs().contains("N")){
+                    if(dnrstat.charAt(1)=='0'){
                         dstatus.setTextColor(getContext().getResources().getColor(R.color.nonveg));
                     }
-                    else if(mess2s.get(position).getDs().contains("V")){
+                    else {
                         dstatus.setTextColor(getContext().getResources().getColor(R.color.veg));
                     }
                 }
@@ -394,6 +376,15 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
                         }
                     }
                 });
+            }
+            try {
+                jsonObject2.put("coupon",coupon);
+                coupon.put(dayobject,meal);
+                meal.put("breakfast",breakfast);
+                meal.put("lunch",lunch);
+                meal.put("dinner",dinner);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 
 

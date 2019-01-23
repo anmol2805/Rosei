@@ -157,12 +157,13 @@ public class first extends Fragment {
                                         ArrayList<String> params = new ArrayList<>();
                                         params.add("isSelected");
                                         params.add("isVeg");
+                                        params.add("isMessUp");
                                         for(int i=0;i<days.size();i++) {
                                             JSONObject day = coupon.getJSONObject(days.get(i));
                                             ArrayList<StringBuilder> binaries = new ArrayList<>();
-                                            binaries.add(new StringBuilder("001"));
-                                            binaries.add(new StringBuilder("001"));
-                                            binaries.add(new StringBuilder("001"));
+                                            binaries.add(new StringBuilder("000"));
+                                            binaries.add(new StringBuilder("000"));
+                                            binaries.add(new StringBuilder("000"));
                                             for (int j = 0; j < meals.size(); j++) {
                                                 JSONObject meal = day.getJSONObject(meals.get(j));
                                                 String food = meal.getString("food");

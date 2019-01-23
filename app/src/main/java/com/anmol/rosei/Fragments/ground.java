@@ -231,6 +231,7 @@ public class ground extends Fragment {
                                         ArrayList<String> params = new ArrayList<>();
                                         params.add("isSelected");
                                         params.add("isVeg");
+                                        params.add("isMessUp");
                                         for(int i=0;i<days.size();i++) {
                                             JSONObject day = coupon.getJSONObject(days.get(i));
                                             ArrayList<StringBuilder> binaries = new ArrayList<>();
