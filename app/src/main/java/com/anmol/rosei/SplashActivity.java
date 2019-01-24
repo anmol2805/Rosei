@@ -213,7 +213,7 @@ public class SplashActivity extends AppCompatActivity {
                                                 } catch (JSONException e) {
                                                     e.printStackTrace();
                                                 }
-                                                progressBar.setVisibility(View.INVISIBLE);
+
                                                 Intent intent = new Intent(SplashActivity.this, RoseiActivity.class);
                                                 startActivity(intent);
                                                 overridePendingTransition(R.anim.still,R.anim.slide_in_up);
@@ -225,7 +225,6 @@ public class SplashActivity extends AppCompatActivity {
                                                 System.out.println("upcoming loading error" + error);
                                                 progressBar.setVisibility(View.INVISIBLE);
                                                 Toast.makeText(SplashActivity.this,"Unable to load Coupons",Toast.LENGTH_SHORT).show();
-                                                progressBar.setVisibility(View.INVISIBLE);
                                                 Intent intent = new Intent(SplashActivity.this, RoseiActivity.class);
                                                 startActivity(intent);
                                                 overridePendingTransition(R.anim.still,R.anim.slide_in_up);
@@ -244,7 +243,6 @@ public class SplashActivity extends AppCompatActivity {
                                 System.out.println("currrent loading error" + error);
                                 progressBar.setVisibility(View.INVISIBLE);
                                 Toast.makeText(SplashActivity.this,"Unable to load Coupons",Toast.LENGTH_SHORT).show();
-                                progressBar.setVisibility(View.INVISIBLE);
                                 Intent intent = new Intent(SplashActivity.this, RoseiActivity.class);
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.still,R.anim.slide_in_up);
@@ -263,7 +261,6 @@ public class SplashActivity extends AppCompatActivity {
                     System.out.println("Error" + error);
                     progressBar.setVisibility(View.INVISIBLE);
                     Toast.makeText(SplashActivity.this,"Unable to load Menu",Toast.LENGTH_SHORT).show();
-                    progressBar.setVisibility(View.INVISIBLE);
                     Intent intent = new Intent(SplashActivity.this, RoseiActivity.class);
                     startActivity(intent);
                     overridePendingTransition(R.anim.still,R.anim.slide_in_up);

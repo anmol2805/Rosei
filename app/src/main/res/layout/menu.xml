@@ -47,11 +47,11 @@
                     android:id="@+id/b"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:visibility="invisible"
-                    android:buttonTint="@color/colorPrimary" />
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentBottom="true"
+                    android:buttonTint="@color/colorPrimary"
+                    android:visibility="invisible" />
 
                 <RadioButton
                     android:id="@+id/bv"
@@ -132,11 +132,11 @@
                     android:id="@+id/l"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:visibility="invisible"
-                    android:buttonTint="@color/colorPrimary" />
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentBottom="true"
+                    android:buttonTint="@color/colorPrimary"
+                    android:visibility="invisible" />
 
                 <RadioButton
                     android:id="@+id/lv"
@@ -204,11 +204,11 @@
                     android:id="@+id/d"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:visibility="invisible"
-                    android:buttonTint="@color/colorPrimary" />
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentBottom="true"
+                    android:buttonTint="@color/colorPrimary"
+                    android:visibility="invisible" />
 
                 <RadioButton
                     android:id="@+id/dv"

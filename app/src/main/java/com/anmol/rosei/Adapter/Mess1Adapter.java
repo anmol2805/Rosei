@@ -21,6 +21,8 @@ import com.anmol.rosei.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -87,20 +89,14 @@ public class Mess1Adapter extends ArrayAdapter<mess1> {
             lv.setChecked(true);
             dv.setChecked(true);
             try{
-                breakfast.put("isMessUp",false);
-                lunch.put("isMessUp",false);
-                dinner.put("isMessUp",false);
-                breakfast.put("isVeg",true);
-                lunch.put("isVeg",true);
-                dinner.put("isVeg",true);
-                breakfast.put("isSelected",false);
-                lunch.put("isSelected",false);
-                dinner.put("isSelected",false);
+                breakfast.put("food",mess1s.get(position).getBrkfast());
+                lunch.put("food",mess1s.get(position).getLnch());
+                dinner.put("food",mess1s.get(position).getDinnr());
             }
-
-            catch(JSONException e){
+            catch (JSONException e){
                 e.printStackTrace();
             }
+
 
             bnv.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
@@ -189,7 +185,8 @@ public class Mess1Adapter extends ArrayAdapter<mess1> {
                         bv.setVisibility(View.VISIBLE);
                         try {
                             breakfast.put("isSelected",true);
-
+                            breakfast.put("isMessUp",false);
+                            breakfast.put("isVeg",true);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -199,7 +196,6 @@ public class Mess1Adapter extends ArrayAdapter<mess1> {
                         bv.setVisibility(View.INVISIBLE);
                         try {
                             breakfast.put("isSelected",false);
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -214,7 +210,8 @@ public class Mess1Adapter extends ArrayAdapter<mess1> {
                         lv.setVisibility(View.VISIBLE);
                         try {
                             lunch.put("isSelected",true);
-
+                            lunch.put("isMessUp",false);
+                            lunch.put("isVeg",true);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -238,7 +235,8 @@ public class Mess1Adapter extends ArrayAdapter<mess1> {
                         dv.setVisibility(View.VISIBLE);
                         try {
                             dinner.put("isSelected",true);
-
+                            dinner.put("isMessUp",false);
+                            dinner.put("isVeg",true);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -248,6 +246,7 @@ public class Mess1Adapter extends ArrayAdapter<mess1> {
                         dv.setVisibility(View.INVISIBLE);
                         try {
                             dinner.put("isSelected",false);
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -261,120 +260,223 @@ public class Mess1Adapter extends ArrayAdapter<mess1> {
             String brkstat = mess1s.get(position).getBs();
             String lnchstat = mess1s.get(position).getLs();
             String dnrstat = mess1s.get(position).getDs();
-            if(brkstat.charAt(0) == '1'){
-                b.setChecked(false);
-                if(brkstat.charAt(2) == '0'){
-                    bstatus.setText("Ground Floor");
-                    if(brkstat.charAt(1)=='0'){
-                        bstatus.setTextColor(getContext().getResources().getColor(R.color.nonveg));
-                    }
-                    else {
-                        bstatus.setTextColor(getContext().getResources().getColor(R.color.veg));
-                    }
-                }
-                else {
-                    bstatus.setText("First Floor");
-                    if(brkstat.charAt(1)=='0'){
-                        bstatus.setTextColor(getContext().getResources().getColor(R.color.nonveg));
-                    }
-                    else {
-                        bstatus.setTextColor(getContext().getResources().getColor(R.color.veg));
-                    }
-                }
-                bstatus.setVisibility(View.VISIBLE);
-            }
-            else {
-                bstatus.setVisibility(View.INVISIBLE);
-                b.setVisibility(View.VISIBLE);
-                brk.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if(b.isChecked()){
-                            b.setChecked(false);
-                        }
-                        else if(!b.isChecked()){
-                            b.setChecked(true);
-                        }
-                    }
-                });
-            }
-            if(lnchstat.charAt(0)=='1'){
-                l.setChecked(false);
+            ArrayList<String> mealstatuses = new ArrayList<>();
+            mealstatuses.add(brkstat);
+            mealstatuses.add(lnchstat);
+            mealstatuses.add(dnrstat);
+            ArrayList<JSONObject> meals = new ArrayList<>();
+            meals.add(breakfast);
+            meals.add(lunch);
+            meals.add(dinner);
+            final ArrayList<CheckBox> checkBoxes = new ArrayList<>();
+            checkBoxes.add(b);
+            checkBoxes.add(l);
+            checkBoxes.add(d);
+            final ArrayList<TextView> textViews = new ArrayList<>();
+            textViews.add(bstatus);
+            textViews.add(lstatus);
+            textViews.add(dstatus);
+            ArrayList<CardView> cardViews = new ArrayList<>();
+            cardViews.add(brk);
+            cardViews.add(lnch);
+            cardViews.add(dnnr);
 
-                if(lnchstat.charAt(2)=='0'){
-                    lstatus.setText("Ground Floor");
-                    if(lnchstat.charAt(1)=='0'){
-                        lstatus.setTextColor(getContext().getResources().getColor(R.color.nonveg));
+            int i=0;
+            while (i<mealstatuses.size()){
+                try{
+                    if(mealstatuses.get(i).charAt(0) == '1'){
+                        checkBoxes.get(i).setVisibility(View.INVISIBLE);
+                        meals.get(i).put("isSelected",true);
+                        checkBoxes.get(i).setChecked(false);
+                        if(mealstatuses.get(i).charAt(2) == '0'){
+                            checkBoxes.get(i).setVisibility(View.VISIBLE);
+                            checkBoxes.get(i).setChecked(true);
+                            meals.get(i).put("isMessUp",false);
+                            textViews.get(i).setText("Ground Floor");
+                            if(mealstatuses.get(i).charAt(1)=='0'){
+                                meals.get(i).put("isVeg",false);
+                                textViews.get(i).setTextColor(getContext().getResources().getColor(R.color.nonveg));
+                            }
+                            else {
+                                meals.get(i).put("isVeg",true);
+                                textViews.get(i).setTextColor(getContext().getResources().getColor(R.color.veg));
+                            }
+                        }
+                        else {
+                            meals.get(i).put("isMessUp",true);
+                            textViews.get(i).setText("First Floor");
+                            if(mealstatuses.get(i).charAt(1)=='0'){
+                                meals.get(i).put("isVeg",false);
+                                textViews.get(i).setTextColor(getContext().getResources().getColor(R.color.nonveg));
+                            }
+                            else {
+                                meals.get(i).put("isVeg",true);
+                                textViews.get(i).setTextColor(getContext().getResources().getColor(R.color.veg));
+                            }
+                        }
+                        textViews.get(i).setVisibility(View.VISIBLE);
                     }
                     else {
-                        lstatus.setTextColor(getContext().getResources().getColor(R.color.veg));
+                        meals.get(i).put("isSelected",false);
+                        textViews.get(i).setVisibility(View.INVISIBLE);
+                        checkBoxes.get(i).setVisibility(View.VISIBLE);
+                        final int finalI = i;
+                        cardViews.get(i).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if(checkBoxes.get(finalI).isChecked()){
+                                    checkBoxes.get(finalI).setChecked(false);
+                                }
+                                else if(!checkBoxes.get(finalI).isChecked()){
+                                    checkBoxes.get(finalI).setChecked(true);
+                                }
+                            }
+                        });
                     }
                 }
-                else{
-                    lstatus.setText("First Floor");
-                    if(lnchstat.charAt(1)=='0'){
-                        lstatus.setTextColor(getContext().getResources().getColor(R.color.nonveg));
-                    }
-                    else {
-                        lstatus.setTextColor(getContext().getResources().getColor(R.color.veg));
-                    }
+                catch (JSONException e){
+                    e.printStackTrace();
                 }
-                lstatus.setVisibility(View.VISIBLE);
+                i++;
             }
-            else {
-                lstatus.setVisibility(View.INVISIBLE);
-                l.setVisibility(View.VISIBLE);
-                lnch.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if(l.isChecked()){
-                            l.setChecked(false);
-                        }
-                        else if(!l.isChecked()){
-                            l.setChecked(true);
-                        }
-                    }
-                });
 
-            }
-            if(dnrstat.charAt(0)=='1'){
-                d.setChecked(false);
-                if(dnrstat.charAt(2)=='0'){
-                    dstatus.setText("Ground Floor");
-                    if(dnrstat.charAt(1)=='0'){
-                        dstatus.setTextColor(getContext().getResources().getColor(R.color.nonveg));
-                    }
-                    else {
-                        dstatus.setTextColor(getContext().getResources().getColor(R.color.veg));
-                    }
-                }
-                else{
-                    dstatus.setText("First Floor");
-                    if(dnrstat.charAt(1)=='0'){
-                        dstatus.setTextColor(getContext().getResources().getColor(R.color.nonveg));
-                    }
-                    else {
-                        dstatus.setTextColor(getContext().getResources().getColor(R.color.veg));
-                    }
-                }
-                dstatus.setVisibility(View.VISIBLE);
-            }
-            else {
-                dstatus.setVisibility(View.INVISIBLE);
-                d.setVisibility(View.VISIBLE);
-                dnnr.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if(d.isChecked()){
-                            d.setChecked(false);
-                        }
-                        else if(!d.isChecked()){
-                            d.setChecked(true);
-                        }
-                    }
-                });
-            }
             try {
+//                if(brkstat.charAt(0) == '1'){
+//                    breakfast.put("isSelected",true);
+//                    b.setChecked(false);
+//                    if(brkstat.charAt(2) == '0'){
+//                        breakfast.put("isMessUp",false);
+//                        bstatus.setText("Ground Floor");
+//                        if(brkstat.charAt(1)=='0'){
+//                            breakfast.put("isVeg",false);
+//                            bstatus.setTextColor(getContext().getResources().getColor(R.color.nonveg));
+//                        }
+//                        else {
+//                            breakfast.put("isVeg",true);
+//                            bstatus.setTextColor(getContext().getResources().getColor(R.color.veg));
+//                        }
+//                    }
+//                    else {
+//                        breakfast.put("isMessUp",true);
+//                        bstatus.setText("First Floor");
+//                        if(brkstat.charAt(1)=='0'){
+//                            breakfast.put("isVeg",false);
+//                            bstatus.setTextColor(getContext().getResources().getColor(R.color.nonveg));
+//                        }
+//                        else {
+//                            breakfast.put("isVeg",true);
+//                            bstatus.setTextColor(getContext().getResources().getColor(R.color.veg));
+//                        }
+//                    }
+//                    bstatus.setVisibility(View.VISIBLE);
+//                }
+//                else {
+//                    breakfast.put("isSelected",false);
+//                    bstatus.setVisibility(View.INVISIBLE);
+//                    b.setVisibility(View.VISIBLE);
+//                    brk.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View view) {
+//                            if(b.isChecked()){
+//                                b.setChecked(false);
+//                            }
+//                            else if(!b.isChecked()){
+//                                b.setChecked(true);
+//                            }
+//                        }
+//                    });
+//                }
+//                if(lnchstat.charAt(0)=='1'){
+//                    l.setChecked(false);
+//                    lunch.put("isSelected",true);
+//                    if(lnchstat.charAt(2)=='0'){
+//                        lunch.put("isMessUp",false);
+//                        lstatus.setText("Ground Floor");
+//                        if(lnchstat.charAt(1)=='0'){
+//                            lunch.put("isVeg",false);
+//                            lstatus.setTextColor(getContext().getResources().getColor(R.color.nonveg));
+//                        }
+//                        else {
+//                            lunch.put("isVeg",true);
+//                            lstatus.setTextColor(getContext().getResources().getColor(R.color.veg));
+//                        }
+//                    }
+//                    else{
+//                        lunch.put("isMessUp",true);
+//                        lstatus.setText("First Floor");
+//                        if(lnchstat.charAt(1)=='0'){
+//                            lunch.put("isVeg",false);
+//                            lstatus.setTextColor(getContext().getResources().getColor(R.color.nonveg));
+//                        }
+//                        else {
+//                            lunch.put("isVeg",true);
+//                            lstatus.setTextColor(getContext().getResources().getColor(R.color.veg));
+//                        }
+//                    }
+//                    lstatus.setVisibility(View.VISIBLE);
+//                }
+//                else {
+//                    lunch.put("isSelected",false);
+//                    lstatus.setVisibility(View.INVISIBLE);
+//                    l.setVisibility(View.VISIBLE);
+//                    lnch.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View view) {
+//                            if(l.isChecked()){
+//                                l.setChecked(false);
+//                            }
+//                            else if(!l.isChecked()){
+//                                l.setChecked(true);
+//                            }
+//                        }
+//                    });
+//
+//                }
+//                if(dnrstat.charAt(0)=='1'){
+//                    d.setChecked(false);
+//                    dinner.put("isSelected",true);
+//                    if(dnrstat.charAt(2)=='0'){
+//                        dinner.put("isMessUp",false);
+//                        dstatus.setText("Ground Floor");
+//                        if(dnrstat.charAt(1)=='0'){
+//                            dinner.put("isVeg",false);
+//                            dstatus.setTextColor(getContext().getResources().getColor(R.color.nonveg));
+//                        }
+//                        else {
+//                            dinner.put("isVeg",true);
+//                            dstatus.setTextColor(getContext().getResources().getColor(R.color.veg));
+//                        }
+//                    }
+//                    else{
+//                        dinner.put("isMessUp",true);
+//                        dstatus.setText("First Floor");
+//                        if(dnrstat.charAt(1)=='0'){
+//                            dinner.put("isVeg",false);
+//                            dstatus.setTextColor(getContext().getResources().getColor(R.color.nonveg));
+//                        }
+//                        else {
+//                            dinner.put("isVeg",true);
+//                            dstatus.setTextColor(getContext().getResources().getColor(R.color.veg));
+//                        }
+//                    }
+//                    dstatus.setVisibility(View.VISIBLE);
+//                }
+//                else {
+//                    dinner.put("isSelected",false);
+//                    dstatus.setVisibility(View.INVISIBLE);
+//                    d.setVisibility(View.VISIBLE);
+//                    dnnr.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View view) {
+//                            if(d.isChecked()){
+//                                d.setChecked(false);
+//                            }
+//                            else if(!d.isChecked()){
+//                                d.setChecked(true);
+//                            }
+//                        }
+//                    });
+//                }
                 jsonObject.put("coupon",coupon);
                 coupon.put(dayobject,meal);
                 meal.put("breakfast",breakfast);
