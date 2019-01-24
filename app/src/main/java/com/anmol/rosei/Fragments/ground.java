@@ -138,7 +138,7 @@ public class ground extends Fragment {
                                 e.printStackTrace();
                             }
 
-
+                            System.out.println("floor menu:" + jsonObject);
                             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getResources().getString(R.string.root_url) + "/coupon", jsonObject, new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {

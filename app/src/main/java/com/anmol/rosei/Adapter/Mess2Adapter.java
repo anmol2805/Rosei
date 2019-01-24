@@ -90,7 +90,14 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
             bv.setChecked(true);
             lv.setChecked(true);
             dv.setChecked(true);
-
+            try{
+                breakfast.put("food",mess2s.get(position).getBrkfast());
+                lunch.put("food",mess2s.get(position).getLnch());
+                dinner.put("food",mess2s.get(position).getDinnr());
+            }
+            catch (JSONException e){
+                e.printStackTrace();
+            }
 
             bnv.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
@@ -312,6 +319,8 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
                     }
                     else {
                         meals.get(i).put("isSelected",false);
+                        meals.get(i).put("isVeg",false);
+                        meals.get(i).put("isMessUp",false);
                         textViews.get(i).setVisibility(View.INVISIBLE);
                         checkBoxes.get(i).setVisibility(View.VISIBLE);
                         final int finalI = i;

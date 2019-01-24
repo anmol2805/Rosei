@@ -318,6 +318,8 @@ public class Mess1Adapter extends ArrayAdapter<mess1> {
                     }
                     else {
                         meals.get(i).put("isSelected",false);
+                        meals.get(i).put("isVeg",false);
+                        meals.get(i).put("isMessUp",false);
                         textViews.get(i).setVisibility(View.INVISIBLE);
                         checkBoxes.get(i).setVisibility(View.VISIBLE);
                         final int finalI = i;
