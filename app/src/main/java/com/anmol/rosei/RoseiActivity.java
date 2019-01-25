@@ -52,10 +52,8 @@ public class RoseiActivity extends AppCompatActivity {
 
     Animation rotate;
     Button book;
-    ImageButton set;
     TextView stuid;
     CircleImageView user;
-    Button logout;
     private static long back_pressed;
     List<MessStatus> messStatuses = new ArrayList<>();
     RecyclerView gridview;
@@ -70,11 +68,9 @@ public class RoseiActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rosei);
         rotate = AnimationUtils.loadAnimation(RoseiActivity.this,R.anim.rotate);
-        set = (ImageButton)findViewById(R.id.set);
         book = (Button)findViewById(R.id.book);
         user = (CircleImageView)findViewById(R.id.user);
         stuid = (TextView)findViewById(R.id.stuid);
-        logout = (Button)findViewById(R.id.logout);
         viewPager = (ViewPager)findViewById(R.id.viewpager);
 //        swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.refreshdata);
         gridview = (RecyclerView)findViewById(R.id.gridrecycler);
@@ -88,46 +84,41 @@ public class RoseiActivity extends AppCompatActivity {
                 startActivity(new Intent(RoseiActivity.this,BookingnewActivity.class));
             }
         });
-        set.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                set.startAnimation(rotate);
-            }
-        });
+
         final AuthConfig authConfig = new AuthConfig(this);
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(RoseiActivity.this);
-                builder1.setTitle("Logout");
-                builder1.setMessage("Are you sure you want to logout?");
-                builder1.setCancelable(true);
-                builder1.setPositiveButton(
-                        "Logout",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                authConfig.writeloginstatus(false);
-                                Intent intent = new Intent(RoseiActivity.this,LoginActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
-                                finish();
-                                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_down);
-                            }
-                        });
-
-                builder1.setNegativeButton(
-                        "Cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-
-                AlertDialog alert11 = builder1.create();
-                alert11.show();
-            }
-        });
+//        logout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                AlertDialog.Builder builder1 = new AlertDialog.Builder(RoseiActivity.this);
+//                builder1.setTitle("Logout");
+//                builder1.setMessage("Are you sure you want to logout?");
+//                builder1.setCancelable(true);
+//                builder1.setPositiveButton(
+//                        "Logout",
+//                        new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int id) {
+//                                authConfig.writeloginstatus(false);
+//                                Intent intent = new Intent(RoseiActivity.this,LoginActivity.class);
+//                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                                startActivity(intent);
+//                                finish();
+//                                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_down);
+//                            }
+//                        });
+//
+//                builder1.setNegativeButton(
+//                        "Cancel",
+//                        new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int id) {
+//                                dialog.cancel();
+//                            }
+//                        });
+//
+//                AlertDialog alert11 = builder1.create();
+//                alert11.show();
+//            }
+//        });
 
         //user image here
         final AuthUser authUser = new AuthUser(this);
@@ -401,7 +392,7 @@ public class RoseiActivity extends AppCompatActivity {
             viewPager.setAdapter(viewpageAdapter);
         }
         else{
-
+            emptytext.setVisibility(View.VISIBLE);
         }
 
     }

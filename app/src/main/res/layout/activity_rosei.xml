@@ -38,15 +38,7 @@
                 android:layout_margin="20dp"
                 />
 
-            <Button
-                android:id="@+id/set"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_margin="20dp"
-                android:background="@drawable/settingslightblue"
-                />
+
             <com.github.clans.fab.FloatingActionMenu
                 android:id="@+id/settings"
                 android:layout_width="wrap_content"
@@ -94,36 +86,48 @@
                 fab:menu_fab_show_animation="@anim/my_show_animation"
                 android:elevation="10dp"
                 fab:menu_fab_hide_animation="@anim/my_hide_animation">
-
-                <com.github.clans.fab.FloatingActionButton
-                    android:id="@+id/epi"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/epi"
-                    fab:fab_size="mini"
-                    fab:fab_label="Edit personal info" />
-
-                <com.github.clans.fab.FloatingActionButton
-                    android:id="@+id/logout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/signout"
-                    fab:fab_size="mini"
-                    fab:fab_label="Logout" />
-                <com.github.clans.fab.FloatingActionButton
-                    android:id="@+id/pp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/pp"
-                    fab:fab_size="mini"
-                    fab:fab_label="Privacy Policy" />
                 <com.github.clans.fab.FloatingActionButton
                     android:id="@+id/cd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/cd"
+                    fab:fab_colorRipple="#99FFFFFF"
                     fab:fab_size="mini"
+                    fab:fab_colorNormal="#fff"
                     fab:fab_label="Contact Developers" />
+                <com.github.clans.fab.FloatingActionButton
+                    android:id="@+id/pp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/pp"
+                    fab:fab_colorRipple="#99FFFFFF"
+                    fab:fab_colorNormal="#fff"
+                    app:fab_colorPressed="@color/colorPrimary"
+                    fab:fab_size="mini"
+                    fab:fab_label="Privacy Policy" />
+                <com.github.clans.fab.FloatingActionButton
+                    android:id="@+id/logout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/signout"
+                    fab:fab_colorRipple="#99FFFFFF"
+                    fab:fab_colorNormal="#fff"
+                    app:fab_colorPressed="@color/colorPrimary"
+                    fab:fab_size="mini"
+                    fab:fab_label="Logout" />
+                <com.github.clans.fab.FloatingActionButton
+                    android:id="@+id/epi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/epi"
+                    fab:fab_colorRipple="#99FFFFFF"
+                    fab:fab_colorNormal="#fff"
+                    app:fab_colorPressed="@color/colorPrimary"
+                    fab:fab_size="mini"
+                    fab:fab_label="Edit personal info" />
+
+
+
 
             </com.github.clans.fab.FloatingActionMenu>
 
