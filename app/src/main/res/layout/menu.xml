@@ -23,7 +23,7 @@
         <android.support.v7.widget.CardView
             android:id="@+id/brk"
             android:layout_width="wrap_content"
-            android:layout_height="90dp"
+            android:layout_height="110dp"
             android:layout_margin="5dp"
             android:layout_weight="1">
 
@@ -35,12 +35,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/bstatus"
-                    android:layout_alignParentBottom="true"
+                    android:layout_above="@+id/b"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="10dp"
                     android:textSize="12sp"
                     android:textStyle="italic"
                     android:visibility="invisible"
+
                     />
 
                 <CheckBox
@@ -79,7 +79,7 @@
 
                 <TextView
                     android:id="@+id/foodb"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
@@ -87,6 +87,7 @@
                     android:padding="2dp"
                     android:textSize="12sp"
                     android:textColor="#000"
+                    android:textAlignment="center"
                     />
 
             </RelativeLayout>
@@ -95,7 +96,7 @@
         <android.support.v7.widget.CardView
             android:id="@+id/lnch"
             android:layout_width="wrap_content"
-            android:layout_height="90dp"
+            android:layout_height="110dp"
             android:layout_margin="5dp"
             android:layout_weight="1">
 
@@ -106,9 +107,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/lstatus"
-                    android:layout_alignParentBottom="true"
+
+                    android:layout_above="@+id/l"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="10dp"
                     android:textSize="12sp"
                     android:textStyle="italic"
                     android:visibility="invisible"
@@ -117,12 +118,13 @@
 
                 <TextView
                     android:id="@+id/foodl"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
                     android:padding="2dp"
+                    android:textAlignment="center"
                     android:textSize="12sp"
                     android:textColor="#000"
                     />
@@ -168,7 +170,7 @@
         <android.support.v7.widget.CardView
             android:id="@+id/dnnr"
             android:layout_width="wrap_content"
-            android:layout_height="90dp"
+            android:layout_height="110dp"
             android:layout_margin="5dp"
             android:layout_weight="1">
 
@@ -179,9 +181,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/dstatus"
-                    android:layout_alignParentBottom="true"
+                    android:layout_above="@+id/d"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="10dp"
                     android:textSize="12sp"
                     android:textStyle="italic"
                     android:visibility="invisible"
@@ -190,11 +191,12 @@
 
                 <TextView
                     android:id="@+id/foodd"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
+                    android:textAlignment="center"
                     android:padding="2dp"
                     android:textSize="12sp"
                     android:textColor="#000"
