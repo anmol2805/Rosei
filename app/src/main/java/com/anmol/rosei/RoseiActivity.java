@@ -64,6 +64,7 @@ public class RoseiActivity extends AppCompatActivity {
     List<Coupon> coupons = new ArrayList<>();
     ViewpageAdapter viewpageAdapter;
     SwipeRefreshLayout swipeRefreshLayout;
+    TextView emptytext;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,8 +76,9 @@ public class RoseiActivity extends AppCompatActivity {
         stuid = (TextView)findViewById(R.id.stuid);
         logout = (Button)findViewById(R.id.logout);
         viewPager = (ViewPager)findViewById(R.id.viewpager);
-        swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.refreshdata);
+//        swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.refreshdata);
         gridview = (RecyclerView)findViewById(R.id.gridrecycler);
+        emptytext = (TextView)findViewById(R.id.emptytext);
         gridview.setHasFixedSize(true);
         gridview.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
         // booking activity
@@ -135,141 +137,141 @@ public class RoseiActivity extends AppCompatActivity {
 
         loadDataFromDb();
 
-        swipeRefreshLayout.setColorSchemeColors(
-                getResources().getColor(R.color.colorAccent)
-        );
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                swipeRefreshLayout.setRefreshing(true);
-                //menu request
-                JsonArrayRequest menurequest = new JsonArrayRequest(Request.Method.GET, getResources().getString(R.string.root_url) + "/menu",null,new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray menuresponse) {
-                        System.out.println(menuresponse);
-                        final ArrayList<String> days = new ArrayList<>();
-                        days.add("mon");
-                        days.add("tue");
-                        days.add("wed");
-                        days.add("thr");
-                        days.add("fri");
-                        days.add("sat");
-                        days.add("sun");
-                        try {
-                            MessUpMenuDb messUpMenuDb = new MessUpMenuDb(RoseiActivity.this);
-                            MessDownMenuDb messDownMenuDb = new MessDownMenuDb(RoseiActivity.this);
-                            JSONObject messup = menuresponse.getJSONObject(0).getJSONObject("messUP");
-                            final String monday = messup.getJSONObject("mon").getString("date").substring(0,10);
-                            for(int i=0;i<days.size();i++) {
-                                String breakfast = messup.getJSONObject(days.get(i)).getString("breakfast");
-                                String lunch = messup.getJSONObject(days.get(i)).getString("lunch");
-                                String dinner = messup.getJSONObject(days.get(i)).getString("dinner");
-                                String date = messup.getJSONObject(days.get(i)).getString("date");
-                                Mess_Menu mess_menu = new Mess_Menu(days.get(i), breakfast, lunch, dinner, date.substring(0,10));
-                                messUpMenuDb.insertData(mess_menu);
-                                messUpMenuDb.updatenotice(mess_menu);
-                            }
-
-                            JSONObject messdown = menuresponse.getJSONObject(0).getJSONObject("messDown");
-                            for(int i=0;i<days.size();i++) {
-                                String breakfast = messdown.getJSONObject(days.get(i)).getString("breakfast");
-                                String lunch = messdown.getJSONObject(days.get(i)).getString("lunch");
-                                String dinner = messdown.getJSONObject(days.get(i)).getString("dinner");
-                                String date = messdown.getJSONObject(days.get(i)).getString("date");
-                                Mess_Menu mess_menu = new Mess_Menu(days.get(i), breakfast, lunch, dinner, date.substring(0,10));
-
-                                messDownMenuDb.insertData(mess_menu);
-                                messDownMenuDb.updatenotice(mess_menu);
-
-
-                            }
-
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                            String lastmonday = null;
-                            try {
-                                Date changedate = simpleDateFormat.parse(monday);
-                                System.out.println("coupondate:" + changedate);
-                                Date onedaybefore = new Date(changedate.getTime() - 8);
-                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                                lastmonday = sdf.format(onedaybefore);
-                                System.out.println("onedaybefore:" + onedaybefore);
-
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            //coupon request
-
-                            JsonObjectRequest currentcouponrequest = new JsonObjectRequest(Request.Method.GET, getResources().getString(R.string.root_url) + "/coupon/" + authUser.readuser() + "/" + lastmonday, null, new Response.Listener<JSONObject>() {
-                                @Override
-                                public void onResponse(JSONObject couponresponse) {
-                                    try {
-                                        System.out.println(couponresponse);
-                                        CurrentCouponDb currentcouponDb = new CurrentCouponDb(RoseiActivity.this);
-                                        JSONObject coupon = couponresponse.getJSONObject("coupon");
-                                        ArrayList<String> meals = new ArrayList<>();
-                                        meals.add("breakfast");
-                                        meals.add("lunch");
-                                        meals.add("dinner");
-                                        ArrayList<String> params = new ArrayList<>();
-                                        params.add("isSelected");
-                                        params.add("isVeg");
-                                        params.add("isMessUp");
-                                        for(int i=0;i<days.size();i++){
-                                            JSONObject day = coupon.getJSONObject(days.get(i));
-                                            ArrayList<StringBuilder> binaries = new ArrayList<>();
-                                            binaries.add(new StringBuilder("000"));
-                                            binaries.add(new StringBuilder("000"));
-                                            binaries.add(new StringBuilder("000"));
-                                            for(int j=0;j<meals.size();j++){
-                                                JSONObject meal = day.getJSONObject(meals.get(j));
-                                                String food = meal.getString("food");
-                                                binaries.get(j).append(food);
-                                                for(int k=0;k<params.size();k++){
-                                                    if(meal.getBoolean(params.get(k))){
-                                                        binaries.get(j).setCharAt(k,'1');
-                                                    }
-                                                }
-                                            }
-                                            System.out.println(days.get(i)+binaries.get(0).toString()+binaries.get(1).toString()+binaries.get(2).toString());
-                                            CouponStatus couponStatus = new CouponStatus(days.get(i),binaries.get(0).toString(),binaries.get(1).toString(),binaries.get(2).toString());
-                                            currentcouponDb.insertData(couponStatus);
-                                            currentcouponDb.updatenotice(couponStatus);
-                                            swipeRefreshLayout.setRefreshing(false);
-                                            loadDataFromDb();
-
-                                            
-                                        }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-
-                                }
-                            }, new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    swipeRefreshLayout.setRefreshing(false);
-                                    Toast.makeText(RoseiActivity.this,"Unable to load Coupons",Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                            Mysingleton.getInstance(RoseiActivity.this).addToRequestqueue(currentcouponrequest);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        System.out.println("Error" + error);
-                        swipeRefreshLayout.setRefreshing(false);
-                        Toast.makeText(RoseiActivity.this,"Unable to load Menu",Toast.LENGTH_SHORT).show();
-                    }
-                });
-                Mysingleton.getInstance(RoseiActivity.this).addToRequestqueue(menurequest);
-
-            }
-        });
+//        swipeRefreshLayout.setColorSchemeColors(
+//                getResources().getColor(R.color.colorAccent)
+//        );
+//        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                swipeRefreshLayout.setRefreshing(true);
+//                //menu request
+//                JsonArrayRequest menurequest = new JsonArrayRequest(Request.Method.GET, getResources().getString(R.string.root_url) + "/menu",null,new Response.Listener<JSONArray>() {
+//                    @Override
+//                    public void onResponse(JSONArray menuresponse) {
+//                        System.out.println(menuresponse);
+//                        final ArrayList<String> days = new ArrayList<>();
+//                        days.add("mon");
+//                        days.add("tue");
+//                        days.add("wed");
+//                        days.add("thr");
+//                        days.add("fri");
+//                        days.add("sat");
+//                        days.add("sun");
+//                        try {
+//                            MessUpMenuDb messUpMenuDb = new MessUpMenuDb(RoseiActivity.this);
+//                            MessDownMenuDb messDownMenuDb = new MessDownMenuDb(RoseiActivity.this);
+//                            JSONObject messup = menuresponse.getJSONObject(0).getJSONObject("messUP");
+//                            final String monday = messup.getJSONObject("mon").getString("date").substring(0,10);
+//                            for(int i=0;i<days.size();i++) {
+//                                String breakfast = messup.getJSONObject(days.get(i)).getString("breakfast");
+//                                String lunch = messup.getJSONObject(days.get(i)).getString("lunch");
+//                                String dinner = messup.getJSONObject(days.get(i)).getString("dinner");
+//                                String date = messup.getJSONObject(days.get(i)).getString("date");
+//                                Mess_Menu mess_menu = new Mess_Menu(days.get(i), breakfast, lunch, dinner, date.substring(0,10));
+//                                messUpMenuDb.insertData(mess_menu);
+//                                messUpMenuDb.updatenotice(mess_menu);
+//                            }
+//
+//                            JSONObject messdown = menuresponse.getJSONObject(0).getJSONObject("messDown");
+//                            for(int i=0;i<days.size();i++) {
+//                                String breakfast = messdown.getJSONObject(days.get(i)).getString("breakfast");
+//                                String lunch = messdown.getJSONObject(days.get(i)).getString("lunch");
+//                                String dinner = messdown.getJSONObject(days.get(i)).getString("dinner");
+//                                String date = messdown.getJSONObject(days.get(i)).getString("date");
+//                                Mess_Menu mess_menu = new Mess_Menu(days.get(i), breakfast, lunch, dinner, date.substring(0,10));
+//
+//                                messDownMenuDb.insertData(mess_menu);
+//                                messDownMenuDb.updatenotice(mess_menu);
+//
+//
+//                            }
+//
+//                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//                            String lastmonday = null;
+//                            try {
+//                                Date changedate = simpleDateFormat.parse(monday);
+//                                System.out.println("coupondate:" + changedate);
+//                                Date onedaybefore = new Date(changedate.getTime() - 8);
+//                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//                                lastmonday = sdf.format(onedaybefore);
+//                                System.out.println("onedaybefore:" + onedaybefore);
+//
+//                            } catch (ParseException e) {
+//                                e.printStackTrace();
+//                            }
+//                            //coupon request
+//
+//                            JsonObjectRequest currentcouponrequest = new JsonObjectRequest(Request.Method.GET, getResources().getString(R.string.root_url) + "/coupon/" + authUser.readuser() + "/" + lastmonday, null, new Response.Listener<JSONObject>() {
+//                                @Override
+//                                public void onResponse(JSONObject couponresponse) {
+//                                    try {
+//                                        System.out.println(couponresponse);
+//                                        CurrentCouponDb currentcouponDb = new CurrentCouponDb(RoseiActivity.this);
+//                                        JSONObject coupon = couponresponse.getJSONObject("coupon");
+//                                        ArrayList<String> meals = new ArrayList<>();
+//                                        meals.add("breakfast");
+//                                        meals.add("lunch");
+//                                        meals.add("dinner");
+//                                        ArrayList<String> params = new ArrayList<>();
+//                                        params.add("isSelected");
+//                                        params.add("isVeg");
+//                                        params.add("isMessUp");
+//                                        for(int i=0;i<days.size();i++){
+//                                            JSONObject day = coupon.getJSONObject(days.get(i));
+//                                            ArrayList<StringBuilder> binaries = new ArrayList<>();
+//                                            binaries.add(new StringBuilder("000"));
+//                                            binaries.add(new StringBuilder("000"));
+//                                            binaries.add(new StringBuilder("000"));
+//                                            for(int j=0;j<meals.size();j++){
+//                                                JSONObject meal = day.getJSONObject(meals.get(j));
+//                                                String food = meal.getString("food");
+//                                                binaries.get(j).append(food);
+//                                                for(int k=0;k<params.size();k++){
+//                                                    if(meal.getBoolean(params.get(k))){
+//                                                        binaries.get(j).setCharAt(k,'1');
+//                                                    }
+//                                                }
+//                                            }
+//                                            System.out.println(days.get(i)+binaries.get(0).toString()+binaries.get(1).toString()+binaries.get(2).toString());
+//                                            CouponStatus couponStatus = new CouponStatus(days.get(i),binaries.get(0).toString(),binaries.get(1).toString(),binaries.get(2).toString());
+//                                            currentcouponDb.insertData(couponStatus);
+//                                            currentcouponDb.updatenotice(couponStatus);
+//                                            swipeRefreshLayout.setRefreshing(false);
+//                                            loadDataFromDb();
+//
+//
+//                                        }
+//                                    } catch (JSONException e) {
+//                                        e.printStackTrace();
+//                                    }
+//
+//                                }
+//                            }, new Response.ErrorListener() {
+//                                @Override
+//                                public void onErrorResponse(VolleyError error) {
+//                                    swipeRefreshLayout.setRefreshing(false);
+//                                    Toast.makeText(RoseiActivity.this,"Unable to load Coupons",Toast.LENGTH_SHORT).show();
+//                                }
+//                            });
+//                            Mysingleton.getInstance(RoseiActivity.this).addToRequestqueue(currentcouponrequest);
+//
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//
+//                    }
+//                }, new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        System.out.println("Error" + error);
+//                        swipeRefreshLayout.setRefreshing(false);
+//                        Toast.makeText(RoseiActivity.this,"Unable to load Menu",Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//                Mysingleton.getInstance(RoseiActivity.this).addToRequestqueue(menurequest);
+//
+//            }
+//        });
 
     }
 
@@ -311,8 +313,7 @@ public class RoseiActivity extends AppCompatActivity {
             String bs = couponStatuses.get(i).getBreakfast();
             String ls = couponStatuses.get(i).getLunch();
             String ds = couponStatuses.get(i).getDinner();
-
-
+            System.out.println("floor:" + bs + " " + ls + " " + ds);
             String breakfastdate = lastmonday + " 09:15:00";
             String lunchdate = lastmonday + " 14:15:00";
             String dinnerdate = lastmonday + " 21:15:00";
@@ -322,64 +323,64 @@ public class RoseiActivity extends AppCompatActivity {
                 Date lnchdate = sdf.parse(lunchdate);
                 Date dindate = sdf.parse(dinnerdate);
                 Date todaydate = Calendar.getInstance().getTime();
-                String bmess = "notissued";
-                String lmess = "notissued";
-                String dmess = "notissued";
+                String bmess = "";
+                String lmess = "";
+                String dmess = "";
 
                 String bmenu = bs.substring(3);
                 String lmenu = ls.substring(3);
                 String dmenu = ds.substring(3);
-                if(bs.charAt(2) == '0'){
-                    bmess = "Ground floor Mess";
-
+                if(bs.charAt(0)=='1'){
+                    if(bs.charAt(2) == '0'){
+                        bmess = "Ground floor Mess";
+                    }
+                    else if(bs.charAt(2) == '1'){
+                        bmess = "First floor Mess";
+                    }
                 }
-                else if(bs.charAt(2) == '1'){
-                    bmess = "First floor Mess";
-
+                if(ls.charAt(0)=='1'){
+                    if(ls.charAt(2) == '0'){
+                        lmess = "Ground floor Mess";
+                    }
+                    else if(ls.charAt(2) == '1'){
+                        lmess = "First floor Mess";
+                    }
                 }
-                if(ls.charAt(2) == '0'){
-                    lmess = "Ground floor Mess";
-
-                }
-                else if(ls.charAt(2) == '1'){
-                    lmess = "First floor Mess";
-
-                }
-                if(ds.charAt(2) == '0'){
-                    dmess = "Ground floor Mess";
-
-                }
-                else if(ds.charAt(2) == '1'){
-                    dmess = "First floor Mess";
-
+                if(ds.charAt(0)=='1'){
+                    if(ds.charAt(2) == '0'){
+                        dmess = "Ground floor Mess";
+                    }
+                    else if(ds.charAt(2) == '1'){
+                        dmess = "First floor Mess";
+                    }
                 }
                 Coupon bfcoupon = new Coupon("Breakfast",bmess,day,lastmonday,bmenu);
                 Coupon lnccoupon = new Coupon("Lunch",lmess,day,lastmonday,lmenu);
                 Coupon dincoupon = new Coupon("Dinner",dmess,day,lastmonday,dmenu);
                 if(todaydate.before(bfdate)){
-                    if(!bmess.contains("notissued")){
+                    if(!bmess.isEmpty()){
                         coupons.add(bfcoupon);
                     }
-                    if(!lmess.contains("notissued")){
+                    if(!lmess.isEmpty()){
                         coupons.add(lnccoupon);
                     }
-                    if(!dmess.contains("notissued")){
+                    if(!dmess.isEmpty()){
                         coupons.add(dincoupon);
                     }
 
                 }
                 else if(todaydate.after(bfdate) && todaydate.before(lnchdate)){
-                    if(!lmess.contains("notissued")){
+                    if(!lmess.isEmpty()){
                         coupons.add(lnccoupon);
                     }
-                    if(!dmess.contains("notissued")){
+                    if(!dmess.isEmpty()){
                         coupons.add(dincoupon);
                     }
 
 
                 }
                 else if(todaydate.after(lnchdate) && todaydate.before(dindate)){
-                    if(!dmess.contains("notissued")){
+                    if(!dmess.isEmpty()){
                         coupons.add(dincoupon);
                     }
 
@@ -394,9 +395,13 @@ public class RoseiActivity extends AppCompatActivity {
             gridview.setAdapter(gridAdapter);
         }
         if(!coupons.isEmpty()){
+            emptytext.setVisibility(View.VISIBLE);
             viewpageAdapter = new ViewpageAdapter(RoseiActivity.this,coupons);
             viewpageAdapter.notifyDataSetChanged();
             viewPager.setAdapter(viewpageAdapter);
+        }
+        else{
+
         }
 
     }

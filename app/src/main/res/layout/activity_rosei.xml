@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.anmol.rosei.RoseiActivity">
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/refreshdata"
-        >
+    <!--<android.support.v4.widget.SwipeRefreshLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:id="@+id/refreshdata"-->
+        <!--&gt;-->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -160,9 +160,21 @@
                 android:id="@+id/viewpager">
 
             </android.support.v4.view.ViewPager>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/stuid"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@+id/grids"
+                android:id="@+id/emptytext"
+                android:gravity="center"
+                android:layout_margin="10dp"
+                android:textColor="#000"
+                android:visibility="invisible"
+                android:text="You haven't booked any coupons for this week."
+                />
 
         </RelativeLayout>
-    </android.support.v4.widget.SwipeRefreshLayout>
 
 
 
