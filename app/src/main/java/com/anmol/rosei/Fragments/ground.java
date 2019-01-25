@@ -1,6 +1,7 @@
 package com.anmol.rosei.Fragments;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -57,6 +58,7 @@ public class ground extends Fragment {
     private CircularProgressBar bookpgr;
     private TextView booktext;
     AuthUser authUser;
+    View footerView;
 
     @Nullable
     @Override
@@ -65,7 +67,11 @@ public class ground extends Fragment {
         list = (ListView)v.findViewById(R.id.menu);
         amt1 = (TextView)v.findViewById(R.id.amt1);
         total = (TextView)v.findViewById(R.id.total);
-        bookm1 = (Button)v.findViewById(R.id.bookm1);
+        if(getActivity()!=null){
+            footerView =  ((LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer, null, false);
+        }
+        list.addFooterView(footerView);
+        bookm1 = (Button)footerView.findViewById(R.id.bookm1);
         booktext = (TextView)v.findViewById(R.id.bookingtext);
         bookpgr = (CircularProgressBar)v.findViewById(R.id.bookpgr);
         bookm1.setVisibility(View.VISIBLE);

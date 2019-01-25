@@ -1,6 +1,7 @@
 package com.anmol.rosei.Fragments;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -58,6 +59,7 @@ public class first extends Fragment {
     private TextView booktext;
     Button bookm2;
     AuthUser authUser;
+    View footerView;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -66,7 +68,11 @@ public class first extends Fragment {
         list = (ListView)v.findViewById(R.id.menu);
         amt2 = (TextView)v.findViewById(R.id.amt2);
         total = (TextView)v.findViewById(R.id.total);
-        bookm2 = (Button)v.findViewById(R.id.bookm2);
+        if(getActivity()!=null){
+            footerView =  ((LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer2, null, false);
+        }
+        list.addFooterView(footerView);
+        bookm2 = (Button)footerView.findViewById(R.id.bookm2);
         booktext = (TextView)v.findViewById(R.id.bookingtext);
         bookpgr = (CircularProgressBar)v.findViewById(R.id.bookpgr);
         bookm2.setVisibility(View.VISIBLE);
