@@ -58,7 +58,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:visibility="invisible"
-                android:text=" Book coupon for First Floor Mess " />
+                android:text=" Book  coupon  for  First  Floor  Mess " />
 
             <ImageView
                 android:id="@+id/imageView3"
