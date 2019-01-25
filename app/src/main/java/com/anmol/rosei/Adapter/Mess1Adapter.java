@@ -35,10 +35,7 @@ public class Mess1Adapter extends ArrayAdapter<mess1> {
     private List<mess1> mess1s;
     JSONObject jsonObject = new JSONObject();
     JSONObject coupon = new JSONObject();
-    JSONObject breakfast = new JSONObject();
-    JSONObject lunch = new JSONObject();
-    JSONObject dinner = new JSONObject();
-    JSONObject meal = new JSONObject();
+
 
     public Mess1Adapter(@NonNull Activity context, @LayoutRes int resource, @NonNull List<mess1> objects) {
         super(context, resource, objects);
@@ -63,6 +60,10 @@ public class Mess1Adapter extends ArrayAdapter<mess1> {
         else {
             LayoutInflater layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View v = layoutInflater.inflate(resource,null);
+            final JSONObject breakfast = new JSONObject();
+            final JSONObject lunch = new JSONObject();
+            final JSONObject dinner = new JSONObject();
+            final JSONObject meal = new JSONObject();
             TextView foodb = (TextView)v.findViewById(R.id.foodb);
             TextView foodl = (TextView)v.findViewById(R.id.foodl);
             TextView foodd = (TextView)v.findViewById(R.id.foodd);
@@ -503,11 +504,13 @@ public class Mess1Adapter extends ArrayAdapter<mess1> {
                         }
                     });
                 }
-                jsonObject.put("coupon",coupon);
-                coupon.put(dayobject,meal);
+
+
                 meal.put("breakfast",breakfast);
                 meal.put("lunch",lunch);
                 meal.put("dinner",dinner);
+                coupon.put(dayobject,meal);
+                jsonObject.put("coupon",coupon);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

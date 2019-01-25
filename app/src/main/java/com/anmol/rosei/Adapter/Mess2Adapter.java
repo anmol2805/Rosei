@@ -19,6 +19,7 @@ import com.anmol.rosei.Model.mess2;
 import com.anmol.rosei.R;
 import com.google.gson.JsonIOException;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,11 +36,6 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
     private List<mess2> mess2s;
     JSONObject jsonObject2 = new JSONObject();
     JSONObject coupon = new JSONObject();
-    JSONObject breakfast = new JSONObject();
-    JSONObject lunch = new JSONObject();
-    JSONObject dinner = new JSONObject();
-    JSONObject meal = new JSONObject();
-
 
     public Mess2Adapter(@NonNull Activity context, @LayoutRes int resource, @NonNull List<mess2> objects) {
         super(context, resource, objects);
@@ -63,6 +59,11 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
             return convertView;
         }
         else {
+            final JSONObject breakfast = new JSONObject();
+            final JSONObject lunch = new JSONObject();
+            final JSONObject dinner = new JSONObject();
+            JSONObject meal = new JSONObject();
+
             LayoutInflater layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View v = layoutInflater.inflate(resource,null);
             TextView foodb = (TextView)v.findViewById(R.id.foodb);
@@ -506,11 +507,16 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
                         }
                     });
                 }
-                jsonObject2.put("coupon",coupon);
-                coupon.put(dayobject,meal);
+                System.out.println("floor:" + breakfast + " " + lunch + " " + dinner);
+
+
                 meal.put("breakfast",breakfast);
                 meal.put("lunch",lunch);
                 meal.put("dinner",dinner);
+
+                coupon.put(dayobject,meal);
+                jsonObject2.put("coupon",coupon);
+                System.out.println("floor:" + coupon);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
