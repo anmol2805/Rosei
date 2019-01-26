@@ -171,7 +171,7 @@ public class SplashActivity extends AppCompatActivity {
                                                     }else {
                                                         System.out.println("sharedpreferences failed");
                                                     }
-                                                    if(authUser.writeprice(amount1,amount2,total,cid)){
+                                                    if(authUser.writeprice(amount2,amount1,total,cid)){
                                                         System.out.println("amount1" + authUser.readamount1());
                                                         System.out.println("amount2" + authUser.readamount2());
                                                         System.out.println("total" + authUser.readtotal());

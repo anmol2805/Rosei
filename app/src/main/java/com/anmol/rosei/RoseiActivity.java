@@ -38,6 +38,7 @@ import com.canopydevelopers.canopyauth.AuthConfig;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -53,7 +54,7 @@ public class RoseiActivity extends AppCompatActivity {
     Animation rotate;
     Button book;
     TextView stuid;
-    CircleImageView user;
+    TextView user;
     private static long back_pressed;
     List<MessStatus> messStatuses = new ArrayList<>();
     RecyclerView gridview;
@@ -69,7 +70,7 @@ public class RoseiActivity extends AppCompatActivity {
         setContentView(R.layout.activity_rosei);
         rotate = AnimationUtils.loadAnimation(RoseiActivity.this,R.anim.rotate);
         book = (Button)findViewById(R.id.book);
-        user = (CircleImageView)findViewById(R.id.user);
+        user = (TextView)findViewById(R.id.user);
         stuid = (TextView)findViewById(R.id.stuid);
         viewPager = (ViewPager)findViewById(R.id.viewpager);
 //        swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.refreshdata);
@@ -122,9 +123,9 @@ public class RoseiActivity extends AppCompatActivity {
 
         //user image here
         final AuthUser authUser = new AuthUser(this);
-        String url = "https://hib.iiit-bh.ac.in/Hibiscus/docs/iiit/Photos/"+authUser.readuser().toUpperCase()+".jpg";
+
         stuid.setText(authUser.readuser().toUpperCase());
-        Glide.with(RoseiActivity.this).load(url).into(user);
+        user.setText("Hello " + authUser.readusername());
 
         loadDataFromDb();
 

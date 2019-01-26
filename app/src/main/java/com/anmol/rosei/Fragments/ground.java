@@ -240,7 +240,7 @@ public class ground extends Fragment {
                                                         int total = response.getInt("Total");
                                                         String cid = response.getString("id");
                                                         authUser.writedate(weekstartdate);
-                                                        authUser.writeprice(amount1,amount2,total,cid);
+                                                        authUser.writeprice(amount2,amount1,total,cid);
                                                         CouponDb couponDb = new CouponDb(getActivity());
                                                         JSONObject coupon = response.getJSONObject("coupon");
                                                         ArrayList<String> meals = new ArrayList<>();
