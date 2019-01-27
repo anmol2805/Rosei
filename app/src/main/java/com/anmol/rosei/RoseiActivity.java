@@ -1,12 +1,13 @@
 package com.anmol.rosei;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.support.design.widget.FloatingActionButton;
+import android.net.Uri;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +41,7 @@ import com.anmol.rosei.Model.MessStatus;
 import com.anmol.rosei.Model.Mess_Menu;
 import com.bumptech.glide.Glide;
 import com.canopydevelopers.canopyauth.AuthConfig;
+import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.github.fabtransitionactivity.SheetLayout;
 
@@ -59,7 +62,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class RoseiActivity extends AppCompatActivity implements SheetLayout.OnFabAnimationEndListener{
 
     Animation rotate;
-    FloatingActionButton book;
+    android.support.design.widget.FloatingActionButton book;
     TextView stuid;
     TextView user;
     private static long back_pressed;
@@ -74,12 +77,17 @@ public class RoseiActivity extends AppCompatActivity implements SheetLayout.OnFa
     FloatingActionMenu settings;
     private static final int REQUEST_CODE = 1;
     SheetLayout mSheetLayout;
+    FloatingActionButton about,cd,logout,epi;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rosei);
         rotate = AnimationUtils.loadAnimation(RoseiActivity.this,R.anim.rotate);
-        book = (FloatingActionButton) findViewById(R.id.book);
+        book = (android.support.design.widget.FloatingActionButton) findViewById(R.id.book);
+        about = (FloatingActionButton)findViewById(R.id.pp);
+        epi = (FloatingActionButton)findViewById(R.id.epi);
+        cd = (FloatingActionButton)findViewById(R.id.cd);
+        logout = (FloatingActionButton)findViewById(R.id.logout);
         user = (TextView)findViewById(R.id.user);
         stuid = (TextView)findViewById(R.id.stuid);
         viewPager = (ViewPager)findViewById(R.id.viewpager);
@@ -103,39 +111,65 @@ public class RoseiActivity extends AppCompatActivity implements SheetLayout.OnFa
         });
 
         final AuthConfig authConfig = new AuthConfig(this);
-//        logout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                AlertDialog.Builder builder1 = new AlertDialog.Builder(RoseiActivity.this);
-//                builder1.setTitle("Logout");
-//                builder1.setMessage("Are you sure you want to logout?");
-//                builder1.setCancelable(true);
-//                builder1.setPositiveButton(
-//                        "Logout",
-//                        new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int id) {
-//                                authConfig.writeloginstatus(false);
-//                                Intent intent = new Intent(RoseiActivity.this,LoginActivity.class);
-//                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                                startActivity(intent);
-//                                finish();
-//                                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_down);
-//                            }
-//                        });
-//
-//                builder1.setNegativeButton(
-//                        "Cancel",
-//                        new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int id) {
-//                                dialog.cancel();
-//                            }
-//                        });
-//
-//                AlertDialog alert11 = builder1.create();
-//                alert11.show();
-//            }
-//        });
+        epi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog dialog = new Dialog(RoseiActivity.this);
+                dialog.setContentView(R.layout.epi);
+                dialog.setTitle("Edit details");
+
+                dialog.show();
+            }
+        });
+        about.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        cd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent viewIntent =
+                        new Intent("android.intent.action.VIEW",
+                                Uri.parse("mailto:"+"hibioncloud@gmail.com"));
+                startActivity(viewIntent);
+
+            }
+        });
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(RoseiActivity.this);
+                builder1.setTitle("Logout");
+                builder1.setMessage("Are you sure you want to logout?");
+                builder1.setCancelable(true);
+                builder1.setPositiveButton(
+                        "Logout",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                authConfig.writeloginstatus(false);
+                                Intent intent = new Intent(RoseiActivity.this,LoginActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
+                                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_down);
+                            }
+                        });
+
+                builder1.setNegativeButton(
+                        "Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+                AlertDialog alert11 = builder1.create();
+                alert11.show();
+            }
+        });
 
         //user image here
         final AuthUser authUser = new AuthUser(this);

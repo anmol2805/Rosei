@@ -34,7 +34,7 @@
             android:id="@+id/imageView4"
             android:layout_width="75dp"
             android:layout_height="75dp"
-            app:srcCompat="@drawable/rosei"
+            app:srcCompat="@drawable/rcolor"
 
             />
 

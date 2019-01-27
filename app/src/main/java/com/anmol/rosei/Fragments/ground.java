@@ -4,6 +4,7 @@ package com.anmol.rosei.Fragments;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -90,7 +91,13 @@ public class ground extends Fragment {
 
             }
         });
-        loaddata(false);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loaddata(false);
+            }
+        },1000);
         return v;
     }
     private void loaddata(boolean b) {
