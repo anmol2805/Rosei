@@ -2,6 +2,10 @@ package com.anmol.rosei;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -34,6 +38,8 @@ import com.anmol.rosei.Model.MessStatus;
 import com.anmol.rosei.Model.Mess_Menu;
 import com.bumptech.glide.Glide;
 import com.canopydevelopers.canopyauth.AuthConfig;
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -64,6 +70,7 @@ public class RoseiActivity extends AppCompatActivity {
     ViewpageAdapter viewpageAdapter;
     SwipeRefreshLayout swipeRefreshLayout;
     TextView emptytext;
+    FloatingActionMenu settings;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +80,7 @@ public class RoseiActivity extends AppCompatActivity {
         user = (TextView)findViewById(R.id.user);
         stuid = (TextView)findViewById(R.id.stuid);
         viewPager = (ViewPager)findViewById(R.id.viewpager);
+        settings = (FloatingActionMenu) findViewById(R.id.settings);
 //        swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.refreshdata);
         gridview = (RecyclerView)findViewById(R.id.gridrecycler);
         emptytext = (TextView)findViewById(R.id.emptytext);

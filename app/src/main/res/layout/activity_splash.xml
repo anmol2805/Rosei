@@ -5,28 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.anmol.rosei.SplashActivity"
-    android:background="#fff"
+    android:background="#F9F9F9"
     >
 
-
     <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
 
-        app:srcCompat="@drawable/iiit" />
+        app:srcCompat="@drawable/changed" />
+
 
     <ProgressBar
         android:id="@+id/load"
-        style="?android:attr/progressBarStyle"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="19dp" />
+        android:layout_marginTop="20dp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -43,28 +38,14 @@
             android:layout_height="50dp"
             android:layout_margin="5dp" />
 
-        <LinearLayout
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Canopy Developers"
+            android:textColor="#000"
             android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Anmol Saxena"
-                android:textColor="#000"
-                android:textStyle="italic"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="(B516008)" />
-        </LinearLayout>
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/sankit"
@@ -72,32 +53,21 @@
             android:layout_height="50dp"
             android:layout_margin="5dp" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:orientation="vertical"
 
-            >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ankit Choudhary"
-                android:textColor="#000"
-                android:textStyle="italic"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:text="(B216008)" />
-        </LinearLayout>
 
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textView14"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:text="@string/emoji"
+        android:textColor="#000"
+        android:textSize="17sp" />
 
     <TextView
         android:id="@+id/textView14"
@@ -105,9 +75,8 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/linearLayout2"
         android:layout_centerHorizontal="true"
-        android:text="Developed By:"
-        android:textStyle="bold"
+        android:text="By:"
         android:textColor="#000"
-        android:textSize="17sp"
+        android:textSize="15sp"
         />
 </RelativeLayout>

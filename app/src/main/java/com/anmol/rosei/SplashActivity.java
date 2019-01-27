@@ -37,8 +37,7 @@ import java.util.Date;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SplashActivity extends AppCompatActivity {
-    Animation animFadein,zoomin;
-    ImageView img;
+
     ProgressBar progressBar;
     CircleImageView sanmol,sankit;
 
@@ -57,7 +56,6 @@ public class SplashActivity extends AppCompatActivity {
         }
         //go to roseiactivity or dashboard
         else{
-            img = (ImageView)findViewById(R.id.imageView2);
             progressBar = (ProgressBar)findViewById(R.id.load);
             progressBar.setVisibility(View.VISIBLE);
             //menu request
@@ -273,10 +271,8 @@ public class SplashActivity extends AppCompatActivity {
 
 
             // animation on splashscreen
-            animFadein = AnimationUtils.loadAnimation(getApplicationContext(),
-                    R.anim.fade_in);
-            zoomin = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.zoom_in);
-            img.startAnimation(zoomin);
+
+
 //            Intent intent = new Intent(SplashActivity.this, NotifyService.class);
 //            startService(intent);
 //            Calendar calendar = Calendar.getInstance();
