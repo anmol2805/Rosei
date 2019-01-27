@@ -2,9 +2,11 @@ package com.anmol.rosei.Fragments;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -129,6 +131,137 @@ public class ground extends Fragment {
                 mess1Adapter = new Mess1Adapter(getActivity(),R.layout.menu,mess1s,b);
                 mess1Adapter.notifyDataSetChanged();
                 list.setAdapter(mess1Adapter);
+                m1delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(getActivity()!=null){
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
+                            builder1.setTitle("Delete Coupon");
+                            builder1.setMessage("Are you sure you want to delete this coupon?");
+                            builder1.setCancelable(true);
+                            builder1.setPositiveButton(
+                                    "Cancel",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                        }
+                                    });
+                            builder1.setNegativeButton(
+                                    "Delete",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            if(authUser.readdate().equals("0001-01-01T00:00:00Z")){
+                                                Toast.makeText(getActivity(),"You haven't booked any coupons yet",Toast.LENGTH_SHORT).show();
+                                            }else {
+                                                JSONObject jsonObject = mess1Adapter.getJsonObject();
+                                                try {
+                                                    jsonObject.put("userid",authUser.readuser());
+                                                    jsonObject.put("username",authUser.readusername());
+                                                    jsonObject.put("gender",authUser.readgender());
+                                                    jsonObject.put("weekstartdate",authUser.readdate());
+                                                    jsonObject.put("id",authUser.readcid());
+                                                    jsonObject.put("amount1",authUser.readamount1());
+                                                    jsonObject.put("mount2",authUser.readamount2());
+                                                    jsonObject.put("Total",authUser.readtotal());
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+                                                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE, getResources().getString(R.string.root_url) + "/coupon", jsonObject, new Response.Listener<JSONObject>() {
+                                                    @Override
+                                                    public void onResponse(JSONObject response) {
+                                                        System.out.println(response);
+                                                        try{
+                                                            if(response.getString("result").equals("success")){
+                                                                JsonObjectRequest couponrequest = new JsonObjectRequest(Request.Method.GET, getResources().getString(R.string.root_url) + "/coupon/" + authUser.readuser() + "/" + authUser.readdate().substring(0,10), null, new Response.Listener<JSONObject>() {
+                                                                    @Override
+                                                                    public void onResponse(JSONObject response) {
+                                                                        try{
+                                                                            String weekstartdate = response.getString("weekstartdate");
+                                                                            int amount1 = response.getInt("amount1");
+                                                                            int amount2 = response.getInt("mount2");
+                                                                            int total = response.getInt("Total");
+                                                                            String cid = response.getString("id");
+                                                                            authUser.writedate(weekstartdate);
+                                                                            authUser.writeprice(amount2,amount1,total,cid);
+                                                                            CouponDb couponDb = new CouponDb(getActivity());
+                                                                            JSONObject coupon = response.getJSONObject("coupon");
+                                                                            ArrayList<String> meals = new ArrayList<>();
+                                                                            meals.add("breakfast");
+                                                                            meals.add("lunch");
+                                                                            meals.add("dinner");
+                                                                            ArrayList<String> params = new ArrayList<>();
+                                                                            params.add("isSelected");
+                                                                            params.add("isVeg");
+                                                                            params.add("isMessUp");
+                                                                            for(int i=0;i<days.size();i++) {
+                                                                                JSONObject day = coupon.getJSONObject(days.get(i));
+                                                                                ArrayList<StringBuilder> binaries = new ArrayList<>();
+                                                                                binaries.add(new StringBuilder("000"));
+                                                                                binaries.add(new StringBuilder("000"));
+                                                                                binaries.add(new StringBuilder("000"));
+                                                                                for (int j = 0; j < meals.size(); j++) {
+                                                                                    JSONObject meal = day.getJSONObject(meals.get(j));
+                                                                                    String food = meal.getString("food");
+                                                                                    binaries.get(j).append(food);
+                                                                                    for (int k = 0; k < params.size(); k++) {
+                                                                                        if (meal.getBoolean(params.get(k))) {
+                                                                                            binaries.get(j).setCharAt(k, '1');
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                                System.out.println(days.get(i) + binaries.get(0).toString() + binaries.get(1).toString() + binaries.get(2).toString());
+                                                                                CouponStatus couponStatus = new CouponStatus(days.get(i), binaries.get(0).toString(), binaries.get(1).toString(), binaries.get(2).toString());
+                                                                                couponDb.insertData(couponStatus);
+                                                                                couponDb.updatenotice(couponStatus);
+                                                                            }
+                                                                            loaddata(false);
+
+                                                                            Toast.makeText(getActivity(),"Coupon Deleted Successfully",Toast.LENGTH_SHORT).show();
+                                                                        }catch (JSONException e){
+                                                                            e.printStackTrace();
+                                                                        }
+                                                                    }
+                                                                }, new Response.ErrorListener() {
+                                                                    @Override
+                                                                    public void onErrorResponse(VolleyError error) {
+
+                                                                        Toast.makeText(getActivity(),"Coupon deletion failed",Toast.LENGTH_SHORT).show();
+                                                                    }
+                                                                });
+                                                                Mysingleton.getInstance(getActivity()).addToRequestqueue(couponrequest);
+                                                            }else{
+
+                                                                Toast.makeText(getActivity(),"Coupon deletion failed",Toast.LENGTH_SHORT).show();
+                                                            }
+
+                                                        }
+                                                        catch(JSONException e){
+                                                            e.printStackTrace();
+                                                        }
+
+
+                                                    }
+                                                }, new Response.ErrorListener() {
+                                                    @Override
+                                                    public void onErrorResponse(VolleyError error) {
+
+                                                        Toast.makeText(getActivity(),"Coupon deletion failed",Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                                if (getActivity()!=null){
+                                                    Mysingleton.getInstance(getActivity()).addToRequestqueue(jsonObjectRequest);
+                                                }
+                                            }
+
+
+                                        }
+                                    });
+
+                            AlertDialog alert11 = builder1.create();
+                            alert11.show();
+                        }
+                    }
+                });
                 bookm1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
