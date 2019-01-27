@@ -13,82 +13,79 @@
 
         app:cardCornerRadius="6dp">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
             <Button
-                android:id="@+id/bookm1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/round_button"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:text="Book coupon for Ground Floor Mess"
-                android:textColor="#fff"
-                android:textSize="12sp"
-                android:visibility="invisible"
-
-                android:textStyle="bold" />
-            <fr.castorflex.android.circularprogressbar.CircularProgressBar
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_centerVertical="true"
-
-                android:layout_toStartOf="@+id/bookingtext"
-                android:id="@+id/bookpgr"
-                android:indeterminate="true"
-                app:cpb_color="#FFee44"
-                app:cpb_colors="@array/mycolors"
-                app:cpb_rotation_speed="1.0"
-                app:cpb_sweep_speed="1.0"
-                app:cpb_stroke_width="3dp"
-                app:cpb_min_sweep_angle="10"
-                app:cpb_max_sweep_angle="300"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@drawable/redit1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:id="@+id/m1edit"
                 />
-            <TextView
-                android:id="@+id/bookingtext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:textColor="@color/colorPrimaryDark"
-                android:text="Booking your coupon..."
-                android:layout_centerInParent="true"
-
-                />
-            <ImageView
-                android:id="@+id/imageView3"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_toStartOf="@+id/bookm1"
-                android:layout_toLeftOf="@+id/bookm1"
-                android:scaleType="centerInside"
-                android:layout_margin="10dp"
-                android:alpha="0.35"
-                app:srcCompat="@drawable/spoondish" />
+                android:layout_weight="1"
+                >
+                <fr.castorflex.android.circularprogressbar.CircularProgressBar
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@+id/bookingtext"
+                    android:id="@+id/bookpgr"
+                    android:indeterminate="true"
+                    app:cpb_color="#FFee44"
+                    app:cpb_colors="@array/mycolors"
+                    app:cpb_rotation_speed="1.0"
+                    app:cpb_sweep_speed="1.0"
+                    app:cpb_stroke_width="3dp"
+                    app:cpb_min_sweep_angle="10"
+                    app:cpb_max_sweep_angle="300"
+                    />
+                <TextView
+                    android:id="@+id/bookingtext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:text="Booking your coupon..."
+                    android:layout_centerInParent="true"
 
-            <ImageView
-                android:id="@+id/imageView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/bookm1"
-                android:layout_toRightOf="@+id/bookm1"
-                android:scaleType="centerInside"
-                android:layout_margin="10dp"
-                android:alpha="0.35"
-                app:srcCompat="@drawable/forkknife" />
+                    />
+                <Button
+                    android:id="@+id/bookm1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/round_button"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="15dp"
+                    android:textColor="#fff"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:visibility="invisible"
+                    android:text="Book coupon for Ground Floor Mess" />
 
-        </RelativeLayout>
 
+            </RelativeLayout>
+            <Button
+
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@drawable/rdelete1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:id="@+id/m1delete"
+                />
+        </LinearLayout>
     </android.support.v7.widget.CardView>
 
 </RelativeLayout>
