@@ -62,21 +62,12 @@
         android:id="@+id/textView15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/textView14"
+        android:layout_above="@+id/linearLayout2"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
         android:text="@string/emoji"
         android:textColor="#000"
         android:textSize="17sp" />
 
-    <TextView
-        android:id="@+id/textView14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/linearLayout2"
-        android:layout_centerHorizontal="true"
-        android:text="By:"
-        android:textColor="#000"
-        android:textSize="15sp"
-        />
+
 </RelativeLayout>

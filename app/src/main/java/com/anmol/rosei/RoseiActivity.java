@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -38,8 +39,8 @@ import com.anmol.rosei.Model.MessStatus;
 import com.anmol.rosei.Model.Mess_Menu;
 import com.bumptech.glide.Glide;
 import com.canopydevelopers.canopyauth.AuthConfig;
-import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.github.fabtransitionactivity.SheetLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,10 +56,10 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class RoseiActivity extends AppCompatActivity {
+public class RoseiActivity extends AppCompatActivity implements SheetLayout.OnFabAnimationEndListener{
 
     Animation rotate;
-    Button book;
+    FloatingActionButton book;
     TextView stuid;
     TextView user;
     private static long back_pressed;
@@ -71,26 +72,33 @@ public class RoseiActivity extends AppCompatActivity {
     SwipeRefreshLayout swipeRefreshLayout;
     TextView emptytext;
     FloatingActionMenu settings;
+    private static final int REQUEST_CODE = 1;
+    SheetLayout mSheetLayout;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rosei);
         rotate = AnimationUtils.loadAnimation(RoseiActivity.this,R.anim.rotate);
-        book = (Button)findViewById(R.id.book);
+        book = (FloatingActionButton) findViewById(R.id.book);
         user = (TextView)findViewById(R.id.user);
         stuid = (TextView)findViewById(R.id.stuid);
         viewPager = (ViewPager)findViewById(R.id.viewpager);
         settings = (FloatingActionMenu) findViewById(R.id.settings);
+        mSheetLayout = (SheetLayout)findViewById(R.id.bottom_sheet);
 //        swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.refreshdata);
         gridview = (RecyclerView)findViewById(R.id.gridrecycler);
         emptytext = (TextView)findViewById(R.id.emptytext);
         gridview.setHasFixedSize(true);
         gridview.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        mSheetLayout.setFab(book);
+        mSheetLayout.setFabAnimationEndListener(this);
         // booking activity
+
         book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(RoseiActivity.this,BookingnewActivity.class));
+                mSheetLayout.expandFab();
+                //startActivity(new Intent(RoseiActivity.this,BookingnewActivity.class));
             }
         });
 
@@ -419,5 +427,17 @@ public class RoseiActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onFabAnimationEnd() {
+        Intent intent = new Intent(this, BookingnewActivity.class);
+        startActivityForResult(intent, REQUEST_CODE);
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_CODE){
+            mSheetLayout.contractFab();
+        }
+    }
 
 }
