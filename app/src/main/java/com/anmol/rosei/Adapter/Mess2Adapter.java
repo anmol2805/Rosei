@@ -36,12 +36,13 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
     private List<mess2> mess2s;
     JSONObject jsonObject2 = new JSONObject();
     JSONObject coupon = new JSONObject();
-
-    public Mess2Adapter(@NonNull Activity context, @LayoutRes int resource, @NonNull List<mess2> objects) {
+    Boolean edit;
+    public Mess2Adapter(@NonNull Activity context, @LayoutRes int resource, @NonNull List<mess2> objects, boolean edit) {
         super(context, resource, objects);
         this.context = context;
         this.resource = resource;
         mess2s = objects;
+        this.edit = edit;
     }
     public int getViewTypeCount() {
         return getCount();
@@ -312,8 +313,10 @@ public class Mess2Adapter extends ArrayAdapter<mess2> {
                             }
                         }
                         else {
-                            checkBoxes.get(i).setVisibility(View.VISIBLE);
-                            checkBoxes.get(i).setChecked(true);
+                            if(edit){
+                                checkBoxes.get(i).setVisibility(View.VISIBLE);
+                                checkBoxes.get(i).setChecked(true);
+                            }
                             meals.get(i).put("isMessUp",true);
                             textViews.get(i).setText("First Floor");
                             if(mealstatuses.get(i).charAt(1)=='0'){

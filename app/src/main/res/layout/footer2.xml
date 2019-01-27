@@ -18,17 +18,20 @@
             android:orientation="horizontal"
             >
             <Button
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:background="@drawable/redit1"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/redit2"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:id="@+id/m2edit"
+                android:layout_margin="5dp"
                 />
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
                 >
                 <fr.castorflex.android.circularprogressbar.CircularProgressBar
                     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -65,23 +68,25 @@
                     android:layout_centerInParent="true"
                     android:background="@drawable/round_button"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="15dp"
+                    android:layout_marginBottom="20dp"
                     android:textColor="#fff"
                     android:textStyle="bold"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
-                    android:visibility="invisible"
+                    android:paddingRight="20dp"
+                    android:paddingLeft="20dp"
+                    android:visibility="visible"
                     android:text="Book coupon for First Floor Mess" />
 
 
             </RelativeLayout>
             <Button
-
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:background="@drawable/rdelete1"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/rdelete2"
                 android:layout_gravity="center"
                 android:gravity="center"
+                android:layout_margin="5dp"
                 android:id="@+id/m2delete"
                 />
         </LinearLayout>

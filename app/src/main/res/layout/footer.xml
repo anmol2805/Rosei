@@ -19,17 +19,20 @@
             android:orientation="horizontal"
             >
             <Button
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:background="@drawable/redit1"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/redit2"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:id="@+id/m1edit"
+                android:layout_margin="5dp"
                 />
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
                 >
                 <fr.castorflex.android.circularprogressbar.CircularProgressBar
                     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -52,7 +55,7 @@
                     android:id="@+id/bookingtext"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="5dp"
                     android:textColor="@color/colorPrimaryDark"
                     android:text="Booking your coupon..."
                     android:layout_centerInParent="true"
@@ -67,6 +70,8 @@
                     android:background="@drawable/round_button"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="15dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
                     android:textColor="#fff"
                     android:textStyle="bold"
                     android:layout_marginLeft="5dp"
@@ -78,12 +83,13 @@
             </RelativeLayout>
             <Button
 
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:background="@drawable/rdelete1"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/rdelete2"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:id="@+id/m1delete"
+                android:layout_margin="5dp"
                 />
         </LinearLayout>
     </android.support.v7.widget.CardView>

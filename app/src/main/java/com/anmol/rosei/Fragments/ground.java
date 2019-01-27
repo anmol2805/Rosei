@@ -2,9 +2,7 @@ package com.anmol.rosei.Fragments;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -29,11 +27,6 @@ import com.anmol.rosei.Model.mess1;
 import com.anmol.rosei.Mysingleton;
 import com.anmol.rosei.R;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -54,12 +47,12 @@ public class ground extends Fragment {
     List<mess1>mess1s = new ArrayList<>();
     FirebaseAuth auth = FirebaseAuth.getInstance();
     TextView amt1,total;
-    Button bookm1;
+    Button bookm1,m1edit,m1delete;
     private CircularProgressBar bookpgr;
     private TextView booktext;
     AuthUser authUser;
     View footerView;
-
+    Boolean edit = false;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -72,6 +65,8 @@ public class ground extends Fragment {
         }
         list.addFooterView(footerView);
         bookm1 = (Button)footerView.findViewById(R.id.bookm1);
+        m1edit = (Button)footerView.findViewById(R.id.m1edit);
+        m1delete = (Button)footerView.findViewById(R.id.m1delete);
         booktext = (TextView)v.findViewById(R.id.bookingtext);
         bookpgr = (CircularProgressBar)v.findViewById(R.id.bookpgr);
         bookm1.setVisibility(View.VISIBLE);
@@ -80,10 +75,23 @@ public class ground extends Fragment {
         if(getActivity()!=null){
             authUser = new AuthUser(getActivity());
         }
-        loaddata();
+        m1edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!edit){
+                    edit = true;
+                    loaddata(true);
+                }else {
+                    edit = false;
+                    loaddata(false);
+                }
+
+            }
+        });
+        loaddata(false);
         return v;
     }
-    private void loaddata() {
+    private void loaddata(boolean b) {
         final ArrayList<String> days = new ArrayList<>();
         days.add("mon");
         days.add("tue");
@@ -118,7 +126,7 @@ public class ground extends Fragment {
                 mess1s.add(mess1);
             }
             if(!mess1s.isEmpty()){
-                mess1Adapter = new Mess1Adapter(getActivity(),R.layout.menu,mess1s);
+                mess1Adapter = new Mess1Adapter(getActivity(),R.layout.menu,mess1s,b);
                 mess1Adapter.notifyDataSetChanged();
                 list.setAdapter(mess1Adapter);
                 bookm1.setOnClickListener(new View.OnClickListener() {
@@ -186,7 +194,7 @@ public class ground extends Fragment {
                                             couponDb.insertData(couponStatus);
                                             couponDb.updatenotice(couponStatus);
                                         }
-                                        loaddata();
+                                        loaddata(false);
                                     }
                                     catch (JSONException e){
                                         e.printStackTrace();
@@ -272,7 +280,7 @@ public class ground extends Fragment {
                                                             couponDb.insertData(couponStatus);
                                                             couponDb.updatenotice(couponStatus);
                                                         }
-                                                        loaddata();
+                                                        loaddata(false);
                                                         bookm1.setVisibility(View.VISIBLE);
                                                         bookpgr.setVisibility(View.INVISIBLE);
                                                         booktext.setVisibility(View.INVISIBLE);
@@ -327,7 +335,8 @@ public class ground extends Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser){
-            loaddata();
+            edit = false;
+            loaddata(false);
         }
         else{
             //no
