@@ -59,6 +59,7 @@ public class ViewpageAdapter extends PagerAdapter {
         ProgressBar progressBar = (ProgressBar)vi.findViewById(R.id.progressBar2);
         String mealtext = coupons.get(position).getMeal();
         String mealdate = coupons.get(position).getDate();
+
         if(mealtext.equals("Breakfast")){
             starttime.setText("7.30 a.m.");
             endtime.setText("9.15 a.m.");
@@ -72,8 +73,7 @@ public class ViewpageAdapter extends PagerAdapter {
                 Date current = format.parse(currenttime);
                 if(current.after(date1)){
                     long difference = current.getTime() - date1.getTime();
-                    System.out.println("difference" + difference);
-                    progressBar.setProgress((int) (difference/(1000*105)));
+                    progressBar.setProgress((int) ((difference*100)/(1000*105*60)));
                 }
                 else {
                     progressBar.setProgress(1);
@@ -95,8 +95,7 @@ public class ViewpageAdapter extends PagerAdapter {
                 Date current = format.parse(currenttime);
                 if(current.after(date1)){
                     long difference = current.getTime() - date1.getTime();
-                    System.out.println("difference" + difference);
-                    progressBar.setProgress((int) (difference/(1000*120)));
+                    progressBar.setProgress((int) ((difference*100)/(1000*120*60)));
                 }
                 else {
                     progressBar.setProgress(1);
@@ -118,8 +117,7 @@ public class ViewpageAdapter extends PagerAdapter {
                 Date current = format.parse(currenttime);
                 if(current.after(date1)){
                     long difference = current.getTime() - date1.getTime();
-                    System.out.println("difference" + difference);
-                    progressBar.setProgress((int) (difference/(1000*120)));
+                    progressBar.setProgress((int) ((difference*100)/(1000*120*60)));
                 }
                 else {
                     progressBar.setProgress(1);

@@ -80,11 +80,13 @@ public class RoseiActivity extends AppCompatActivity implements SheetLayout.OnFa
     SheetLayout mSheetLayout;
     FloatingActionButton about,cd,logout,epi;
     String gender;
+    CircleImageView stuimg;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rosei);
         rotate = AnimationUtils.loadAnimation(RoseiActivity.this,R.anim.rotate);
+        stuimg = (CircleImageView)findViewById(R.id.stuimg);
         book = (android.support.design.widget.FloatingActionButton) findViewById(R.id.book);
         about = (FloatingActionButton)findViewById(R.id.pp);
         epi = (FloatingActionButton)findViewById(R.id.epi);
@@ -114,6 +116,8 @@ public class RoseiActivity extends AppCompatActivity implements SheetLayout.OnFa
 
         final AuthConfig authConfig = new AuthConfig(this);
         final AuthUser authUser = new AuthUser(this);
+        String urlid = "https://hib.iiit-bh.ac.in/Hibiscus/docs/iiit/Photos/" + authUser.readuser().toUpperCase() + ".jpg";
+        Glide.with(getApplicationContext()).load(urlid).into(stuimg);
         gender = authUser.readgender();
         epi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -444,13 +448,13 @@ public class RoseiActivity extends AppCompatActivity implements SheetLayout.OnFa
                 Coupon lnccoupon = new Coupon("Lunch",lmess,day,lastmonday,lmenu);
                 Coupon dincoupon = new Coupon("Dinner",dmess,day,lastmonday,dmenu);
                 if(todaydate.before(bfdate)){
-                    if(!bmess.isEmpty()){
+                    if(bmess.isEmpty()){
                         coupons.add(bfcoupon);
                     }
-                    if(!lmess.isEmpty()){
+                    if(lmess.isEmpty()){
                         coupons.add(lnccoupon);
                     }
-                    if(!dmess.isEmpty()){
+                    if(dmess.isEmpty()){
                         coupons.add(dincoupon);
                     }
 
@@ -481,7 +485,7 @@ public class RoseiActivity extends AppCompatActivity implements SheetLayout.OnFa
             gridview.setAdapter(gridAdapter);
         }
         if(!coupons.isEmpty()){
-            emptytext.setVisibility(View.VISIBLE);
+            emptytext.setVisibility(View.INVISIBLE);
             viewpageAdapter = new ViewpageAdapter(RoseiActivity.this,coupons);
             viewpageAdapter.notifyDataSetChanged();
             viewPager.setAdapter(viewpageAdapter);

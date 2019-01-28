@@ -38,17 +38,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
-                    android:layout_marginRight="30dp"
 
                     android:text="Start time"
                     android:textSize="12sp"
                      />
                 <TextView
                     android:id="@+id/meal"
-                    android:layout_width="match_parent"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:text="meal"
+                    android:textAlignment="center"
                     android:textColor="#000"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -56,7 +58,6 @@
                     android:id="@+id/textView12"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="35dp"
                     android:text="End time"
                     android:layout_gravity="bottom"
                     android:textSize="12sp" />
@@ -64,20 +65,14 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_gravity="center"
 
-                <TextView
-                    android:id="@+id/textView9"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="2dp"
-                    android:gravity="center"
-                    android:text="Start time"
-                    android:textSize="12sp"
-                    android:visibility="invisible" />
+                >
+
+
 
                 <TextView
                     android:id="@+id/starttime"
@@ -92,11 +87,10 @@
                 <ProgressBar
                     android:id="@+id/progressBar2"
                     style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="wrap_content"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
-                    android:layout_weight="1"
                     />
 
                 <TextView
@@ -108,16 +102,7 @@
                     android:textColor="#000"
                     android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/textView10"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="2dp"
-                    android:gravity="center"
-                    android:text="End time"
-                    android:textSize="12sp"
-                    android:visibility="invisible" />
+
             </LinearLayout>
         </LinearLayout>
 
