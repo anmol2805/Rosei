@@ -166,7 +166,9 @@ public class RoseiActivity extends AppCompatActivity implements SheetLayout.OnFa
         about.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Dialog dialog = new Dialog(RoseiActivity.this);
+                dialog.setContentView(R.layout.about);
+                dialog.show();
             }
         });
         cd.setOnClickListener(new View.OnClickListener() {
@@ -514,6 +516,10 @@ public class RoseiActivity extends AppCompatActivity implements SheetLayout.OnFa
         if(requestCode == REQUEST_CODE){
             mSheetLayout.contractFab();
         }
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 
 }

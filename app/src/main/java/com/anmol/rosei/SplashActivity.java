@@ -151,85 +151,85 @@ public class SplashActivity extends AppCompatActivity {
                                         CouponStatus couponStatus = new CouponStatus(days.get(i),binaries.get(0).toString(),binaries.get(1).toString(),binaries.get(2).toString());
                                         currentcouponDb.insertData(couponStatus);
                                         currentcouponDb.updatenotice(couponStatus);
-
-
-                                        JsonObjectRequest upcomingcouponrequest = new JsonObjectRequest(Request.Method.GET, getResources().getString(R.string.root_url) + "/coupon/" + authUser.readuser() + "/" + monday, null, new Response.Listener<JSONObject>() {
-                                            @Override
-                                            public void onResponse(JSONObject couponresponse) {
-                                                try {
-                                                    System.out.println(couponresponse);
-                                                    String weekstartdate = couponresponse.getString("weekstartdate");
-                                                    int amount1 = couponresponse.getInt("amount1");
-                                                    int amount2 = couponresponse.getInt("mount2");
-                                                    int total = couponresponse.getInt("Total");
-                                                    String cid = couponresponse.getString("id");
-                                                    System.out.println(weekstartdate + " " + amount1  + " " + amount2 + " " + total + " " + cid);
-                                                    if(authUser.writedate(weekstartdate)){
-                                                        System.out.println(authUser.readdate());
-                                                    }else {
-                                                        System.out.println("sharedpreferences failed");
-                                                    }
-                                                    if(authUser.writeprice(amount2,amount1,total,cid)){
-                                                        System.out.println("amount1" + authUser.readamount1());
-                                                        System.out.println("amount2" + authUser.readamount2());
-                                                        System.out.println("total" + authUser.readtotal());
-                                                        System.out.println("cid" + authUser.readcid());
-                                                    }else {
-                                                        System.out.println("sharedpreferences failed");
-                                                    }
-                                                    CouponDb couponDb = new CouponDb(SplashActivity.this);
-                                                    JSONObject coupon = couponresponse.getJSONObject("coupon");
-                                                    ArrayList<String> meals = new ArrayList<>();
-                                                    meals.add("breakfast");
-                                                    meals.add("lunch");
-                                                    meals.add("dinner");
-                                                    ArrayList<String> params = new ArrayList<>();
-                                                    params.add("isSelected");
-                                                    params.add("isVeg");
-                                                    params.add("isMessUp");
-                                                    for(int i=0;i<days.size();i++){
-                                                        JSONObject day = coupon.getJSONObject(days.get(i));
-                                                        ArrayList<StringBuilder> binaries = new ArrayList<>();
-                                                        binaries.add(new StringBuilder("000"));
-                                                        binaries.add(new StringBuilder("000"));
-                                                        binaries.add(new StringBuilder("000"));
-                                                        for(int j=0;j<meals.size();j++){
-                                                            JSONObject meal = day.getJSONObject(meals.get(j));
-                                                            String food = meal.getString("food");
-                                                            binaries.get(j).append(food);
-                                                            for(int k=0;k<params.size();k++){
-                                                                if(meal.getBoolean(params.get(k))){
-                                                                    binaries.get(j).setCharAt(k,'1');
-                                                                }
+                                    }
+                                    JsonObjectRequest upcomingcouponrequest = new JsonObjectRequest(Request.Method.GET, getResources().getString(R.string.root_url) + "/coupon/" + authUser.readuser() + "/" + monday, null, new Response.Listener<JSONObject>() {
+                                        @Override
+                                        public void onResponse(JSONObject couponresponse) {
+                                            try {
+                                                System.out.println(couponresponse);
+                                                String weekstartdate = couponresponse.getString("weekstartdate");
+                                                int amount1 = couponresponse.getInt("amount1");
+                                                int amount2 = couponresponse.getInt("mount2");
+                                                int total = couponresponse.getInt("Total");
+                                                String cid = couponresponse.getString("id");
+                                                System.out.println(weekstartdate + " " + amount1  + " " + amount2 + " " + total + " " + cid);
+                                                if(authUser.writedate(weekstartdate)){
+                                                    System.out.println(authUser.readdate());
+                                                }else {
+                                                    System.out.println("sharedpreferences failed");
+                                                }
+                                                if(authUser.writeprice(amount2,amount1,total,cid)){
+                                                    System.out.println("amount1" + authUser.readamount1());
+                                                    System.out.println("amount2" + authUser.readamount2());
+                                                    System.out.println("total" + authUser.readtotal());
+                                                    System.out.println("cid" + authUser.readcid());
+                                                }else {
+                                                    System.out.println("sharedpreferences failed");
+                                                }
+                                                CouponDb couponDb = new CouponDb(SplashActivity.this);
+                                                JSONObject coupon = couponresponse.getJSONObject("coupon");
+                                                ArrayList<String> meals = new ArrayList<>();
+                                                meals.add("breakfast");
+                                                meals.add("lunch");
+                                                meals.add("dinner");
+                                                ArrayList<String> params = new ArrayList<>();
+                                                params.add("isSelected");
+                                                params.add("isVeg");
+                                                params.add("isMessUp");
+                                                for(int i=0;i<days.size();i++){
+                                                    JSONObject day = coupon.getJSONObject(days.get(i));
+                                                    ArrayList<StringBuilder> binaries = new ArrayList<>();
+                                                    binaries.add(new StringBuilder("000"));
+                                                    binaries.add(new StringBuilder("000"));
+                                                    binaries.add(new StringBuilder("000"));
+                                                    for(int j=0;j<meals.size();j++){
+                                                        JSONObject meal = day.getJSONObject(meals.get(j));
+                                                        String food = meal.getString("food");
+                                                        binaries.get(j).append(food);
+                                                        for(int k=0;k<params.size();k++){
+                                                            if(meal.getBoolean(params.get(k))){
+                                                                binaries.get(j).setCharAt(k,'1');
                                                             }
                                                         }
-                                                        System.out.println(days.get(i)+binaries.get(0).toString()+binaries.get(1).toString()+binaries.get(2).toString());
-                                                        CouponStatus couponStatus = new CouponStatus(days.get(i),binaries.get(0).toString(),binaries.get(1).toString(),binaries.get(2).toString());
-                                                        couponDb.insertData(couponStatus);
-                                                        couponDb.updatenotice(couponStatus);
                                                     }
-                                                } catch (JSONException e) {
-                                                    e.printStackTrace();
+                                                    System.out.println(days.get(i)+binaries.get(0).toString()+binaries.get(1).toString()+binaries.get(2).toString());
+                                                    CouponStatus couponStatus = new CouponStatus(days.get(i),binaries.get(0).toString(),binaries.get(1).toString(),binaries.get(2).toString());
+                                                    couponDb.insertData(couponStatus);
+                                                    couponDb.updatenotice(couponStatus);
                                                 }
-
-                                                Intent intent = new Intent(SplashActivity.this, RoseiActivity.class);
-                                                startActivity(intent);
-                                                overridePendingTransition(R.anim.still,R.anim.slide_in_up);
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
                                             }
-                                        }, new Response.ErrorListener() {
-                                            @Override
-                                            public void onErrorResponse(VolleyError error) {
 
-                                                System.out.println("upcoming loading error" + error);
-                                                progressBar.setVisibility(View.INVISIBLE);
-                                                Toast.makeText(SplashActivity.this,"Unable to load Coupons",Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent(SplashActivity.this, RoseiActivity.class);
-                                                startActivity(intent);
-                                                overridePendingTransition(R.anim.still,R.anim.slide_in_up);
-                                            }
-                                        });
-                                        Mysingleton.getInstance(SplashActivity.this).addToRequestqueue(upcomingcouponrequest);
-                                    }
+                                            Intent intent = new Intent(SplashActivity.this, RoseiActivity.class);
+                                            startActivity(intent);
+                                            finish();
+                                            overridePendingTransition(R.anim.still,R.anim.slide_in_up);
+                                        }
+                                    }, new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+
+                                            System.out.println("upcoming loading error" + error);
+                                            progressBar.setVisibility(View.INVISIBLE);
+                                            Toast.makeText(SplashActivity.this,"Unable to load Coupons",Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(SplashActivity.this, RoseiActivity.class);
+                                            startActivity(intent);
+                                            finish();
+                                            overridePendingTransition(R.anim.still,R.anim.slide_in_up);
+                                        }
+                                    });
+                                    Mysingleton.getInstance(SplashActivity.this).addToRequestqueue(upcomingcouponrequest);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -243,6 +243,7 @@ public class SplashActivity extends AppCompatActivity {
                                 Toast.makeText(SplashActivity.this,"Unable to load Coupons",Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(SplashActivity.this, RoseiActivity.class);
                                 startActivity(intent);
+                                finish();
                                 overridePendingTransition(R.anim.still,R.anim.slide_in_up);
                             }
                         });
@@ -261,6 +262,7 @@ public class SplashActivity extends AppCompatActivity {
                     Toast.makeText(SplashActivity.this,"Unable to load Menu",Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(SplashActivity.this, RoseiActivity.class);
                     startActivity(intent);
+                    finish();
                     overridePendingTransition(R.anim.still,R.anim.slide_in_up);
                 }
             });
