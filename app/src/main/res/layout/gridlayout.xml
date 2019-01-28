@@ -11,6 +11,7 @@
         android:layout_width="35dp"
         android:layout_height="wrap_content"
         android:text="Mon"
+        app:fontFamily="@font/lato_regular"
         android:gravity="center"
         android:textColor="#000"
         />
@@ -28,6 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/bst"
+                app:fontFamily="@font/lato_regular"
                 android:layout_centerInParent="true"
                 android:textColor="@color/white"
 
@@ -54,6 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:textColor="@color/white"
+                app:fontFamily="@font/lato_regular"
 
                 />
         </RelativeLayout>
@@ -72,6 +75,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/dst"
+                app:fontFamily="@font/lato_regular"
                 android:layout_centerInParent="true"
                 android:textColor="@color/white"
 

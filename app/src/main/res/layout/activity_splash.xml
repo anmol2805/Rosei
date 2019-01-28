@@ -44,9 +44,10 @@
             android:layout_height="wrap_content"
             android:text="Canopy Developers"
             android:textColor="#000"
+            app:fontFamily="@font/lato_bold"
             android:layout_gravity="center"
             android:textSize="17sp"
-            android:textStyle="bold" />
+            />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/sankit"
@@ -68,6 +69,7 @@
         android:layout_marginBottom="20dp"
         android:text="@string/emoji"
         android:textColor="#000"
+        app:fontFamily="@font/lato_regular"
         android:textSize="16sp" />
 
 

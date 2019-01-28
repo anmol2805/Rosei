@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="335dp" android:layout_height="wrap_content">
+    android:layout_width="335dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -8,13 +10,14 @@
         android:text="About Rasoi"
         android:layout_centerHorizontal="true"
         android:textColor="#000"
-        android:textStyle="bold"
+        app:fontFamily="@font/lato_bold"
         android:layout_margin="5dp"
         />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:autoLink="all"
+        app:fontFamily="@font/lato_regular"
         android:textAlignment="center"
         android:textColor="#000"
         android:id="@+id/content"
@@ -55,6 +58,7 @@ v1.1.0
         android:layout_height="wrap_content"
         android:text="Icons and other UI resources by:-"
         android:id="@+id/by"
+        app:fontFamily="@font/lato_regular"
         android:layout_below="@id/content"
         android:layout_centerHorizontal="true"
         android:textColor="#000"
@@ -63,6 +67,7 @@ v1.1.0
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Chinmay Singh"
+        app:fontFamily="@font/lato_regular"
         android:layout_below="@+id/by"
         android:layout_centerHorizontal="true"
         android:textColor="@color/colorAccent"
@@ -72,6 +77,7 @@ v1.1.0
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="B117016"
+        app:fontFamily="@font/lato_regular"
         android:layout_below="@+id/name"
         android:layout_centerHorizontal="true"
         android:textColor="#000"

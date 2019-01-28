@@ -38,7 +38,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
-
+                    app:fontFamily="@font/lato_regular"
                     android:text="Start time"
                     android:textSize="12sp"
                      />
@@ -47,18 +47,20 @@
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:text="meal"
+                    app:fontFamily="@font/lato_bold"
                     android:textAlignment="center"
                     android:textColor="#000"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:textSize="20sp"
-                    android:textStyle="bold" />
+                     />
 
                 <TextView
                     android:id="@+id/textView12"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="End time"
+                    app:fontFamily="@font/lato_regular"
                     android:layout_gravity="bottom"
                     android:textSize="12sp" />
 
@@ -81,6 +83,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="12:00"
+                    app:fontFamily="@font/lato_regular"
                     android:textColor="#000"
                     android:textSize="16sp" />
 
@@ -99,6 +102,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="2:30"
+                    app:fontFamily="@font/lato_regular"
                     android:textColor="#000"
                     android:textSize="16sp" />
 
@@ -131,6 +135,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                app:fontFamily="@font/lato_bold"
                 android:gravity="center"
                 android:text="Upcoming Coupon" />
 
@@ -141,11 +146,11 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
+                app:fontFamily="@font/lato_black"
                 android:text="Ground Floor Mess"
                 android:textColor="#2F4F4F"
                 android:textSize="17sp"
-
-                android:textStyle="italic" />
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -160,6 +165,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="left"
+                    android:textColor="#000"
+                    app:fontFamily="@font/lato_regular"
                     android:text="day"
 
                     />
@@ -170,6 +177,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="right"
+                    android:textColor="#000"
+                    app:fontFamily="@font/lato_regular"
                     android:text="date" />
 
             </LinearLayout>
@@ -180,6 +189,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
+                app:fontFamily="@font/lato_regular"
                 android:text="menu item"
                 android:textColor="#000" />
 

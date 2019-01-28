@@ -15,6 +15,7 @@
             android:layout_weight="1"
             android:layout_marginLeft="10dp"
             android:text="Amount:"
+            app:fontFamily="@font/lato_regular"
             android:textColor="#fff"
 
             />
@@ -24,8 +25,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            app:fontFamily="@font/lato_bold"
             android:textColor="@color/white"
-            android:textStyle="italic"
             />
 
         <TextView
@@ -34,6 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Total:"
+            app:fontFamily="@font/lato_regular"
             android:textColor="#fff"
             />
 
@@ -43,8 +45,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginRight="10dp"
+            app:fontFamily="@font/lato_black"
             android:textColor="@color/white"
-            android:textStyle="bold"
             />
     </LinearLayout>
     <Button

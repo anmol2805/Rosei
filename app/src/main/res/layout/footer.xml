@@ -57,6 +57,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:textColor="@color/colorPrimaryDark"
+                    app:fontFamily="@font/lato_regular"
                     android:text="Booking your coupon..."
                     android:layout_centerInParent="true"
 
