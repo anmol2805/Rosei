@@ -97,7 +97,7 @@ public class ground extends Fragment {
             public void run() {
                 loaddata(false);
             }
-        },1000);
+        },200);
         return v;
     }
     private void loaddata(boolean b) {

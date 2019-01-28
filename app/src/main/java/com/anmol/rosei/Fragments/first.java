@@ -98,7 +98,7 @@ public class first extends Fragment {
             public void run() {
                 loaddata(false);
             }
-        },1000);
+        },200);
 
         return v;
     }
