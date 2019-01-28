@@ -21,6 +21,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -78,6 +79,7 @@ public class RoseiActivity extends AppCompatActivity implements SheetLayout.OnFa
     private static final int REQUEST_CODE = 1;
     SheetLayout mSheetLayout;
     FloatingActionButton about,cd,logout,epi;
+    String gender;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,13 +113,53 @@ public class RoseiActivity extends AppCompatActivity implements SheetLayout.OnFa
         });
 
         final AuthConfig authConfig = new AuthConfig(this);
+        final AuthUser authUser = new AuthUser(this);
+        gender = authUser.readgender();
         epi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Dialog dialog = new Dialog(RoseiActivity.this);
+                final Dialog dialog = new Dialog(RoseiActivity.this);
                 dialog.setContentView(R.layout.epi);
                 dialog.setTitle("Edit details");
-
+                final EditText fn = (EditText)dialog.findViewById(R.id.firstname);
+                final RadioButton male = (RadioButton)dialog.findViewById(R.id.male);
+                final RadioButton female = (RadioButton)dialog.findViewById(R.id.female);
+                Button save = (Button)dialog.findViewById(R.id.save);
+                fn.setText(authUser.readusername());
+                if(gender.equals("female")){
+                    female.setChecked(true);
+                    male.setChecked(false);
+                }else{
+                    male.setChecked(true);
+                }
+                male.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        female.setChecked(false);
+                        gender = "male";
+                    }
+                });
+                female.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        male.setChecked(false);
+                        gender = "female";
+                    }
+                });
+                save.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String uname = fn.getText().toString().trim();
+                        if(uname.isEmpty()){
+                            Toast.makeText(RoseiActivity.this,"Please enter your name",Toast.LENGTH_SHORT).show();
+                        }else{
+                            if(authUser.writegender(gender) && authUser.writeusername(uname)){
+                                dialog.dismiss();
+                                Toast.makeText(RoseiActivity.this,"Changes saved successfully",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                });
                 dialog.show();
             }
         });
@@ -172,7 +214,7 @@ public class RoseiActivity extends AppCompatActivity implements SheetLayout.OnFa
         });
 
         //user image here
-        final AuthUser authUser = new AuthUser(this);
+
 
         stuid.setText(authUser.readuser().toUpperCase());
         user.setText("Hello " + authUser.readusername());

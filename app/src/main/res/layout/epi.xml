@@ -86,6 +86,7 @@
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:text="save"
+        android:id="@+id/save"
         android:layout_gravity="center"
         android:textColor="#fff"
         android:textSize="12sp"
