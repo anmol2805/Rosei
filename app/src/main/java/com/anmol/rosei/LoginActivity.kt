@@ -16,6 +16,9 @@ import com.anmol.rosei.Helpers.AuthUser
 import com.canopydevelopers.canopyauth.CanopyAuthCallback
 import com.canopydevelopers.canopyauth.CanopyLogin
 import kotlinx.android.synthetic.main.activity_login.*
+import com.google.firebase.messaging.FirebaseMessaging
+
+
 
 class LoginActivity : AppCompatActivity() {
 
@@ -63,6 +66,9 @@ class LoginActivity : AppCompatActivity() {
                         override fun onLoginSuccess(loginresponse: Boolean?) {
                             if (loginresponse!!){
                                 if(authUser.writegender(gender) && authUser.writeuser(sid!!) && authUser.writeusername(fname!!)){
+                                    val yr = sid!!.substring(2,4)
+                                    System.out.println("topic year:$yr")
+                                    FirebaseMessaging.getInstance().subscribeToTopic(yr)
                                     val intent = Intent(applicationContext, SplashActivity::class.java)
                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)

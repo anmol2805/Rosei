@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.anmol.rosei.Model.Coupon;
@@ -17,6 +18,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class ViewpageAdapter extends PagerAdapter {
@@ -48,12 +53,87 @@ public class ViewpageAdapter extends PagerAdapter {
         TextView mess = (TextView)vi.findViewById(R.id.mess);
         TextView day = (TextView)vi.findViewById(R.id.day);
         TextView date = (TextView)vi.findViewById(R.id.date);
+        TextView starttime = (TextView)vi.findViewById(R.id.starttime);
+        TextView endtime = (TextView)vi.findViewById(R.id.endtime);
         final TextView item = (TextView)vi.findViewById(R.id.item);
-        meal.setText(coupons.get(position).getMeal());
+        ProgressBar progressBar = (ProgressBar)vi.findViewById(R.id.progressBar2);
+        String mealtext = coupons.get(position).getMeal();
+        String mealdate = coupons.get(position).getDate();
+        if(mealtext.equals("Breakfast")){
+            starttime.setText("7.30 a.m.");
+            endtime.setText("9.15 a.m.");
+            String time1 = mealdate + " 7:30:00";
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            try {
+                Date date1 = format.parse(time1);
+                Calendar cal = Calendar.getInstance();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String currenttime = sdf.format(cal.getTime());
+                Date current = format.parse(currenttime);
+                if(current.after(date1)){
+                    long difference = current.getTime() - date1.getTime();
+                    System.out.println("difference" + difference);
+                    progressBar.setProgress((int) (difference/(1000*105)));
+                }
+                else {
+                    progressBar.setProgress(1);
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        else if(mealtext.equals("Lunch")){
+            starttime.setText("12:00 p.m.");
+            endtime.setText("2.00 p.m.");
+            String time1 = mealdate + " 12:00:00";
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            try {
+                Date date1 = format.parse(time1);
+                Calendar cal = Calendar.getInstance();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String currenttime = sdf.format(cal.getTime());
+                Date current = format.parse(currenttime);
+                if(current.after(date1)){
+                    long difference = current.getTime() - date1.getTime();
+                    System.out.println("difference" + difference);
+                    progressBar.setProgress((int) (difference/(1000*120)));
+                }
+                else {
+                    progressBar.setProgress(1);
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        else if(mealtext.equals("Dinner")){
+            starttime.setText("7.00 p.m.");
+            endtime.setText("9.30 p.m.");
+            String time1 = mealdate + " 19:30:00";
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            try {
+                Date date1 = format.parse(time1);
+                Calendar cal = Calendar.getInstance();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String currenttime = sdf.format(cal.getTime());
+                Date current = format.parse(currenttime);
+                if(current.after(date1)){
+                    long difference = current.getTime() - date1.getTime();
+                    System.out.println("difference" + difference);
+                    progressBar.setProgress((int) (difference/(1000*120)));
+                }
+                else {
+                    progressBar.setProgress(1);
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        meal.setText(mealtext);
         date.setText(coupons.get(position).getDate());
         mess.setText(coupons.get(position).getMess());
         day.setText(coupons.get(position).getDay());
         item.setText(coupons.get(position).getMenuitem());
+
         ViewPager viewPager = (ViewPager)container;
         viewPager.addView(vi,0);
         return vi;
