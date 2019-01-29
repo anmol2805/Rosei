@@ -29,7 +29,6 @@ import com.anmol.rosei.Model.Mess_Menu;
 import com.anmol.rosei.Model.mess1;
 import com.anmol.rosei.Mysingleton;
 import com.anmol.rosei.R;
-import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,7 +47,6 @@ public class ground extends Fragment {
     ListView list;
     Mess1Adapter mess1Adapter;
     List<mess1>mess1s = new ArrayList<>();
-    FirebaseAuth auth = FirebaseAuth.getInstance();
     TextView amt1,total;
     Button bookm1,m1edit,m1delete;
     private CircularProgressBar bookpgr;

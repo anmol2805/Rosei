@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.anmol.rosei.Model.Coupon;
 import com.anmol.rosei.R;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
