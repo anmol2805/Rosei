@@ -79,23 +79,6 @@
                     android:layout_marginRight="5dp"
                     android:visibility="invisible"
                     android:text="Book coupon for Ground Floor Mess" />
-                <Button
-                    android:id="@+id/inactivebookm1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:layout_centerInParent="true"
-                    android:background="@drawable/round_button_grey"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="15dp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:textColor="#fff"
-                    android:textStyle="bold"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:visibility="invisible"
-                    android:text="Book coupon for Ground Floor Mess" />
 
             </RelativeLayout>
             <Button

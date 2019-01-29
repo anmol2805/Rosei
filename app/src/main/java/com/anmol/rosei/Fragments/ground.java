@@ -48,7 +48,7 @@ public class ground extends Fragment {
     Mess1Adapter mess1Adapter;
     List<mess1>mess1s = new ArrayList<>();
     TextView amt1,total;
-    Button bookm1,m1edit,m1delete,inactivebookm1;
+    Button bookm1,m1edit,m1delete;
     private CircularProgressBar bookpgr;
     private TextView booktext;
     AuthUser authUser;
@@ -66,7 +66,6 @@ public class ground extends Fragment {
         }
         list.addFooterView(footerView);
         bookm1 = (Button)footerView.findViewById(R.id.bookm1);
-        inactivebookm1 = (Button)footerView.findViewById(R.id.inactivebookm1);
         m1edit = (Button)footerView.findViewById(R.id.m1edit);
         m1delete = (Button)footerView.findViewById(R.id.m1delete);
         booktext = (TextView)v.findViewById(R.id.bookingtext);
@@ -114,17 +113,6 @@ public class ground extends Fragment {
         days.add("sat");
         days.add("sun");
         if(getActivity()!=null){
-            bookm1.setVisibility(View.VISIBLE);
-            inactivebookm1.setVisibility(View.INVISIBLE);
-            if(!b){
-                if(authUser.readdate().equals("0001-01-01T00:00:00Z")){
-                    bookm1.setVisibility(View.VISIBLE);
-                    inactivebookm1.setVisibility(View.INVISIBLE);
-                }else{
-                    bookm1.setVisibility(View.INVISIBLE);
-                    inactivebookm1.setVisibility(View.VISIBLE);
-                }
-            }
             MessDownMenuDb messdownMenuDb = new MessDownMenuDb(getActivity());
             List<Mess_Menu> mess_menus = new ArrayList<>();
             mess_menus.clear();
