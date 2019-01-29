@@ -52,7 +52,7 @@ public class first extends Fragment {
     TextView amt2,total;
     private CircularProgressBar bookpgr;
     private TextView booktext;
-    Button bookm2,m2edit,m2delete;
+    Button bookm2,m2edit,m2delete,inactivem2;
     AuthUser authUser;
     View footerView;
     Boolean edit = false;
@@ -69,6 +69,7 @@ public class first extends Fragment {
         }
         list.addFooterView(footerView);
         bookm2 = (Button)footerView.findViewById(R.id.bookm2);
+        inactivem2 = (Button)footerView.findViewById(R.id.inactivebookm2);
         m2edit = (Button)footerView.findViewById(R.id.m2edit);
         m2delete = (Button)footerView.findViewById(R.id.m2delete);
         booktext = (TextView)v.findViewById(R.id.bookingtext);
@@ -113,6 +114,17 @@ public class first extends Fragment {
         days.add("sat");
         days.add("sun");
         if(getActivity()!=null){
+            bookm2.setVisibility(View.VISIBLE);
+            inactivem2.setVisibility(View.INVISIBLE);
+            if(!b){
+                if(authUser.readdate().equals("0001-01-01T00:00:00Z")){
+                    bookm2.setVisibility(View.VISIBLE);
+                    inactivem2.setVisibility(View.INVISIBLE);
+                }else{
+                    bookm2.setVisibility(View.INVISIBLE);
+                    inactivem2.setVisibility(View.VISIBLE);
+                }
+            }
             MessUpMenuDb messUpMenuDb = new MessUpMenuDb(getActivity());
             List<Mess_Menu> mess_menus = new ArrayList<>();
             mess_menus.clear();
