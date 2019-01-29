@@ -1,86 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="335dp"
-    android:layout_height="wrap_content"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/head"
-        android:text="About Rasoi"
-        android:layout_centerHorizontal="true"
-        android:textColor="#000"
-        app:fontFamily="@font/lato_bold"
-        android:layout_margin="5dp"
-        />
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:autoLink="all"
-        app:fontFamily="@font/lato_regular"
-        android:textAlignment="center"
-        android:textColor="#000"
-        android:id="@+id/content"
-        android:layout_below="@+id/head"
-        android:textSize="12sp"
-        android:layout_margin="5dp"
-        android:text="Canopy-Rasoi is a one stop solution to every student of IIIT Bhubaneswar for all issues related to Online Mess Coupons Bookings.
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/head"
+            android:text="Rasoi v1.1.0"
+            android:layout_centerHorizontal="true"
+            android:textColor="#000"
+            android:layout_gravity="center"
+            app:fontFamily="@font/lato_bold"
+            android:layout_margin="5dp"
+            />
 
-Some salient features of this app are :-
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/head"
+            android:layout_margin="5dp"
+            android:autoLink="all"
+            android:text="@string/content"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textSize="12sp"
+            app:fontFamily="@font/lato_regular" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="Mess Secretary"
+            android:id="@+id/by"
+            app:fontFamily="@font/lato_regular"
+            android:layout_below="@id/content"
+            android:layout_centerHorizontal="true"
+            android:textColor="#000"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Baibhav Kumar"
+            android:layout_gravity="right"
+            app:fontFamily="@font/lato_regular"
+            android:layout_below="@+id/by"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/colorAccent"
+            android:id="@+id/name"
+            />
+    </LinearLayout>
 
-*One time login through M-UMS(Hibiscus) password.No other account verification required.
-*Easy and hassle free Booking on internet as well as intranet.
-*Interactive and User Friendly UI.
-*One can see the final layout of his/her coupons of the week.
-*Bookings can be done anytime from monday to thursday.
-*Facility to reset user credentials after any change in password of hibiscus.
-*It contains the menu of food made in both Messes .
-*Anyone can check their bookings for any day of the week.
-*Reminder to book Mess Coupons.
-*Complaint Section where anyone can post any issues related to Mess.
 
-Upcoming features to be introduced shortly in the app are :-
-
-*Setting Default Mess Booking Coupons for upcoming weeks.
-*Online Transactions for Payment.
-
-
-Contact us:-
-
-Gmail: hibioncloud@gmail.com
-LinkedIn: https://www.linkedin.com/in/anmol-saxena-940ab4140/
-https://www.linkedin.com/in/ankit-choudhary-60b33314b/
-v1.1.0
-"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Icons and other UI resources by:-"
-        android:id="@+id/by"
-        app:fontFamily="@font/lato_regular"
-        android:layout_below="@id/content"
-        android:layout_centerHorizontal="true"
-        android:textColor="#000"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Chinmay Singh"
-        app:fontFamily="@font/lato_regular"
-        android:layout_below="@+id/by"
-        android:layout_centerHorizontal="true"
-        android:textColor="@color/colorAccent"
-        android:id="@+id/name"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="B117016"
-        app:fontFamily="@font/lato_regular"
-        android:layout_below="@+id/name"
-        android:layout_centerHorizontal="true"
-        android:textColor="#000"
-        android:textSize="12sp"
-        />
-</RelativeLayout>
+</ScrollView>

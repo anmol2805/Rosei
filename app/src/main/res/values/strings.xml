@@ -40,5 +40,34 @@
     <string name="tab_text_2">First floor</string>
     <string name="tab_text_3">Tab 3</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="content">Canopy-Rasoi is a one stop solution to every student of IIIT Bhubaneswar for all issues related to Online Mess Coupons Bookings.\n\n
+
+        <b>Some salient features of this app are :</b>-\n
+        - One time login through M-UMS(Hibiscus) password.No other account verification required.\n
+- Easy and hassle free Booking on internet as well as intranet.\n
+- Interactive and User Friendly UI.\n
+- One can see the final layout of his/her coupons of the week.\n
+- Bookings can be done anytime from monday to thursday.\n
+- It contains the menu of food made in both Messes.\n
+- Anyone can check their bookings for any day of the week.\n
+- Reminder to book Mess Coupons.\n
+- Facility to reset user credentials after any change in password of hibiscus.\n\n
+
+        <b>Upcoming features to be introduced shortly in the app are :</b>-\n
+
+- Setting Default Mess Booking Coupons for upcoming weeks.\n
+- Complaint Section where anyone can post any issues related to Mess.\n\n
+
+        <b>Contact us:-</b>\n
+        Gmail: canopydevelopers@gmail.com\n
+        LinkedIn: https://www.linkedin.com/in/anmol-saxena-940ab4140/\n
+https://www.linkedin.com/in/ankit-choudhary-60b33314b/\n\n
+        <b>Privacy Policy:-</b>\n
+        https://bit.ly/2G7pVTe \n\n
+        <b>Credits:-</b>\n
+        - Icons and UI resources by :-\n
+        <i>Chinmay Singh</i>\n
+        B117016
+    </string>
 
 </resources>

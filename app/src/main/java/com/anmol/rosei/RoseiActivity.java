@@ -170,9 +170,8 @@ public class RoseiActivity extends AppCompatActivity implements SheetLayout.OnFa
         about.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Dialog dialog = new Dialog(RoseiActivity.this);
-                dialog.setContentView(R.layout.about);
-                dialog.show();
+                startActivity(new Intent(RoseiActivity.this,About.class));
+
             }
         });
         cd.setOnClickListener(new View.OnClickListener() {
@@ -180,7 +179,7 @@ public class RoseiActivity extends AppCompatActivity implements SheetLayout.OnFa
             public void onClick(View v) {
                 Intent viewIntent =
                         new Intent("android.intent.action.VIEW",
-                                Uri.parse("mailto:"+"hibioncloud@gmail.com"));
+                                Uri.parse("mailto:"+"canopydevelopers@gmail.com"));
                 startActivity(viewIntent);
 
             }
@@ -448,13 +447,13 @@ public class RoseiActivity extends AppCompatActivity implements SheetLayout.OnFa
                 Coupon lnccoupon = new Coupon("Lunch",lmess,day,lastmonday,lmenu);
                 Coupon dincoupon = new Coupon("Dinner",dmess,day,lastmonday,dmenu);
                 if(todaydate.before(bfdate)){
-                    if(bmess.isEmpty()){
+                    if(!bmess.isEmpty()){
                         coupons.add(bfcoupon);
                     }
-                    if(lmess.isEmpty()){
+                    if(!lmess.isEmpty()){
                         coupons.add(lnccoupon);
                     }
-                    if(dmess.isEmpty()){
+                    if(!dmess.isEmpty()){
                         coupons.add(dincoupon);
                     }
 

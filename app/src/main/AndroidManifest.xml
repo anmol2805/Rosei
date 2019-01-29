@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.anmol.rosei">
+
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".FireApp"
         android:allowBackup="true"
@@ -11,6 +13,10 @@
         android:roundIcon="@drawable/rasoiicon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".About"
+            android:theme="@style/AppTheme.NoActionBar"
+            ></activity>
+
         <meta-data
             android:name="com.onesignal.NotificationAccentColor.DEFAULT"
             android:value="#012B74" />
@@ -31,6 +37,7 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorPrimaryDark" />
+
         <activity
             android:name=".SplashActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
@@ -45,15 +52,15 @@
             android:name=".RoseiActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
-
         <service android:name=".Services.NotifyService" />
         <service android:name=".Services.MyFirebaseMessagingService" />
 
         <activity
             android:name=".BookingnewActivity"
             android:label="@string/title_activity_bookingnew"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <receiver android:name=".AlarmReceiver"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+
+
     </application>
 
 </manifest>
