@@ -21,7 +21,7 @@ exports.pushNotification = functions.database.ref('/send_reminder').onWrite( eve
         timeToLive: 60 * 60 * 24
     };
     for(i=lasty;i<=curry;i++){
-        admin.messaging().sendToTopic(i.toString().slice(2),payLoad,options);
+        admin.messaging().sendToTopic(i.toString().slice(2),payload,options);
     }
 
 return;
