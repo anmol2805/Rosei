@@ -11,6 +11,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class NotifyService extends IntentService {
 
@@ -34,10 +36,14 @@ public class NotifyService extends IntentService {
             Date wed = adf.parse(weddate);
             Date thu = adf.parse(thudate);
             if (day.contains("Wed") && date.after(wed)){
-                db.child("send_reminder").setValue(todaysdate);
+                Map<String,Object> map = new HashMap<>();
+                map.put("send_reminder",todaysdate);
+                db.updateChildren(map);
             }
             else if(day.contains("Thu") && date.after(thu)){
-                db.child("send_reminder").setValue(todaysdate);
+                Map<String,Object> map = new HashMap<>();
+                map.put("send_reminder",todaysdate);
+                db.updateChildren(map);
             }
         } catch (ParseException e) {
             e.printStackTrace();
