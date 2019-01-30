@@ -28,16 +28,16 @@ public class NotifyService extends IntentService {
         String day = ddf.format(date);
         System.out.println("todayday:"+day);
         String todaysdate = sdf.format(date);
-        String weddate = todaysdate + " 20:00:00";
-        String thudate = todaysdate + " 23:00:00";
+        String weddate = todaysdate + " 21:00:00";
+        String thudate = todaysdate + " 21:00:00";
         try {
             Date wed = adf.parse(weddate);
             Date thu = adf.parse(thudate);
             if (day.contains("Wed") && date.after(wed)){
-                db.child("wednesday").setValue(todaysdate);
+                db.child("send_reminder").setValue(todaysdate);
             }
-            else if(day.contains("Thu") && date.before(thu)){
-                db.child("thursday").setValue(todaysdate);
+            else if(day.contains("Thu") && date.after(thu)){
+                db.child("send_reminder").setValue(todaysdate);
             }
         } catch (ParseException e) {
             e.printStackTrace();

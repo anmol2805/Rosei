@@ -40,6 +40,7 @@ import com.anmol.rosei.Model.Coupon;
 import com.anmol.rosei.Model.CouponStatus;
 import com.anmol.rosei.Model.MessStatus;
 import com.anmol.rosei.Model.Mess_Menu;
+import com.anmol.rosei.Services.NotifyService;
 import com.bumptech.glide.Glide;
 import com.canopydevelopers.canopyauth.AuthConfig;
 import com.github.clans.fab.FloatingActionButton;
@@ -383,7 +384,7 @@ public class RoseiActivity extends AppCompatActivity implements SheetLayout.OnFa
 //
 //            }
 //        });
-
+        startService(new Intent(this, NotifyService.class));
     }
 
     private void loadDataFromDb() {
