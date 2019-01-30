@@ -75,7 +75,7 @@ public class RoseiActivity extends AppCompatActivity implements SheetLayout.OnFa
     ViewpageAdapter viewpageAdapter;
     SwipeRefreshLayout swipeRefreshLayout;
     TextView emptytext;
-    FloatingActionMenu settings;
+    FloatingActionMenu settings,icon;
     private static final int REQUEST_CODE = 1;
     SheetLayout mSheetLayout;
     FloatingActionButton about,cd,logout,epi;
@@ -96,6 +96,7 @@ public class RoseiActivity extends AppCompatActivity implements SheetLayout.OnFa
         stuid = (TextView)findViewById(R.id.stuid);
         viewPager = (ViewPager)findViewById(R.id.viewpager);
         settings = (FloatingActionMenu) findViewById(R.id.settings);
+        icon = (FloatingActionMenu)findViewById(R.id.rasoi);
         mSheetLayout = (SheetLayout)findViewById(R.id.bottom_sheet);
 //        swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.refreshdata);
         gridview = (RecyclerView)findViewById(R.id.gridrecycler);
@@ -223,7 +224,28 @@ public class RoseiActivity extends AppCompatActivity implements SheetLayout.OnFa
 
         stuid.setText(authUser.readuser().toUpperCase());
         user.setText("Hello " + authUser.readusername());
-
+        settings.setOnMenuButtonClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(settings.isOpened()){
+                    settings.close(true);
+                }else{
+                    settings.open(true);
+                }
+                icon.close(true);
+            }
+        });
+        icon.setOnMenuButtonClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(icon.isOpened()){
+                    icon.close(true);
+                }else{
+                    icon.open(true);
+                }
+                settings.close(true);
+            }
+        });
         loadDataFromDb();
 
 //        swipeRefreshLayout.setColorSchemeColors(
@@ -497,12 +519,15 @@ public class RoseiActivity extends AppCompatActivity implements SheetLayout.OnFa
 
     @Override
     public void onBackPressed() {
-        if(back_pressed + 2000 > System.currentTimeMillis()) {
+        if(settings.isOpened() || icon.isOpened()){
+            settings.close(true);
+            icon.close(true);
+        }
+        else if(back_pressed + 2000 > System.currentTimeMillis()) {
             super.onBackPressed();
             finish();
             overridePendingTransition(R.anim.still,R.anim.slide_out_down);
         }else {
-
             Toast.makeText(getBaseContext(), "Double tap to exit!", Toast.LENGTH_SHORT).show();
             back_pressed = System.currentTimeMillis();
         }

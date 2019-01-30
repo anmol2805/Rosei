@@ -54,6 +54,7 @@ class LoginActivity : AppCompatActivity() {
         }
         val authUser = AuthUser(this)
         btnLogin!!.setOnClickListener {
+            progressBar!!.visibility = View.VISIBLE
             sid = inputEmail!!.text.toString().trim()
             password = inputPassword!!.text.toString().trim()
             fname = firstname.text.toString().trim()
@@ -76,10 +77,14 @@ class LoginActivity : AppCompatActivity() {
                                     finish()
                                     overridePendingTransition(R.anim.still,R.anim.slide_in_up)
                                 }
-
+                            }
+                            else{
+                                progressBar!!.visibility = View.GONE
+                                Toast.makeText(applicationContext,"Incorrect credentials",Toast.LENGTH_SHORT).show()
                             }
                         }
                         override fun onLoginFailure(loginerror: String?) {
+                            progressBar!!.visibility = View.GONE
                             Toast.makeText(applicationContext,loginerror,Toast.LENGTH_SHORT).show()
                         }
                     }
@@ -89,7 +94,7 @@ class LoginActivity : AppCompatActivity() {
             }
 
 
-            progressBar!!.visibility = View.VISIBLE
+
         }
     }
 
