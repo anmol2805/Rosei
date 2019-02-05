@@ -8,19 +8,54 @@ import java.util.Date;
 
 public class mess2 {
 
-    String date,brkfast,lnch,dinnr,bs,ls,ds;
+    String date,brkfast,lnch,dinnr,brkfastdown,lnchdown,dinnrdown,bs,ls,ds;
 
     public mess2() {
     }
 
-    public mess2(String date, String brkfast, String lnch, String dinnr, String bs, String ls, String ds) {
+    public mess2(String date, String brkfast, String lnch, String dinnr,String brkfastdown, String lnchdown, String dinnrdown, String bs, String ls, String ds) {
         this.date = date;
         this.brkfast = brkfast;
         this.lnch = lnch;
         this.dinnr = dinnr;
+        this.brkfastdown = brkfastdown;
+        this.lnchdown = lnchdown;
+        this.dinnrdown = dinnrdown;
         this.bs = bs;
         this.ls = ls;
         this.ds = ds;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getBrkfastdown() {
+        return brkfastdown;
+    }
+
+    public void setBrkfastdown(String brkfastdown) {
+        this.brkfastdown = brkfastdown;
+    }
+
+    public String getLnchdown() {
+        return lnchdown;
+    }
+
+    public void setLnchdown(String lnchdown) {
+        this.lnchdown = lnchdown;
+    }
+
+    public String getDinnrdown() {
+        return dinnrdown;
+    }
+
+    public void setDinnrdown(String dinnrdown) {
+        this.dinnrdown = dinnrdown;
     }
 
     public String getBs() {
