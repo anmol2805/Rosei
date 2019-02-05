@@ -78,7 +78,7 @@
         android:layout_height="match_parent"
         android:id="@+id/menu"
         android:divider="@null"
-
+        android:layout_margin="5dp"
         android:dividerHeight="0dp"
         />
     </RelativeLayout>
