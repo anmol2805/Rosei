@@ -1,13 +1,17 @@
 package com.anmol.rosei;
 
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -46,6 +50,11 @@ import com.canopydevelopers.canopyauth.AuthConfig;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.github.fabtransitionactivity.SheetLayout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -115,7 +124,7 @@ public class RoseiActivity extends AppCompatActivity implements SheetLayout.OnFa
                 //startActivity(new Intent(RoseiActivity.this,BookingnewActivity.class));
             }
         });
-
+        checkupdatestatus();
         final AuthConfig authConfig = new AuthConfig(this);
         final AuthUser authUser = new AuthUser(this);
         String urlid = "https://hib.iiit-bh.ac.in/Hibiscus/docs/iiit/Photos/" + authUser.readuser().toUpperCase() + ".jpg";
@@ -550,5 +559,64 @@ public class RoseiActivity extends AppCompatActivity implements SheetLayout.OnFa
     protected void onPause() {
         super.onPause();
     }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        checkupdatestatus();
+    }
+
+    private void checkupdatestatus() {
+        final DatabaseReference dtb = FirebaseDatabase.getInstance().getReference().getRoot();
+        dtb.child("dynamiclock").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                     if(dataSnapshot.child("updatelock").getValue(Boolean.class)){
+                         String updateversion = dataSnapshot.child("vname").getValue(String.class);
+                         try {
+                             PackageInfo pinfo = getPackageManager().getPackageInfo(getPackageName(),0);
+                             String version = pinfo.versionName.trim();
+                             AlertDialog dialog = new AlertDialog.Builder(RoseiActivity.this)
+                                     .setTitle("New version available")
+                                     .setMessage("Please, update app to newfeature version to continue!!!")
+                                     .setCancelable(false)
+                                     .setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                                         @Override
+                                         public void onClick(DialogInterface dialogInterface, int i) {
+                                             Uri uri = Uri.parse("market://details?id=" + "com.anmol.rosei");
+                                             Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+                                             goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                             goToMarket.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+                                             goToMarket.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                                             try{
+                                                 startActivity(goToMarket);
+                                             }
+                                             catch (ActivityNotFoundException e){
+                                                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + "com.anmol.hibiscus")));
+                                             }
+                                         }
+                                     }).create();
+                             if (version.equals(updateversion)){
+                                 dialog.dismiss();
+                             }
+                             else {
+
+                                 dialog.show();
+                             }
+                         } catch (PackageManager.NameNotFoundException e) {
+                             e.printStackTrace();
+                         }
+                     }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+
 
 }

@@ -106,7 +106,7 @@ public class SplashActivity extends AppCompatActivity {
                         try {
                             Date changedate = simpleDateFormat.parse(monday);
                             System.out.println("coupondate:" + changedate);
-                            Date onedaybefore = new Date(changedate.getTime() - 8);
+                            Date onedaybefore = new Date(changedate.getTime() - 604800000L);
                             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                             lastmonday = sdf.format(onedaybefore);
                             System.out.println("onedaybefore:" + onedaybefore);
