@@ -448,9 +448,6 @@ public class RoseiActivity extends AppCompatActivity implements SheetLayout.OnFa
                 String lmess = "";
                 String dmess = "";
 
-                String bmenu = bs.substring(3);
-                String lmenu = ls.substring(3);
-                String dmenu = ds.substring(3);
                 if(bs.charAt(0)=='1'){
                     if(bs.charAt(2) == '0'){
                         bmess = "Ground floor Mess";
@@ -475,9 +472,9 @@ public class RoseiActivity extends AppCompatActivity implements SheetLayout.OnFa
                         dmess = "First floor Mess";
                     }
                 }
-                Coupon bfcoupon = new Coupon("Breakfast",bmess,day,lastmonday,bmenu);
-                Coupon lnccoupon = new Coupon("Lunch",lmess,day,lastmonday,lmenu);
-                Coupon dincoupon = new Coupon("Dinner",dmess,day,lastmonday,dmenu);
+                Coupon bfcoupon = new Coupon("Breakfast",bmess,day,lastmonday,bs);
+                Coupon lnccoupon = new Coupon("Lunch",lmess,day,lastmonday,ls);
+                Coupon dincoupon = new Coupon("Dinner",dmess,day,lastmonday,ds);
                 if(todaydate.before(bfdate)){
                     if(!bmess.isEmpty()){
                         coupons.add(bfcoupon);

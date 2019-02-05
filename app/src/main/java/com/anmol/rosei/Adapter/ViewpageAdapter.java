@@ -129,7 +129,13 @@ public class ViewpageAdapter extends PagerAdapter {
         date.setText(coupons.get(position).getDate());
         mess.setText(coupons.get(position).getMess());
         day.setText(coupons.get(position).getDay());
-        item.setText(coupons.get(position).getMenuitem());
+        String food = coupons.get(position).getMenuitem();
+        if(food.charAt(1) == '1'){
+            item.setTextColor(context.getResources().getColor(R.color.veg));
+        }else{
+            item.setTextColor(context.getResources().getColor(R.color.nonveg));
+        }
+        item.setText(food.substring(3));
 
         ViewPager viewPager = (ViewPager)container;
         viewPager.addView(vi,0);
