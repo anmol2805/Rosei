@@ -54,7 +54,7 @@ public class Mess1Adapter extends ArrayAdapter<mess1> {
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         if(convertView!=null){
             return convertView;
         }
@@ -90,14 +90,6 @@ public class Mess1Adapter extends ArrayAdapter<mess1> {
             bv.setChecked(true);
             lv.setChecked(true);
             dv.setChecked(true);
-            try{
-                breakfast.put("food",mess1s.get(position).getBrkfast());
-                lunch.put("food",mess1s.get(position).getLnch());
-                dinner.put("food",mess1s.get(position).getDinnr());
-            }
-            catch (JSONException e){
-                e.printStackTrace();
-            }
 
 
             bnv.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -189,6 +181,7 @@ public class Mess1Adapter extends ArrayAdapter<mess1> {
                             breakfast.put("isSelected",true);
                             breakfast.put("isMessUp",false);
                             breakfast.put("isVeg",true);
+                            breakfast.put("food",mess1s.get(position).getBrkfastdown());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -198,6 +191,7 @@ public class Mess1Adapter extends ArrayAdapter<mess1> {
                         bv.setVisibility(View.INVISIBLE);
                         try {
                             breakfast.put("isSelected",false);
+                            breakfast.put("food",mess1s.get(position).getBrkfast());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -214,6 +208,7 @@ public class Mess1Adapter extends ArrayAdapter<mess1> {
                             lunch.put("isSelected",true);
                             lunch.put("isMessUp",false);
                             lunch.put("isVeg",true);
+                            lunch.put("food",mess1s.get(position).getLnchdown());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -223,6 +218,7 @@ public class Mess1Adapter extends ArrayAdapter<mess1> {
                         lv.setVisibility(View.INVISIBLE);
                         try {
                             lunch.put("isSelected",false);
+                            lunch.put("food",mess1s.get(position).getLnch());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -239,6 +235,7 @@ public class Mess1Adapter extends ArrayAdapter<mess1> {
                             dinner.put("isSelected",true);
                             dinner.put("isMessUp",false);
                             dinner.put("isVeg",true);
+                            dinner.put("food",mess1s.get(position).getDinnrdown());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -248,13 +245,23 @@ public class Mess1Adapter extends ArrayAdapter<mess1> {
                         dv.setVisibility(View.INVISIBLE);
                         try {
                             dinner.put("isSelected",false);
-
+                            dinner.put("food",mess1s.get(position).getDinnr());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
                 }
             });
+            ArrayList<String> foodsdown = new ArrayList<>();
+            foodsdown.add(mess1s.get(position).getBrkfastdown());
+            foodsdown.add(mess1s.get(position).getLnchdown());
+            foodsdown.add(mess1s.get(position).getDinnrdown());
+
+
+            ArrayList<String> foodsup = new ArrayList<>();
+            foodsup.add(mess1s.get(position).getBrkfast());
+            foodsup.add(mess1s.get(position).getLnch());
+            foodsup.add(mess1s.get(position).getDinnr());
 
             CardView brk = (CardView)v.findViewById(R.id.brk);
             CardView lnch = (CardView)v.findViewById(R.id.lnch);
@@ -298,6 +305,7 @@ public class Mess1Adapter extends ArrayAdapter<mess1> {
                         meals.get(i).put("isSelected",true);
                         //checkBoxes.get(i).setChecked(false);
                         if(mealstatuses.get(i).charAt(2) == '0'){
+                            meals.get(i).put("food",foodsdown.get(i));
                             if(edit){
                                 checkBoxes.get(i).setVisibility(View.VISIBLE);
                                 checkBoxes.get(i).setChecked(true);
@@ -316,6 +324,7 @@ public class Mess1Adapter extends ArrayAdapter<mess1> {
                             }
                         }
                         else {
+                            meals.get(i).put("food",foodsup.get(i));
                             meals.get(i).put("isMessUp",true);
                             textViews.get(i).setText("First Floor");
                             if(mealstatuses.get(i).charAt(1)=='0'){
@@ -335,6 +344,7 @@ public class Mess1Adapter extends ArrayAdapter<mess1> {
                         meals.get(i).put("isSelected",false);
                         meals.get(i).put("isVeg",false);
                         meals.get(i).put("isMessUp",false);
+                        meals.get(i).put("food",foodsup.get(i));
                         textViews.get(i).setVisibility(View.INVISIBLE);
                         checkBoxes.get(i).setVisibility(View.VISIBLE);
                         final int finalI = i;
