@@ -138,9 +138,9 @@ public class first extends Fragment {
                 String lunch = mess_menus.get(i).getLunch();
                 String dinner = mess_menus.get(i).getDinner();
 
-                String breakfastdown = mess_menus.get(i).getBreakfast();
-                String lunchdown = mess_menus.get(i).getLunch();
-                String dinnerdown = mess_menus.get(i).getDinner();
+                String breakfastdown = mess_down_menus.get(i).getBreakfast();
+                String lunchdown = mess_down_menus.get(i).getLunch();
+                String dinnerdown = mess_down_menus.get(i).getDinner();
 
                 String bs = couponStatuses.get(i).getBreakfast();
                 String ls = couponStatuses.get(i).getLunch();
