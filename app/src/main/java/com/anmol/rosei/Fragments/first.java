@@ -24,6 +24,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.anmol.rosei.Adapter.Mess2Adapter;
 import com.anmol.rosei.Helpers.AuthUser;
 import com.anmol.rosei.Helpers.CouponDb;
+import com.anmol.rosei.Helpers.MessDownMenuDb;
 import com.anmol.rosei.Helpers.MessUpMenuDb;
 import com.anmol.rosei.Model.CouponStatus;
 import com.anmol.rosei.Model.Mess_Menu;
@@ -117,6 +118,12 @@ public class first extends Fragment {
             List<Mess_Menu> mess_menus = new ArrayList<>();
             mess_menus.clear();
             mess_menus = messUpMenuDb.readData("Select * from messup_menu_table");
+
+            MessDownMenuDb messDownMenuDb = new MessDownMenuDb(getActivity());
+            List<Mess_Menu> mess_down_menus = new ArrayList<>();
+            mess_down_menus.clear();
+            mess_down_menus = messDownMenuDb.readData("Select * from messdown_menu_table");
+
             CouponDb couponDb = new CouponDb(getActivity());
             List<CouponStatus> couponStatuses = new ArrayList<>();
             couponStatuses.clear();
@@ -130,10 +137,15 @@ public class first extends Fragment {
                 String breakfast = mess_menus.get(i).getBreakfast();
                 String lunch = mess_menus.get(i).getLunch();
                 String dinner = mess_menus.get(i).getDinner();
+
+                String breakfastdown = mess_menus.get(i).getBreakfast();
+                String lunchdown = mess_menus.get(i).getLunch();
+                String dinnerdown = mess_menus.get(i).getDinner();
+
                 String bs = couponStatuses.get(i).getBreakfast();
                 String ls = couponStatuses.get(i).getLunch();
                 String ds = couponStatuses.get(i).getDinner();
-                mess2 mess2 = new mess2(day,breakfast,lunch,dinner,bs,ls,ds);
+                mess2 mess2 = new mess2(day,breakfast,lunch,dinner,breakfastdown,lunchdown,dinnerdown,bs,ls,ds);
                 mess2s.add(mess2);
             }
             if(!mess2s.isEmpty()){
