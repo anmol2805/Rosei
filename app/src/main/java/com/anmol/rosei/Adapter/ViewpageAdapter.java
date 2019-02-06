@@ -116,7 +116,7 @@ public class ViewpageAdapter extends PagerAdapter {
                 Date current = format.parse(currenttime);
                 if(current.after(date1)){
                     long difference = current.getTime() - date1.getTime();
-                    progressBar.setProgress((int) ((difference*100)/(1000*120*60)));
+                    progressBar.setProgress((int) ((difference*100)/(1000*150*60)));
                 }
                 else {
                     progressBar.setProgress(1);
