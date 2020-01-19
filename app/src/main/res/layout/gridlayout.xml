@@ -16,7 +16,7 @@
         android:textColor="#000"
         />
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/bs"
         android:layout_width="35dp"
         android:layout_height="35dp"
@@ -35,9 +35,9 @@
 
                 />
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/ls"
         android:layout_width="35dp"
         android:layout_height="35dp"
@@ -60,9 +60,9 @@
 
                 />
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/ds"
         android:layout_width="35dp"
         android:layout_height="35dp"
@@ -81,5 +81,5 @@
 
                 />
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 </LinearLayout>

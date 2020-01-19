@@ -2,7 +2,7 @@ package com.anmol.rosei
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.text.TextUtils
 import android.view.View
 import android.view.WindowManager
@@ -89,7 +89,7 @@ class LoginActivity : AppCompatActivity() {
                         }
                     }
                     val canopyLogin = CanopyLogin(canopyAuthCallback, this)
-                    canopyLogin.generate_token(sid,password,"http://14.139.198.171:8080/token/generate-token")
+                    canopyLogin.generate_token(sid,password,"http://14.139.198.171/api/guard/token/generate-token")
                 }
             }
 

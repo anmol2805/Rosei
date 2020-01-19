@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             >
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -62,9 +62,9 @@
                     android:textColorHint="@color/colorPrimary"
                     android:theme="@style/MyEditTextTheme"
                     />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -82,11 +82,11 @@
                     android:textColor="#000"
                     android:textColorHint="@color/colorPrimary"
                     android:theme="@style/MyEditTextTheme" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp">
@@ -105,9 +105,9 @@
                 android:theme="@style/MyEditTextTheme"
 
                 />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -123,7 +123,7 @@
                 android:textColor="#000"
                 android:textColorHint="@color/colorPrimary"
                 android:theme="@style/MyEditTextTheme" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:layout_width="wrap_content"

@@ -2,10 +2,10 @@ package com.anmol.rosei.Adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.CardView;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +17,7 @@ import android.widget.TextView;
 
 import com.anmol.rosei.Model.mess2;
 import com.anmol.rosei.R;
-import com.google.gson.JsonIOException;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
