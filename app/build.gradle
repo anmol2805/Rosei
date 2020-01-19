@@ -7,8 +7,8 @@ android {
         applicationId "com.anmol.rosei"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 7
-        versionName '1.1.6'
+        versionCode 8
+        versionName '1.1.7'
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
